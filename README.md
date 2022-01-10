@@ -1,2 +1,3 @@
 # amazon-clone
-SOEN 341 Project
+
+Amazing SOEN 341 Project
