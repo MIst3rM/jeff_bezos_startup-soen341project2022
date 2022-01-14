@@ -10,7 +10,7 @@ Amazing SOEN 341 Project
 - Ben Hitterman
 - Ryan Kim
 - Ryan Wong
-- ALexander Santelli
+- Alexander Santelli
 - 
 
 ## Technologies ##
