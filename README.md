@@ -1,5 +1,16 @@
-<h1> SOEN 341 </h1>
+# SOEN 341 #
 
 Amazing SOEN 341 Project
 
-<h2> Objective </h2>
+## Objective ##
+
+## Participants ##
+- Jaspreet Singh
+- Noah Assayag
+- Ben Hitterman
+- Ryan Kim
+- Ryan Wong
+- ALexander Santelli
+- 
+
+## Technologies ##
