@@ -7,6 +7,11 @@ Building an e-commerce platform with all the required functionalities such as sh
 
 Learning the software development process that goes along the team development of an application.
 
+## Core Features
+
+- Account Creation and Authentcation 
+- Checkout 
+
 ## Team Members
 
 - Jaspreet Singh @jaspreet305
@@ -25,6 +30,5 @@ Learning the software development process that goes along the team development o
 - JavaScript
 - MySQL
 
-## Core Features
-- Account Creation and Authentcation 
+
 
