@@ -1,5 +1,6 @@
-# SOEN 341
+# SOEN 341 PROJECT
 
+## Description
 Building an e-commerce platform with all the required functionalities such as shopping cart, sign-up/sign-in, check-out, complete with a database containing the store's and customer's informations.
 
 ## Objective
@@ -23,3 +24,7 @@ Learning the software development process that goes along the team development o
 - PHP
 - JavaScript
 - MySQL
+
+## Core Features
+- Account Creation and Authentcation 
+
