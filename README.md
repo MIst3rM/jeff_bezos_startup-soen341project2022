@@ -1,17 +1,19 @@
-# SOEN 341 #
+# SOEN 341
+
 Amazing SOEN 341 Project
 
-## Objective ##
+## Objective
 
-## Project ##
+## Project
 
-## Team Members ##
+## Team Members
+
 - Jaspreet Singh
 - Noah Assayag
 - Ben Hitterman
 - Ryan Kim
-- Ryan Wong
+- Ryan Wong @ryanwong2000
 - Alexander Santelli
 - Mher Charachian
 
-## Technologies ##
+## Technologies
