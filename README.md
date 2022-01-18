@@ -11,7 +11,7 @@ Amazing SOEN 341 Project
 - Jaspreet Singh
 - Noah Assayag
 - Ben Hitterman
-- Ryan Kim
+- Ryan Kim @RIGNITE
 - Ryan Wong @ryanwong2000
 - Alexander Santelli
 - Mher Charachian
