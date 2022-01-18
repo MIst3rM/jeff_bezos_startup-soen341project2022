@@ -1,0 +1,31 @@
+Amazon clone
+Meeting Minutes 1
+January 18 2022
+
+Opening:
+    Jan 18 2022 @ 11:30AM by Jaspreet Singh on Discord Server
+
+Present:
+    - All members were present
+
+Absent:
+    - No members were Absent
+
+Business From The Previous Meeting:
+    N/A
+
+New Business:
+    Meeting was called to plan and start sprint 1.
+        > Update README.me
+        > Members responsibilities 
+        > Planning user-stories
+
+Additions to the Agenda:
+
+Adjournment:
+    - Meeting ended @ 12PM
+    + Next meeting: Jan 24 @ 10AM
+
+Minutes submitted by: Ryan Kim
+Minutes approved by: 
+
