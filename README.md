@@ -9,8 +9,12 @@ Learning the software development process that goes along the team development o
 
 ## Core Features
 
-- Account Creation and Authentcation 
+- Account creation and authentication 
+- Product page
 - Checkout 
+- Shopping cart
+- Seller adding/deleting an item
+- Contact page
 
 ## Team Members
 
