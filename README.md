@@ -28,11 +28,11 @@ Learning the software development process that goes along the team development o
 
 ## Technologies
 
-- HTML/CSS
-- Bootstrap
-- PHP
+- VueJS
+- PHP (Laravel)
 - JavaScript
 - MySQL
+- Nginx
 
 
 
