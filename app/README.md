@@ -1,7 +1,6 @@
 # Setup the project
 
 ## To run the setup script from anywhere
----
 
 ### **For UNIX based systems: Linux, macOS**
 
@@ -24,7 +23,6 @@ $ source ~/.bashrc
 ```
 
 ## For initial setup
----
 Run
 ```
 $ setup init
