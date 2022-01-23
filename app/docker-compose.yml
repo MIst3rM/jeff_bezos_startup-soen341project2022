@@ -1,0 +1,64 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx:1.21.5-alpine
+    ports:
+      - '80:80'
+    volumes:
+      - ./src/backend:/var/www/backend
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
+      - phpmyadmindata:/var/www/phpmyadmin
+    depends_on:
+      - backend
+      - phpmyadmin
+      - frontend
+
+  # Frontend Service
+  frontend:
+    build: ./src/frontend
+    working_dir: /var/www/frontend
+    volumes:
+      - ./src/frontend:/var/www/frontend
+    depends_on:
+      - backend
+
+  backend:
+    build: ./src/backend
+    working_dir: /var/www/backend
+    volumes:
+      - ./src/backend:/var/www/backend
+      - ./.docker/backend/init:/opt/files/init
+      - ./.docker/backend/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./.docker/backend/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql/mysql-server:8.0.27
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: online_store
+    volumes:
+      - ./.docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - mysqldata:/var/lib/mysql
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
+      interval: 5s
+      retries: 10
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.1.1-fpm-alpine
+    environment:
+      PMA_HOST: mysql
+    volumes:
+      - phpmyadmindata:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysqldata:
+
+  phpmyadmindata:
