@@ -1,0 +1,31 @@
+#!/bin/bash
+
+composer install -d "/var/www/backend"
+
+if [ ! -f "/var/www/backend/.env" ]; then
+    cat > "/var/www/backend/.env" << EOF
+
+APP_NAME=online_store
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://backend.conco
+
+LOG_CHANNEL=single
+
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=online_store
+DB_USERNAME=root
+DB_PASSWORD=root
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+EOF
+    php "/var/www/backend/artisan" key:generate --ansi
+fi
+
+php "/var/www/backend/artisan" migrate
