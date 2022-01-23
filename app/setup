@@ -107,7 +107,7 @@ case "$1" in
         cat << EOF
 Command line interface for the Docker-based web development environment demo.
 Usage:
-    demo <command> [options] [arguments]
+    setup <command> [options] [arguments]
 Available commands:
     artisan ................................... Run an Artisan command
     build [image] ............................. Build all of the images or the specified one
