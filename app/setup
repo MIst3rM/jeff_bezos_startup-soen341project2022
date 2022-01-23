@@ -1,29 +1,5 @@
 #!/bin/bash
 
-env () {
-    if [ ! -f .env ]; then
-        echo "COMPOSE_PROJECT_NAME=online_store" > .env
-    fi
-}
-
-init () {
-    env \
-        && down -v \
-        && build \
-        && docker compose run --rm --entrypoint="//opt/files/init" backend \
-        && yarn install \
-        && start \
-}
-
-update () {
-    git pull \
-        && build \
-        && composer install \
-        && artisan migrate \
-        && yarn install \
-        && start
-}
-
 artisan () {
     docker compose run --rm backend php artisan "${@:1}"
 }
@@ -46,6 +22,21 @@ down () {
     docker compose down "${@:1}"
 }
 
+env () {
+    if [ ! -f .env ]; then
+        echo "COMPOSE_PROJECT_NAME=online_store" > .env
+    fi
+}
+
+init () {
+    env \
+        && down -v \
+        && build \
+        && docker compose run --rm --entrypoint="//opt/files/init" backend \
+        && yarn install \
+        && start
+}
+
 logs () {
     docker compose logs -f "${@:1}"
 }
@@ -62,17 +53,20 @@ stop () {
     docker compose stop
 }
 
+update () {
+    git pull \
+        && build \
+        && composer install \
+        && artisan migrate \
+        && yarn install \
+        && start
+}
+
 yarn () {
     docker compose run --rm frontend yarn "${@:1}"
 }
 
 case "$1" in
-    init)
-        init
-        ;;
-    update)
-        update
-        ;;
     artisan)
         artisan "${@:2}"
         ;;
@@ -82,17 +76,14 @@ case "$1" in
     composer)
         composer "${@:2}"
         ;;
-    laravel_new)
-        laravel_new
-        ;;
-    vue_new)
-        vue_new
-        ;;
     destroy)
         destroy
         ;;
     down)
         down "${@:2}"
+        ;;
+    init)
+        init
         ;;
     logs)
         logs "${@:2}"
@@ -106,17 +97,17 @@ case "$1" in
     stop)
         stop
         ;;
+    update)
+        update
+        ;;
     yarn)
         yarn "${@:2}"
         ;;
     *)
         cat << EOF
-
-Welcome to the online_store docker-compose setup wizard.
-
+Command line interface for the Docker-based web development environment demo.
 Usage:
-    setup <command> [options] [arguments]
-
+    demo <command> [options] [arguments]
 Available commands:
     artisan ................................... Run an Artisan command
     build [image] ............................. Build all of the images or the specified one
@@ -132,8 +123,7 @@ Available commands:
     stop ...................................... Stop the containers
     update .................................... Update the Docker environment
     yarn ...................................... Run a Yarn command
-
 EOF
-        exit 1
+        exit
         ;;
 esac
