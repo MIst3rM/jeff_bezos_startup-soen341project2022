@@ -52,12 +52,12 @@ Run
 <br/>
 - On macOS/Linux
 ```bash
-$ sudo echo "127.0.0.1 store.conco backend.conco phpmyadmin.conco" >> /etc/hosts
+$ sudo echo "127.0.0.1 store.conco backend.store.conco phpmyadmin.conco" >> /etc/hosts
 ```
 
   - On Windows (**From an elevated PowerShell Terminal**)
 ```powershell
-PS C:\> Add-Content C:\Windows\System32\drivers\etc\hosts "127.0.0.1 store.conco backend.conco phpmyadmin.conco"
+PS C:\> Add-Content C:\Windows\System32\drivers\etc\hosts "127.0.0.1 store.conco backend.store.conco phpmyadmin.conco"
 ```
 
 ## To initialize the project for the first time
