@@ -1,4 +1,5 @@
 module.exports = {
+  lintOnSave: true,
   devServer: {
     disableHostCheck: true,
     sockHost: "store.conco",

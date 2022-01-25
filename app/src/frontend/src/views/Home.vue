@@ -1,37 +1,42 @@
 <script>
-import axios from "axios";
-
-const a = axios.create({
-  withCredentials: true,
-});
-
 export default {
   name: "Home",
-  data() {
-    return {
-      msg: null,
-    };
-  },
-  mounted() {
-    a.get("http://backend.store.conco/sanctum/csrf-cookie").then(() => {
-      a.get("http://backend.store.conco/home").then(
-        (response) => (this.msg = response.data)
-      );
-    });
-  },
 };
 </script>
 
 <template>
-  <div id="home" lang="scss">
-    <md-toolbar class="md-primary">
-      <h3 class="md-title">{{ msg }}</h3>
-    </md-toolbar>
-    <img
-      src="https://i.pinimg.com/originals/d8/0b/99/d80b9960866f4f61ce28e5cc072895a6.gif"
-      alt="Hello there"
-      class="center"
-    />
+  <div id="home" lang="scss" class="md-layout md-gutter md-alignment-center">
+    <div
+      class="
+        md-layout-item md-size-30
+      "
+    >
+      <md-card>
+        <md-card-header>
+          <div class="md-title">Item</div>
+          <md-card-media>
+            <img src="" alt="Item-Picture">
+          </md-card-media>
+        </md-card-header>
+
+        <md-card-content>
+          <p>
+            Description of item
+          </p>
+        </md-card-content>
+
+        <md-card-actions>
+          <md-button>Add To Card</md-button>
+          <md-button>Buy Now</md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.md-layout{
+  margin: 30px auto;
+}
+</style>
 
