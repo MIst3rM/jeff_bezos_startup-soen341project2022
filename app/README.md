@@ -8,6 +8,11 @@
 ```bash
 $ open .bashrc
 ```
+### **If you don't have a .bashrc file in your home directory create it**
+```bash
+$ cd ~ 
+$ touch .bashrc
+```
     
 - **Step 2:** paste the function below (**make sure to replace the path of the project**)
 ```bash
