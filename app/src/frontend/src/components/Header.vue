@@ -19,20 +19,8 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "Header",
-  data() {
-    return {
-      msg: null,
-    };
-  },
-  mounted() {
-    axios.get("/sanctum/csrf-cookie").then(() => {
-      axios.get("/home").then((response) => (this.msg = response.data));
-    });
-  },
 };
 </script>
 

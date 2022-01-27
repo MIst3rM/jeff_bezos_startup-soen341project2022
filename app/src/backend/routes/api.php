@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Resources\UserResource;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
-    
-    //$enableViews = config('fortify.views', true);    
+
+    Route::get('/authenticated', function () {
+        return new UserResource(auth()->user());
+    });
+
+    //$enableViews = config('fortify.views', true);
 
     // // Password Reset...
     // if (Features::enabled(Features::resetPasswords())) {

@@ -18,16 +18,11 @@ $limiter = config('fortify.limiters.login');
 $twoFactorLimiter = config('fortify.limiters.two-factor');
 $verificationLimiter = config('fortify.limiters.verification', '6,1');
 
-
-Route::get('/home', function () {
-    return 'MEME';
-});
-
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])
     ->middleware(array_filter([
-        'guest:'.config('fortify.guard'),
-        $limiter ? 'throttle:'.$limiter : null,
-]));
+        'guest:' . config('fortify.guard'),
+        $limiter ? 'throttle:' . $limiter : null,
+    ]));
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
