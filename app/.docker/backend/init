@@ -12,6 +12,7 @@ APP_DEBUG=true
 APP_URL=http://backend.store.conco
 
 LOG_CHANNEL=single
+SANCTUM_STATEFUL_DOMAINS=store.conco
 
 DB_CONNECTION=mysql
 DB_HOST=mysql
@@ -23,7 +24,8 @@ DB_PASSWORD=root
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
 QUEUE_CONNECTION=sync
-SESSION_DRIVER=file
+SESSION_DRIVER=cookie
+SESSION_DOMAIN=.store.conco
 EOF
     php "/var/www/backend/artisan" key:generate --ansi
 fi
