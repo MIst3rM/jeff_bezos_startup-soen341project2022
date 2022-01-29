@@ -1,27 +1,23 @@
 <template>
   <div id="app">
-    <Home :msg="msg"/>
+    <Header />
+    <router-view />
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import Home from './views/Home.vue'
+import Header from "./components/Header.vue";
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = "http://backend.store.conco/";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Home
+    Header
   },
-  data () {
-    return {
-      msg: null
-    }
-  },
-  mounted () {
-    axios
-      .get('http://backend.conco/api/home')
-      .then(response => (this.msg = response.data))
-  }
-}
+};
 </script>
+

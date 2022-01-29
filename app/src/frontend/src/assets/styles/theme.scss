@@ -3,11 +3,11 @@
 @include md-register-theme(
   "default",
   (
-    primary: md-get-palette-color(red, A200),
-    // The primary color of your application
-    accent: md-get-palette-color(blue, A200)
-      // The accent or secondary color of your application,,,,
+    primary: #2f3a8f,
+    accent: #fe7e6d,
   )
 );
 
-@import "~vue-material/dist/theme/all"; // Apply the theme
+@import "~vue-material/dist/components/MdButton/theme"; // Apply the Button theme
+@import "~vue-material/dist/components/MdToolbar/theme"; // Apply the Toolbar theme
+@import "~vue-material/dist/components/MdIcon/theme"; // Apply the Icon theme
