@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Header />
-    <router-view />
+    <keep-alive>
+      <router-view />
+    </keep-alive>
   </div>
 </template>
 
@@ -16,7 +18,7 @@ axios.defaults.baseURL = "http://backend.store.conco/";
 export default {
   name: "App",
   components: {
-    Header
+    Header,
   },
 };
 </script>
