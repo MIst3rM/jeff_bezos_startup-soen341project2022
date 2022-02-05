@@ -28,11 +28,7 @@ export default {
 </script>
 
 <template>
-  <div
-    id="home"
-    lang="scss"
-    class="md-layout md-gutter md-alignment-center-center"
-  >
+  <div id="home" class="md-layout md-gutter md-alignment-center-center">
     <ItemCard
       class="item_card"
       :key="item.id"
@@ -42,7 +38,7 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .md-layout {
   /* margin: 30px auto; */
   width: 100%;

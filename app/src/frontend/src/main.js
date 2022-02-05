@@ -5,7 +5,7 @@ import Router from "vue-router";
 import { Home, Admin } from "./views";
 import { Login } from "./components";
 
-import { MdToolbar, MdButton, MdIcon, MdCard, MdField } from "vue-material/dist/components";
+import { MdToolbar, MdButton, MdIcon, MdCard, MdField, MdList, MdApp} from "vue-material/dist/components";
 
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
@@ -46,6 +46,8 @@ Vue.use(MdButton);
 Vue.use(MdIcon);
 Vue.use(MdCard);
 Vue.use(MdField);
+Vue.use(MdList);
+Vue.use(MdApp);
 
 new Vue({
   router,
