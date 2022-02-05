@@ -2,10 +2,10 @@ import Vue from "vue";
 import App from "./App.vue";
 import Router from "vue-router";
 
-import { Home, Admin } from "./views";
+import { Home, Admin, Shop } from "./views";
 import { Login } from "./components";
 
-import { MdToolbar, MdButton, MdIcon, MdCard, MdField } from "vue-material/dist/components";
+import { MdToolbar, MdButton, MdIcon, MdCard, MdField, MdList, MdApp, MdContent, MdDrawer} from "vue-material/dist/components";
 
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
@@ -22,6 +22,7 @@ const routes = () => {
     routes = [
       { path: "/", component: Home },
       { path: "/login", component: Login },
+      { path: "/shop", component: Shop },
     ]
   } else if (subdomain === "admin") {
     routes = [
@@ -46,6 +47,10 @@ Vue.use(MdButton);
 Vue.use(MdIcon);
 Vue.use(MdCard);
 Vue.use(MdField);
+Vue.use(MdList);
+Vue.use(MdApp);
+Vue.use(MdContent);
+Vue.use(MdDrawer);
 
 new Vue({
   router,

@@ -30,4 +30,4 @@ EOF
     php "/var/www/backend/artisan" key:generate --ansi
 fi
 
-php "/var/www/backend/artisan" migrate
+php "/var/www/backend/artisan" migrate --seed

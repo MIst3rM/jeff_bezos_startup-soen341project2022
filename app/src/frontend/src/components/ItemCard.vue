@@ -1,6 +1,12 @@
 <script>
 export default {
   name: "ItemCard",
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>
 
@@ -8,14 +14,14 @@ export default {
   <div class="md-layout-item md-size-30">
     <md-card>
       <md-card-header>
-        <div class="md-title">Item</div>
+        <div class="md-title">{{ item.title }}</div>
         <md-card-media>
-          <img src="" alt="Item-Picture" />
+          <img :src="item.image" alt="Item-Picture" />
         </md-card-media>
       </md-card-header>
 
       <md-card-content>
-        <p>Description of item</p>
+        <p>{{ item.description }}</p>
       </md-card-content>
 
       <md-card-actions>
@@ -27,7 +33,11 @@ export default {
 </template>
 
 <style scoped>
-.md-layout {
-  margin: 30px auto;
+.md-card {
+  height: 100%;
+}
+
+.md-card-header{
+  padding-bottom: 50px;
 }
 </style>

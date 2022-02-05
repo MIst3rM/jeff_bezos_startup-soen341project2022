@@ -124,13 +124,14 @@ export default {
 
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
-          .post("/login", {
+          .post("/api/login", {
             email: this.form.email,
             password: this.form.password,
           })
           .then((response) => {
             this.sending = false;
             console.log(response);
+            setTimeout(() => this.$router.push({ path: "/" }), 1500);
           })
           .catch((error) => {
             this.sending = false;

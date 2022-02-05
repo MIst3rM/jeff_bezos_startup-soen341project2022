@@ -2,7 +2,7 @@
 
 ## To run the setup script from anywhere
 
-### **For UNIX based systems: Linux, macOS**
+## **For UNIX based systems: Linux, macOS**
 
 - **Step 1:** open a terminal and run (will only work for unix based systems: linux, macOS)
 ```bash
@@ -27,7 +27,7 @@ function setup {
 $ source ~/.bashrc
 ```
 
-### **For Windows**
+## **For Windows (follow linux instructions if git bash is installed)**
 
 - **Step 1:** Open a PowerShell Terminal and run 
 ```powershell
@@ -71,7 +71,23 @@ Run
 $ setup init
 ```
 
+## Troubleshooting errors
+### Error
+```bash
+standard_init_linux.go:190: exec user process caused "no such file or directory"
+```
+**This is due to Windows using CRLF end of line sequences while Linux uses LF**
+### Solution<br/>
+1. Go to the init file ![init](./resources/img/init_file_loc.png)
 
+2. Once the file open, go to the bottom right corner of vscode and click on CRLF ![CRLF](./resources/img/crlf.png)
+
+3. This menu opens at the top of the page. **Select LF** and save the file ![LF](./resources/img/lf.png)
+
+4. Rerun the initialization
+- ```powershell
+  PS C:\> setup init
+  ```
 
 
 
