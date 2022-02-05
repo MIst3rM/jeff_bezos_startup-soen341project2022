@@ -15,7 +15,7 @@ export default {
   created() {
     axios.get("/sanctum/csrf-cookie").then(() => {
       axios
-        .get("/items")
+        .get("/api/allItems")
         .then((response) => {
           this.items = response.data;
         })
@@ -30,12 +30,12 @@ export default {
 <template>
   <div>
     <md-app>
-      <md-app-drawer>
+      <md-app-drawer md-permanent="full">
         <md-toolbar class="md-transparent" md-elevation="0">
-          Filter
+          <h5>Filter</h5>
         </md-toolbar>
         <md-list>
-          <md-list-item> </md-list-item>
+          <md-list-item></md-list-item>
 
           <md-list-item> </md-list-item>
 
@@ -45,7 +45,7 @@ export default {
         </md-list>
       </md-app-drawer>
       <md-app-content>
-        <div id="shop" class="md-layout md-gutter md-alignment-center-center">
+        <div class="md-layout md-gutter md-alignment-center-center">
           <ItemCard
             class="item_card"
             :key="item.id"
@@ -60,12 +60,20 @@ export default {
 
 <style lang="scss" scoped>
 .md-layout {
-  /* margin: 30px auto; */
   width: 100%;
 }
 
 .item_card {
   height: 445px;
   margin: 10px;
+}
+
+.md-drawer {
+  width: 230px;
+  max-width: calc(100vw - 125px);
+}
+
+.md-app-content {
+  overflow-y: hidden;
 }
 </style>

@@ -18,7 +18,6 @@ class UpdateUsersTable extends Migration
             function (Blueprint $table) {
                 $table->renameColumn('email_verified_at','last_signin');
                 $table->string('role', 30);
-                $table->timestamp('registered_at');
             }
         );
     }
@@ -34,7 +33,6 @@ class UpdateUsersTable extends Migration
             'users',
             function (Blueprint $table) {
                 $table->dropColumn('role');
-                $table->dropColumn('registered_at');
             }
         );
     }

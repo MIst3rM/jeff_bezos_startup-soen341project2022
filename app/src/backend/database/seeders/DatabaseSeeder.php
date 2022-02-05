@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        DB::table('users')->insert([
+            'name' => 'MI5t3r_M',
+            'email' => 'MI5t3r_M' . '@gmail.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+        ]);
+
         $this->call([
             SellersSeeder::class,
             ItemsSeeder::class,

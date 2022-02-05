@@ -15,7 +15,7 @@ export default {
   created() {
     axios.get("/sanctum/csrf-cookie").then(() => {
       axios
-        .get("/items")
+        .get("/api/items")
         .then((response) => {
           this.items = response.data;
         })
