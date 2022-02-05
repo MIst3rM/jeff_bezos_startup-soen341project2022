@@ -3,7 +3,7 @@ import App from "./App.vue";
 import Router from "vue-router";
 
 import { Home, Admin, Shop } from "./views";
-import { Login } from "./components";
+import { Login, Registration } from "./components";
 
 import { MdToolbar, MdButton, MdIcon, MdCard, MdField, MdList, MdApp, MdContent, MdDrawer} from "vue-material/dist/components";
 
@@ -23,6 +23,7 @@ const routes = () => {
       { path: "/", component: Home },
       { path: "/login", component: Login },
       { path: "/shop", component: Shop },
+      { path: "/register", component: Registration}
     ]
   } else if (subdomain === "admin") {
     routes = [
