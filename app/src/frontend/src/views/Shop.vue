@@ -18,6 +18,7 @@ export default {
         .get("/api/allItems")
         .then((response) => {
           this.items = response.data;
+          console.log(this.items);
         })
         .catch((error) => {
           console.log(error);
