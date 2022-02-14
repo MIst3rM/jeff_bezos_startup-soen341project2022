@@ -2,10 +2,20 @@ import Vue from "vue";
 import App from "./App.vue";
 import Router from "vue-router";
 
-import { Home, Admin, Shop } from "./views";
+import { Home, Admin, Shop, Profile } from "./views";
 import { Login } from "./components";
 
-import { MdToolbar, MdButton, MdIcon, MdCard, MdField, MdList, MdApp, MdContent, MdDrawer} from "vue-material/dist/components";
+import {
+  MdToolbar,
+  MdButton,
+  MdIcon,
+  MdCard,
+  MdField,
+  MdList,
+  MdApp,
+  MdContent,
+  MdDrawer,
+} from "vue-material/dist/components";
 
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
@@ -23,23 +33,20 @@ const routes = () => {
       { path: "/", component: Home },
       { path: "/login", component: Login },
       { path: "/shop", component: Shop },
-    ]
+      { path: "/profile", component: Profile },
+    ];
   } else if (subdomain === "admin") {
-    routes = [
-      { path: "/", component: Admin },
-    ]
+    routes = [{ path: "/", component: Admin }];
   } else {
-    routes = []
+    routes = [];
   }
   return routes;
 };
 
-
 const router = new Router({
   mode: "history",
-  routes: routes()
-})
-
+  routes: routes(),
+});
 
 Vue.use(Router);
 Vue.use(MdToolbar);

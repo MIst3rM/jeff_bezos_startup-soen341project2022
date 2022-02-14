@@ -7,7 +7,17 @@
     accent: #fe7e6d,
   )
 );
-
-@import "~vue-material/dist/components/MdButton/theme"; // Apply the Button theme
-@import "~vue-material/dist/components/MdToolbar/theme"; // Apply the Toolbar theme
 @import "~vue-material/dist/components/MdIcon/theme"; // Apply the Icon theme
+
+@include md-register-theme(
+  "profile",
+  (
+    accent: #2f3a8f,
+    background: #fe7e6d,
+  )
+);
+
+@import "~vue-material/dist/components/MdDrawer/theme"; // Apply the Drawer theme
+
+// @import "~vue-material/dist/components/MdButton/theme"; // Apply the Button theme
+// @import "~vue-material/dist/components/MdToolbar/theme"; // Apply the Toolbar theme

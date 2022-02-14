@@ -130,6 +130,7 @@ export default {
           })
           .then((response) => {
             this.sending = false;
+            this.clearForm();
             console.log(response);
             setTimeout(() => this.$router.push({ path: "/" }), 1500);
           })
