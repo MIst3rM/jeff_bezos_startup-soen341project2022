@@ -1,0 +1,35 @@
+Amazon clone
+Meeting Minutes 2
+February 5 2022
+
+Opening:
+    Feb 5 2022 @ 11:30PM by Mher on Discord Server
+
+Present:
+    - Jaspreet Singh
+    - Ryan Wong
+    - Noah Assayag
+    - Mher Charachian
+    - Ben Hitterman
+    - Alexander Santelli
+
+Absent:
+    - Ryan Kim
+
+Business From The Previous Meeting:
+    Completed Sprint 1 - Overview
+
+New Business:
+    Discussing how to divide Sprint 2 work.
+        - Browsing for availaible items -  Mher, Ryan WONG / WONG
+        - Managing your profile - Mher, Jaspreet, Noah, Ben, Alex
+
+Additions to the Agenda:
+
+
+Adjournment:
+    - Meeting ended @ 1PM
+    + Next meeting: Feb 12 @ 11:30AM
+
+Minutes submitted by: Ryan Wong
+Minutes approved by: 
