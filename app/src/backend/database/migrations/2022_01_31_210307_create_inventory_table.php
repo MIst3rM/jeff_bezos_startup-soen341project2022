@@ -16,7 +16,7 @@ class CreateInventoryTable extends Migration
         Schema::create('inventory', function (Blueprint $table) {
             $table->id();
             $table->foreignId('item_id')->constrained('items', 'id')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('seller_id')->constrained('sellers', 'id')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('seller_id')->constrained('users', 'id')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('quantity');
             $table->timestamps();
         });

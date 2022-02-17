@@ -131,8 +131,8 @@ export default {
           .then((response) => {
             this.sending = false;
             this.clearForm();
-            console.log(response);
-            setTimeout(() => this.$router.push({ path: "/" }), 1500);
+            this.$store.commit("setAuthUser", response.data);
+            setTimeout(() => this.$router.push({ path: "/" }), 500);
           })
           .catch((error) => {
             this.sending = false;

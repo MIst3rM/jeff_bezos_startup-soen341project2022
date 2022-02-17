@@ -14,7 +14,7 @@ class UpdateItemsTable extends Migration
     public function up()
     {
         Schema::table('items', function (Blueprint $table) {
-            $table->foreignId('seller_id')->constrained('sellers', 'id')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('seller_id')->constrained('users', 'id')->onUpdate('cascade')->onDelete('cascade');
             $table->string('category', 255);
             $table->string('title', 255);
             $table->text('description');

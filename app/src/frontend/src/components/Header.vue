@@ -2,6 +2,7 @@
   <div id="header" lang="scss">
     <md-toolbar class="md-primary" md-elevation="1">
       <div id="icons-row" class="md-toolbar-row">
+        <h7 class="account" v-if="login">Hi, {{name}}</h7>
         <router-link class="icon-btn account" to="/login" tag="md-button">
           <md-icon>person</md-icon>
         </router-link>
@@ -21,6 +22,14 @@
 <script>
 export default {
   name: "Header",
+  computed: {
+    login() {
+      return this.$store.getters.isLoggedIn;
+    },
+    name(){
+      return this.$store.getters.getAuthUser.data.name;
+    },
+  },
 };
 </script>
 
