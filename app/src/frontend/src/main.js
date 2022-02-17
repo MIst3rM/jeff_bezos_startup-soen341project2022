@@ -39,6 +39,8 @@ const routes = () => {
         beforeEnter: (to, from, next) => {
           if (window.sessionStorage.getItem("store")) {
             next({ path: "/profile" });
+          }else{
+            next();
           }
         },
       },

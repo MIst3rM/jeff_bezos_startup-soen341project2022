@@ -2,7 +2,7 @@
   <div id="header" lang="scss">
     <md-toolbar class="md-primary" md-elevation="1">
       <div id="icons-row" class="md-toolbar-row">
-        <h7 class="account" v-if="login">Hi, {{name}}</h7>
+        <p class="account" v-if="login">Hi, {{ name }}</p>
         <router-link class="icon-btn account" to="/login" tag="md-button">
           <md-icon>person</md-icon>
         </router-link>
