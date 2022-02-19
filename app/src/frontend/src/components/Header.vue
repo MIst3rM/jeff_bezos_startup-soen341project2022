@@ -11,10 +11,10 @@
     </div>
     <md-toolbar  md-elevation="1">
       <div id="menu-row" class="md-toolbar-row">
-        <md-button>Home</md-button>
-        <md-button>About</md-button>
-        <md-button>Shop</md-button>
-        <md-button>FAQ</md-button>
+        <router-link to="/" tag="md-button">Home</router-link>
+        <router-link to="/about" tag="md-button">About</router-link>
+        <router-link to="/shop" tag="md-button">Shop</router-link>
+        <router-link to="/faq" tag="md-button">FAQ</router-link>
       </div>
     </md-toolbar>
   </div>
