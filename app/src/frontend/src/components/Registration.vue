@@ -102,6 +102,7 @@
 </template>
 
 <script>
+  import axios from "axios";
   import { validationMixin } from 'vuelidate'
   import {
     required,
@@ -179,13 +180,30 @@
       saveUser () {
         this.sending = true
 
-        // Instead of this timeout, here you can call your API
-        window.setTimeout(() => {
-          this.lastUser = `${this.form.firstName} ${this.form.lastName}`
-          this.userSaved = true
-          this.sending = false
-          this.clearForm()
-        }, 1500)
+         axios.get("/sanctum/csrf-cookie").then(() => {
+        axios
+          .post("/api/register", {
+            firstName: this.form.firstName,
+            lastName: this.form.lastName,
+            email: this.form.email,
+            password: this.form.password,
+            confirmPassword: this.form.confirmPassword
+          })
+          .then((response) => {
+            this.sending = false;
+            console.log(response);
+            setTimeout(() => this.$router.push({ path: "/" }), 1500);
+          })
+          .catch((error) => {
+            this.sending = false;
+            this.failedLogin = true;
+            this.clearForm();
+            // if (error.response.data.errors.email[0]) {
+            //   this.errorMsg = error.response.data.errors.email[0];
+            // }
+          });
+      });
+
       },
       validateUser () {
         this.$v.$touch()
