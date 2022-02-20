@@ -206,7 +206,6 @@ body{
 	color:#fff;
 	display:inline-block;
 	font-size:20px;
-	outline:none;
 	padding:10px 30px;
 	text-align:center;
 	text-decoration:none;
