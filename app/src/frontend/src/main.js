@@ -2,6 +2,11 @@ import Vue from "vue";
 import App from "./App.vue";
 import Router from "vue-router";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import Popper from "@popperjs/core/dist/esm/popper.js";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+
+
 import { Home, Admin, Shop } from "./views";
 import { Login, Registration } from "./components";
 
