@@ -58,10 +58,15 @@
             {{ errorMsg }}
           </span>
         </md-card-content>
-        <md-card-actions>
+          <md-card-actions>
+          <router-link class="md-primary" to="/register" tag="md-button">
+            Don't have an account? Register Now
+          </router-link>
+          <span id="login-button">
           <md-button type="submit" class="md-primary" :disabled="sending"
             >Login</md-button
           >
+          </span>
         </md-card-actions>
       </md-card>
     </form>
@@ -163,9 +168,20 @@ export default {
   margin: auto 0.5em;
 }
 
+.md-card-actions {
+  display:inline-block;
+  width: 100%;
+  padding-left: 2.5%;
+
+}
+
+#login-button {
+  margin-left: 30%;
+}
+
 #login-form {
   position: fixed;
-  top: 50%;
+  top: 30%;
   min-width: 100%;
 }
 

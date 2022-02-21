@@ -5,7 +5,7 @@ import Router from "vue-router";
 import createPersistedState from "vuex-persistedstate";
 
 import { Home, Admin, Shop, Profile } from "./views";
-import { Login } from "./components";
+import { Login, Registration } from "./components";
 
 import {
   MdToolbar,
@@ -39,13 +39,14 @@ const routes = () => {
         beforeEnter: (to, from, next) => {
           if (window.sessionStorage.getItem("store")) {
             next({ path: "/profile" });
-          }else{
+          } else {
             next();
           }
         },
       },
       { path: "/shop", component: Shop },
       { path: "/profile", component: Profile },
+      { path: "/register", component: Registration },
     ];
   } else if (subdomain === "admin") {
     routes = [{ path: "/", component: Admin }];
