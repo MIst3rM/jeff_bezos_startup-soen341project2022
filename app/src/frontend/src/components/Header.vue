@@ -1,16 +1,22 @@
 <template>
   <div id="header" lang="scss">
-    <md-toolbar class="md-primary" md-elevation="1">
-      <div id="icons-row" class="md-toolbar-row">
-        <router-link class="icon-btn account" to="/login" tag="md-button">
-          <md-icon>person</md-icon>
-        </router-link>
-        <md-button class="icon-btn"><md-icon>shopping_bag</md-icon></md-button>
-      </div>
+    <div class="topnav">
+      <router-link to="/" tag="md-button">
+      <md-icon class="md-accent md-size-2x store-logo">storefront</md-icon>
+      </router-link>
+        <div class="topnav-right">
+          <router-link class="icon-btn" to="/login" tag="md-button">
+          <md-icon style="color:white">person</md-icon>
+          </router-link>
+          <router-link class="icon-btn" to="/cart" tag="md-button">
+          <md-icon style="color:white">shopping_bag</md-icon>
+          </router-link>
+        </div>
+    </div>
+    <md-toolbar  md-elevation="1">
       <div id="menu-row" class="md-toolbar-row">
         <router-link to="/" tag="md-button">Home</router-link>
         <router-link to="/about" tag="md-button">About</router-link>
-        <md-icon class="md-accent md-size-4x store-logo">storefront</md-icon>
         <router-link to="/shop" tag="md-button">Shop</router-link>
         <router-link to="/faq" tag="md-button">FAQ</router-link>
       </div>
@@ -25,15 +31,14 @@ export default {
 </script>
 
 <style scoped>
-#menu-row {
-  justify-content: center;
-  min-height: 40px;
-  margin-bottom: 10px;
+
+.topnav {
+    background-color: rgb(7, 25, 49);
+    overflow: hidden;
 }
 
-#icons-row {
-  justify-content: right;
-  min-height: 40px;
+.topnav-right {
+  float: right;
 }
 
 .icon-btn {
@@ -45,5 +50,18 @@ export default {
 
 .account {
   margin: 2.9px 0px 0px 0px;
+}
+
+#menu-row {
+  min-height: 40px;
+}
+
+#icons-row {
+  justify-content: right;
+  min-height: 40px;
+}
+
+md-ic{
+  color:white
 }
 </style>
