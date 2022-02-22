@@ -40,7 +40,6 @@ export default {
 
 <style lang="scss" scoped>
 .md-layout {
-  /* margin: 30px auto; */
   width: 100%;
 }
 

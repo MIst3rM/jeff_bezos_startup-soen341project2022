@@ -160,7 +160,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .md-toolbar {
   justify-content: center;
 }

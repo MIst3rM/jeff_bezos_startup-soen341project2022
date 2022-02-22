@@ -3,25 +3,28 @@ import Vuex from "vuex";
 import App from "./App.vue";
 import Router from "vue-router";
 import createPersistedState from "vuex-persistedstate";
+import VueHorizontal from "vue-horizontal";
 
 import { Home, Admin, Shop, Profile } from "./views";
 import { Login, Registration } from "./components";
 
-import {
-  MdToolbar,
-  MdButton,
-  MdIcon,
-  MdCard,
-  MdField,
-  MdList,
-  MdApp,
-  MdContent,
-  MdDrawer,
-} from "vue-material/dist/components";
+// import {
+//   MdToolbar,
+//   MdButton,
+//   MdIcon,
+//   MdCard,
+//   MdField,
+//   MdList,
+//   MdApp,
+//   MdContent,
+//   MdDrawer,
+//   MdProgressBar,
+// }
+
+import VueMaterial from "vue-material";
 
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
-import "./assets/styles/theme.scss";
 
 Vue.config.productionTip = false;
 
@@ -32,7 +35,7 @@ const routes = () => {
   let routes;
   if (subdomain === "store") {
     routes = [
-      { path: "/", component: Home },
+      { path: "/", component: Home, meta: { header: true } },
       {
         path: "/login",
         component: Login,
@@ -43,10 +46,26 @@ const routes = () => {
             next();
           }
         },
+        meta: {
+          header: true,
+        },
       },
-      { path: "/shop", component: Shop },
-      { path: "/profile", component: Profile },
-      { path: "/register", component: Registration },
+      { path: "/shop", component: Shop, meta: { header: true } },
+      {
+        path: "/profile",
+        component: Profile,
+        beforeEnter: (to, from, next) => {
+          if (window.sessionStorage.getItem("store")) {
+            next();
+          } else {
+            next({ path: "/login" });
+          }
+        },
+        meta: {
+          header: false,
+        },
+      },
+      { path: "/register", component: Registration, meta: { header: true } },
     ];
   } else if (subdomain === "admin") {
     routes = [{ path: "/", component: Admin }];
@@ -63,15 +82,18 @@ const router = new Router({
 
 Vue.use(Router);
 Vue.use(Vuex);
-Vue.use(MdToolbar);
-Vue.use(MdButton);
-Vue.use(MdIcon);
-Vue.use(MdCard);
-Vue.use(MdField);
-Vue.use(MdList);
-Vue.use(MdApp);
-Vue.use(MdContent);
-Vue.use(MdDrawer);
+Vue.use(VueMaterial);
+Vue.use(VueHorizontal);
+// Vue.use(MdToolbar);
+// Vue.use(MdButton);
+// Vue.use(MdIcon);
+// Vue.use(MdCard);
+// Vue.use(MdField);
+// Vue.use(MdList);
+// Vue.use(MdApp);
+// Vue.use(MdContent);
+// Vue.use(MdDrawer);
+// Vue.use(MdProgressBar);
 
 const store = new Vuex.Store({
   plugins: [
@@ -102,6 +124,9 @@ const store = new Vuex.Store({
     getAuthUser(state) {
       return state.user;
     },
+  },
+  actions: {
+    
   },
 });
 

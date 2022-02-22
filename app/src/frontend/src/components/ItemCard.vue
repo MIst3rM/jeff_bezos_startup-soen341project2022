@@ -32,12 +32,12 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .md-card {
   height: 100%;
 }
 
-.md-card-header{
+.md-card-header {
   padding-bottom: 50px;
 }
 </style>
