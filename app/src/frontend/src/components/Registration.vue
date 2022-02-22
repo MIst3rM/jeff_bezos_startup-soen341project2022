@@ -227,6 +227,10 @@
     border-radius: 28px;
   }
 
+  #register-title {
+    font-weight: bolder;
+  }
+
   #button-registration {
     background-color:#1d4fd8;
     background-size: 0% 100%;
