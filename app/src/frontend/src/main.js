@@ -15,6 +15,9 @@ import { MdToolbar, MdButton, MdIcon, MdCard, MdField, MdList, MdApp, MdContent,
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
 import "./assets/styles/theme.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+import Popper from "@popperjs/core/dist/esm/popper.js";
 
 Vue.config.productionTip = false;
 

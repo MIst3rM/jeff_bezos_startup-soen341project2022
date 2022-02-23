@@ -1,4 +1,5 @@
 <template>
+<body>
   <div id="login" lang="scss">
     <form
       novalidate
@@ -9,7 +10,7 @@
     >
       <md-card class="md-layout-item md-size-40">
         <md-card-header>
-          <div class="md-title">Sign in</div>
+          <div class="title">Sign in</div>
         </md-card-header>
 
         <md-card-content>
@@ -59,11 +60,13 @@
           </span>
         </md-card-content>
           <md-card-actions>
+            <span id="button-register">
           <router-link class="md-primary" to="/register" tag="md-button">
             Don't have an account? Register Now
           </router-link>
-          <span id="login-button">
-          <md-button type="submit" class="md-primary" :disabled="sending"
+            </span>
+          <span id="button-log">
+          <md-button id="login-color" type="submit" class="md-primary" :disabled="sending"
             >Login</md-button
           >
           </span>
@@ -71,6 +74,7 @@
       </md-card>
     </form>
   </div>
+</body>
 </template>
 
 <script>
@@ -160,6 +164,24 @@ export default {
 </script>
 
 <style scoped>
+
+body{
+  background: #f0f8ff !important;
+  min-height: 100vh;
+  display: flex;
+  font-weight: 400;
+
+}
+.md-card{
+  border-radius: 28px;
+  }
+.title{
+  text-align: center;
+  font-weight: bolder;
+  font-size: 200%;
+}
+
+
 .md-toolbar {
   justify-content: center;
 }
@@ -171,12 +193,46 @@ export default {
   display:inline-block;
   width: 100%;
   padding-left: 2.5%;
+}
+/* Button for login */
+.md-card{
+  text-align: center;
+}
+#login-color {
+  background-color:#1d4fd8;
+  background-size: 0% 100%;
+  border:none;
+  border-radius:7px;
+	color:#fff;
+	display:inline-block;
+	font-size:20px;
+	padding:10px 30px;
+	text-align:center;
+	text-decoration:none;
+  transition: background-color .5s;
+  width:150px;
+}
+		
+#login-color:hover {
+  background-color:#011f4b;
+  background-image:linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,.7) 100%);
+  background-repeat:no-repeat;
+  background-size: 200% 100%; 
+  transition:background-size 1s, background-color 1s;
+}
+		
+#login-color:active {background-color:#294fb9; transition:background-size 0}
 
+#login-color{
+  color:white;
 }
 
-#login-button {
-  margin-left: 30%;
+/* Button for registration */
+.md-primary{
+  padding-right: 100px;
+  padding-left: 100px
 }
+
 
 #login-form {
   position: fixed;
