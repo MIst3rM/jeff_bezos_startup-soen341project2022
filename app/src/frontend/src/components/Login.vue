@@ -46,11 +46,6 @@
               <span class="md-error" v-if="!$v.form.password.required"
                 >The password is required</span
               >
-              <span class="md-error" v-else-if="!$v.form.password.minLength"
-                >Password must be at least 8 characters</span
-              >
-              <span class="md-error" v-else-if="!$v.form.password.maxLength"
-                >Password should not exceed 20 characters</span
               >
             </md-field>
           </div>
@@ -104,8 +99,6 @@ export default {
       },
       password: {
         required,
-        minLength: minLength(8),
-        maxLength: maxLength(20),
       },
     },
   },

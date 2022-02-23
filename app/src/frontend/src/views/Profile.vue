@@ -36,129 +36,148 @@
         </md-list>
       </md-app-drawer>
       <md-app-content>
-        <form class="md-layout">
-          <md-card class="md-layout-item">
-            <md-card-header>
-              <div class="md-title">Contact</div>
-            </md-card-header>
-            <md-card-content>
-              <div class="md-layout md-gutter">
-                <div class="md-layout-item md-small-size-100">
-                  <md-field>
-                    <label for="first-name">First Name</label>
-                    <md-input
-                      name="first-name"
-                      id="first-name"
-                      autocomplete="given-name"
-                    />
-                  </md-field>
+        <div class="md-layout">
+          <form class="md-layout">
+            <md-card class="md-layout-item">
+              <md-card-header>
+                <div class="md-title">Contact</div>
+              </md-card-header>
+              <md-card-content>
+                <div class="md-layout md-gutter">
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field>
+                      <label for="first-name">First Name</label>
+                      <md-input
+                        name="first-name"
+                        id="first-name"
+                        autocomplete="given-name"
+                      />
+                    </md-field>
+                  </div>
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field>
+                      <label for="last-name">Last Name</label>
+                      <md-input
+                        name="last-name"
+                        id="last-name"
+                        autocomplete="last-name"
+                      />
+                    </md-field>
+                  </div>
                 </div>
-                <div class="md-layout-item md-small-size-100">
-                  <md-field>
-                    <label for="last-name">Last Name</label>
-                    <md-input
-                      name="last-name"
-                      id="last-name"
-                      autocomplete="last-name"
-                    />
-                  </md-field>
+                <div class="md-layout md-gutter">
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field>
+                      <label for="email">Email</label>
+                      <md-input
+                        name="email"
+                        id="email"
+                        autocomplete="email"
+                        disabled
+                      />
+                    </md-field>
+                  </div>
                 </div>
-              </div>
-              <div class="md-layout md-gutter">
-                <div class="md-layout-item md-small-size-100">
-                  <md-field>
-                    <label for="email">Email</label>
-                    <md-input name="email" id="email" autocomplete="email" />
-                  </md-field>
+              </md-card-content>
+              <md-card-header>
+                <div class="md-title">Payment Methods</div>
+              </md-card-header>
+              <md-card-actions>
+                <md-button type="submit" class="md-primary"> Save </md-button>
+              </md-card-actions>
+            </md-card>
+          </form>
+          <form class="md-layout">
+            <md-card class="md-layout-item">
+              <md-card-header>
+                <div class="md-title">Address</div>
+              </md-card-header>
+              <md-card-content>
+                <div class="md-layout md-gutter">
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field>
+                      <label for="address">Address</label>
+                      <md-input
+                        name="address"
+                        id="address"
+                        autocomplete="address-line1"
+                      />
+                    </md-field>
+                  </div>
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field>
+                      <label for="address2">Apartment, suite, etc.</label>
+                      <md-input
+                        name="address2"
+                        id="address2"
+                        autocomplete="address-line2"
+                      />
+                    </md-field>
+                  </div>
                 </div>
-              </div>
-            </md-card-content>
-            <md-card-header>
-              <div class="md-title">Payment Methods</div>
-            </md-card-header>
-          </md-card>
-          <md-card class="md-layout-item">
-            <md-card-header>
-              <div class="md-title">Address</div>
-            </md-card-header>
-            <md-card-content>
-              <div class="md-layout md-gutter">
-                <div class="md-layout-item md-small-size-100">
-                  <md-field>
-                    <label for="address">Address</label>
-                    <md-input
-                      name="address"
-                      id="address"
-                      autocomplete="address-line1"
-                    />
-                  </md-field>
+                <div class="md-layout md-gutter">
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field>
+                      <label for="city">City</label>
+                      <md-input name="city" id="city" autocomplete="city" />
+                    </md-field>
+                  </div>
                 </div>
-                <div class="md-layout-item md-small-size-100">
-                  <md-field>
-                    <label for="address2">Apartment, suite, etc.</label>
-                    <md-input
-                      name="address2"
-                      id="address2"
-                      autocomplete="address-line2"
-                    />
-                  </md-field>
-                </div>
-              </div>
-              <div class="md-layout md-gutter">
-                <div class="md-layout-item md-small-size-100">
-                  <md-field>
-                    <label for="city">City</label>
-                    <md-input name="city" id="city" autocomplete="city" />
-                  </md-field>
-                </div>
-              </div>
-              <div class="md-layout md-gutter">
-                <div class="md-layout-item md-small-size-100">
-                  <md-field>
-                    <label for="province">State/Province</label>
-                    <md-select v-model="province" name="province" id="province">
-                      <md-option
-                        v-for="province in provinces"
-                        :value="province.name"
-                        :key="province.abbreviation"
+                <div class="md-layout md-gutter">
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field>
+                      <label for="province">State/Province</label>
+                      <md-select
+                        v-model="province"
+                        name="province"
+                        id="province"
                       >
-                        {{ province.name }}
-                      </md-option>
-                    </md-select>
-                  </md-field>
+                        <md-option
+                          v-for="province in provinces"
+                          :value="province.name"
+                          :key="province.abbreviation"
+                        >
+                          {{ province.name }}
+                        </md-option>
+                      </md-select>
+                    </md-field>
+                  </div>
                 </div>
-              </div>
-              <div class="md-layout md-gutter">
-                <div class="md-layout-item md-small-size-100">
-                  <md-field>
-                    <label for="country">Country</label>
-                    <md-select v-model="country" name="country" id="country">
-                      <md-option
-                        v-for="province in provinces"
-                        :value="province.name"
-                        :key="province.abbreviation"
-                      >
-                        {{ province.name }}
-                      </md-option>
-                    </md-select>
-                  </md-field>
+                <div class="md-layout md-gutter">
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field>
+                      <label for="country">Country</label>
+                      <md-select v-model="country" name="country" id="country">
+                        <md-option
+                          v-for="province in provinces"
+                          :value="province.name"
+                          :key="province.abbreviation"
+                        >
+                          {{ province.name }}
+                        </md-option>
+                      </md-select>
+                    </md-field>
+                  </div>
                 </div>
-              </div>
-              <div class="md-layout md-gutter">
-                <div class="md-layout-item md-small-size-100">
-                  <md-field>
-                    <label for="postal-code">Postal Code</label>
-                    <md-input
-                      name="postal-code"
-                      id="postal-code"
-                      autocomplete="postal-code"
-                    />
-                  </md-field>
+                <div class="md-layout md-gutter">
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field>
+                      <label for="postal-code">Postal Code</label>
+                      <md-input
+                        name="postal-code"
+                        id="postal-code"
+                        autocomplete="postal-code"
+                      />
+                    </md-field>
+                  </div>
                 </div>
-              </div>
-            </md-card-content>
-          </md-card>
-        </form>
+              </md-card-content>
+              <md-card-actions>
+                <md-button type="submit" class="md-primary"> Save </md-button>
+              </md-card-actions>
+            </md-card>
+          </form>
+        </div>
         <md-card class="md-layout-item md-size-40">
           <md-card-header>
             <div class="md-title">Order History</div>
@@ -181,9 +200,12 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Profile",
   data: () => ({
+    username: "",
     menuVisible: false,
     province: "",
     country: "",
@@ -243,8 +265,20 @@ export default {
     ],
   }),
   methods: {
+    setUsername() {
+      //this.username = this.$store.state.user.name;
+    },
     signout(event) {
-      window.sessionStorage.clear();
+      axios.get("/sanctum/csrf-cookie").then(() => {
+        axios
+          .post("/api/logout", {})
+          .then((response) => {
+            window.sessionStorage.clear();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
     },
   },
 };

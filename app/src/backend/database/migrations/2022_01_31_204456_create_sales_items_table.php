@@ -20,6 +20,7 @@ class CreateSalesItemsTable extends Migration
             $table->foreignId('item_id')->constrained('items', 'id')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('quantity');
             $table->decimal('total_price', 8, 2);
+            $table->timestamps();
         });
     }
 

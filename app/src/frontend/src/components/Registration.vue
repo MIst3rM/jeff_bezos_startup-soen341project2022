@@ -184,7 +184,7 @@ export default {
           const containsUppercase = /[A-Z]/.test(value);
           const containsLowercase = /[a-z]/.test(value);
           const containsNumber = /[0-9]/.test(value);
-          const containsSpecial = /[#?!@$%^&*-]/.test(value);
+          const containsSpecial = /[^A-Za-z0-9]/.test(value);
           return (
             containsUppercase &&
             containsLowercase &&
@@ -227,13 +227,29 @@ export default {
             lastname: this.form.lastName,
             email: this.form.email,
             password: this.form.password,
-            confirmPassword: this.form.confirmPassword,
+            role: "customer",
           })
           .then((response) => {
             this.sending = false;
-            this.clearForm();
-            this.$store.commit("setAuthUser", response.data);
-            setTimeout(() => this.$router.push({ path: "/" }), 1500);
+            axios
+              .post("/api/login", {
+                email: this.form.email,
+                password: this.form.password,
+              })
+              .then((response) => {
+                this.sending = false;
+                this.clearForm();
+                this.$store.commit("setAuthUser", response.data);
+                setTimeout(() => this.$router.push({ path: "/" }), 1000);
+              })
+              .catch((error) => {
+                this.sending = false;
+                this.failedLogin = true;
+                this.clearForm();
+                if (error.response.data.errors.email[0]) {
+                  this.errorMsg = error.response.data.errors.email[0];
+                }
+              });
           })
           .catch((error) => {
             this.sending = false;
