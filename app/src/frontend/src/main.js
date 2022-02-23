@@ -3,8 +3,15 @@ import App from './App.vue';
 import Router from 'vue-router';
 import VueSnip from 'vue-snip';
 
-import { Home, Admin, Shop } from './views';
-import { Login, Registration } from './components';
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import Popper from "@popperjs/core/dist/esm/popper.js";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+
+
+import { Home, Admin, Shop } from "./views";
+import { Login, Registration } from "./components";
+
 
 import {
   MdToolbar,
@@ -18,9 +25,13 @@ import {
   MdDrawer
 } from 'vue-material/dist/components';
 
-import 'vue-material/dist/vue-material.min.css';
-import 'vue-material/dist/theme/default.css';
-import './assets/styles/theme.scss';
+import "vue-material/dist/vue-material.min.css";
+import "vue-material/dist/theme/default.css";
+import "./assets/styles/theme.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+import Popper from "@popperjs/core/dist/esm/popper.js";
+
 
 Vue.config.productionTip = false;
 
