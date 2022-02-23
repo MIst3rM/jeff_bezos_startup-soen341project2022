@@ -91,7 +91,9 @@
         </md-card-content>
 
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
-
+        <span class="invalidCreds" v-if="failedLogin">
+          {{ errorMsg }}
+        </span>
         <md-card-actions>
           <md-button id="button-registration" type="submit" class="md-primary" :disabled="sending">Create user</md-button>
         </md-card-actions>
@@ -185,8 +187,8 @@
          axios.get("/sanctum/csrf-cookie").then(() => {
         axios
           .post("/api/register", {
-            firstName: this.form.firstName,
-            lastName: this.form.lastName,
+            firstname: this.form.firstName,
+            lastname: this.form.lastName,
             email: this.form.email,
             password: this.form.password,
             confirmPassword: this.form.confirmPassword
@@ -194,15 +196,15 @@
           .then((response) => {
             this.sending = false;
             console.log(response);
-            setTimeout(() => this.$router.push({ path: "/" }), 1500);
+            setTimeout(() => this.$router.push({ path: "/login" }), 1500);
           })
           .catch((error) => {
             this.sending = false;
             this.failedLogin = true;
             this.clearForm();
-            // if (error.response.data.errors.email[0]) {
-            //   this.errorMsg = error.response.data.errors.email[0];
-            // }
+             if (error.response.data.errors.email[0]) {
+               this.errorMsg = error.response.data.errors.email[0];
+             }
           });
       });
 
@@ -241,6 +243,10 @@
     min-width: 100%;
   }
 
+  .invalidCreds {
+    color: red;
+    margin-top: 0.5em;
+  }
   .md-card{
     border-radius: 28px;
   }
@@ -273,6 +279,4 @@
   #button-registration:active {
     background-color:#294fb9; transition:background-size 0
   }
-
-
 </style>
