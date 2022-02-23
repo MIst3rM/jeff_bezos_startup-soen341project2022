@@ -1,9 +1,10 @@
 <template>
-  <div>
+<body>
+  <div class="vue-template">
     <form id="registration-form" novalidate class="md-layout" @submit.prevent="validateUser">
-      <md-card class="md-layout-item md-size-50 md-small-size-100">
+      <md-card class="md-layout-item md-size-50 md-small-size-100" >
         <md-card-header>
-          <div class="md-title">Create Account</div>
+          <div id="register-title" class="md-title">Create Account</div>
         </md-card-header>
 
         <md-card-content>
@@ -94,13 +95,14 @@
           {{ errorMsg }}
         </span>
         <md-card-actions>
-          <md-button type="submit" class="md-primary" :disabled="sending">Create user</md-button>
+          <md-button id="button-registration" type="submit" class="md-primary" :disabled="sending">Create user</md-button>
         </md-card-actions>
       </md-card>
 
     
     </form>
   </div>
+  </body>
 </template>
 
 <script>
@@ -219,6 +221,14 @@
 </script>
 
 <style lang="scss" scoped>
+
+  body {
+    background:	#f0f8ff !important;
+    min-height: 100vh;
+    display: flex;
+    font-weight: 400;
+  }
+
   .md-progress-bar {
     position: absolute;
     top: 0;
@@ -234,7 +244,39 @@
   }
 
   .invalidCreds {
-  color: red;
-  margin-top: 0.5em;
-}
+    color: red;
+    margin-top: 0.5em;
+  }
+  .md-card{
+    border-radius: 28px;
+  }
+
+  #register-title {
+    font-weight: bolder;
+  }
+
+  #button-registration {
+    background-color:#1d4fd8;
+    background-size: 0% 100%;
+    border:none;
+    border-radius:7px;
+    color:#fff;
+    display: inline-block;
+    font-size:20px;
+    text-decoration:none;
+    transition: background-color .5s;
+    width:150px;
+  }
+
+  #button-registration:hover {
+    background-color:#011f4b;
+    background-image:linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,.7) 100%);
+    background-repeat:no-repeat;
+    background-size: 200% 100%; 
+    transition:background-size 1s, background-color 1s;
+  }
+
+  #button-registration:active {
+    background-color:#294fb9; transition:background-size 0
+  }
 </style>
