@@ -90,7 +90,9 @@
         </md-card-content>
 
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
-
+        <span class="invalidCreds" v-if="failedLogin">
+          {{ errorMsg }}
+        </span>
         <md-card-actions>
           <md-button type="submit" class="md-primary" :disabled="sending">Create user</md-button>
         </md-card-actions>
@@ -198,9 +200,9 @@
             this.sending = false;
             this.failedLogin = true;
             this.clearForm();
-            // if (error.response.data.errors.email[0]) {
-            //   this.errorMsg = error.response.data.errors.email[0];
-            // }
+             if (error.response.data.errors.email[0]) {
+               this.errorMsg = error.response.data.errors.email[0];
+             }
           });
       });
 
@@ -230,4 +232,9 @@
     top: 30%;
     min-width: 100%;
   }
+
+  .invalidCreds {
+  color: red;
+  margin-top: 0.5em;
+}
 </style>
