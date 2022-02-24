@@ -8,20 +8,30 @@ export default {
     },
   },
 };
+
+
 </script>
 
 <template>
-  <div class="md-layout-item md-size-30">
+  <div class="md-layout-item md-size-30 md-medium-size-33 md-small-size-50 md-xsmall-size-100">
     <md-card>
       <md-card-header>
-        <div class="md-title">{{ item.title }}</div>
-        <md-card-media>
-          <img :src="item.image" alt="Item-Picture" />
-        </md-card-media>
+        <div class="md-layout">
+          <div class="md-layout-item">
+            <div class="md-title" v-snip>{{ item.title }}</div>
+          </div>
+        </div>
+        <div class="md-layout">
+          <div class="md-layout-item">
+            <md-card-media>
+              <img :src="item.image" alt="Item-Picture" />
+            </md-card-media>
+          </div>
+        </div>
       </md-card-header>
 
       <md-card-content>
-        <p>{{ item.description }}</p>
+        <p v-snip>{{ item.description }}</p>
       </md-card-content>
 
       <md-card-actions>
@@ -37,7 +47,17 @@ export default {
   height: 100%;
 }
 
-.md-card-header {
-  padding-bottom: 50px;
+
+.md-layout{
+  margin-bottom: 45px; 
 }
+
+.md-layout-item {
+  transition: all .4s ease;
+}
+
+.md-card-media{
+  margin: auto !important
+}
+
 </style>

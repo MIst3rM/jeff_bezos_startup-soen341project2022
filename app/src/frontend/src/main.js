@@ -1,9 +1,14 @@
+
 import Vue from "vue";
 import Vuex from "vuex";
 import App from "./App.vue";
 import Router from "vue-router";
 import createPersistedState from "vuex-persistedstate";
 import VueHorizontal from "vue-horizontal";
+import VueSnip from 'vue-snip';
+import "bootstrap/dist/css/bootstrap.min.css";
+import Popper from "@popperjs/core/dist/esm/popper.js";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import { Home, Admin, Shop, Profile } from "./views";
 import { Login, Registration } from "./components";
@@ -12,15 +17,17 @@ import VueMaterial from "vue-material";
 
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
+import "./assets/styles/theme.scss";
+
 
 Vue.config.productionTip = false;
 
 const host = window.location.host;
-const subdomain = host.split(".")[0];
+const subdomain = host.split('.')[0];
 
 const routes = () => {
   let routes;
-  if (subdomain === "store") {
+  if (subdomain === 'store') {
     routes = [
       { path: "/", component: Home, meta: { header: true } },
       {
@@ -112,11 +119,13 @@ const store = new Vuex.Store({
   actions: {},
 });
 
+Vue.use(VueSnip);
+
 new Vue({
   router,
   store,
   render: (h) => h(App),
   components: {
-    App,
-  },
-}).$mount("#app");
+    App
+  }
+}).$mount('#app');
