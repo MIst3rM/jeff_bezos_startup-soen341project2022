@@ -42,14 +42,14 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .md-card {
   height: 100%;
 }
 
+
 .md-layout{
-  margin-bottom: 45px;
-  /* transition: all 1s ease; */
+  margin-bottom: 45px; 
 }
 
 .md-layout-item {

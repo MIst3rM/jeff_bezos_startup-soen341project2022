@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Log;
+use App\Models\User;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,12 +26,16 @@ Route::get('/allItems', function () {
     return DB::table('items')->get()->toJson();
 });
 
-$limiter = config('fortify.limiters.login');
-$verificationLimiter = config('fortify.limiters.verification', '6,1');
-
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/authenticated', function () {
+        Log::debug("authenticated");
         return new UserResource(auth()->user());
     });
+
+    Route::get('/user/{id}', function ($id) {
+        return User::where('id', $id)->get()->toJson();
+    });
+
+    Route::post('/updateUser', [UserController::class, 'updateUser']);
 });

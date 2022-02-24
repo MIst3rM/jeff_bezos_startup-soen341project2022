@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Items extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'description',
+        'price',
+        'stock',
+        'image',
+    ];
+
+    public function salesItems()
+    {
+        return $this->hasMany(SalesItems::class);
+    }
+
+    
 }

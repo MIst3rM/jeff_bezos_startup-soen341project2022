@@ -47,28 +47,20 @@
               <span class="md-error" v-if="!$v.form.password.required"
                 >The password is required</span
               >
-              <span class="md-error" v-else-if="!$v.form.password.minLength"
-                >Password must be at least 8 characters</span
-              >
-              <span class="md-error" v-else-if="!$v.form.password.maxLength"
-                >Password should not exceed 20 characters</span
-              >
             </md-field>
           </div>
           <span class="invalidCreds" v-if="failedLogin">
             {{ errorMsg }}
           </span>
         </md-card-content>
-          <md-card-actions>
-            <span id="button-register">
+        <md-card-actions>
           <router-link class="md-primary" to="/register" tag="md-button">
             Don't have an account? Register Now
           </router-link>
-            </span>
-          <span id="button-log">
-          <md-button id="login-color" type="submit" class="md-primary" :disabled="sending"
-            >Login</md-button
-          >
+          <span id="login-button">
+            <md-button type="submit" class="md-primary" :disabled="sending"
+              >Login</md-button
+            >
           </span>
         </md-card-actions>
       </md-card>
@@ -80,12 +72,7 @@
 <script>
 import axios from "axios";
 import { validationMixin } from "vuelidate";
-import {
-  required,
-  email,
-  minLength,
-  maxLength,
-} from "vuelidate/lib/validators";
+import { required, email } from "vuelidate/lib/validators";
 
 export default {
   name: "Login",
@@ -108,8 +95,6 @@ export default {
       },
       password: {
         required,
-        minLength: minLength(8),
-        maxLength: maxLength(20),
       },
     },
   },
@@ -130,7 +115,6 @@ export default {
     },
     saveUser() {
       this.sending = true;
-
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
           .post("/api/login", {
@@ -140,7 +124,9 @@ export default {
           .then((response) => {
             this.sending = false;
             console.log(response);
-            setTimeout(() => this.$router.push({ path: "/" }), 1500);
+            this.clearForm();
+            this.$store.commit("setAuthUser", response.data);
+            setTimeout(() => this.$router.push({ path: "/" }), 500);
           })
           .catch((error) => {
             this.sending = false;
@@ -163,7 +149,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 body{
   background: #f0f8ff !important;
@@ -181,7 +167,6 @@ body{
   font-size: 200%;
 }
 
-
 .md-toolbar {
   justify-content: center;
 }
@@ -190,14 +175,16 @@ body{
 }
 
 .md-card-actions {
-  display:inline-block;
+  display: inline-block;
   width: 100%;
   padding-left: 2.5%;
 }
+
 /* Button for login */
 .md-card{
   text-align: center;
 }
+
 #login-color {
   background-color:#1d4fd8;
   background-size: 0% 100%;
@@ -232,7 +219,6 @@ body{
   padding-right: 100px;
   padding-left: 100px
 }
-
 
 #login-form {
   position: fixed;

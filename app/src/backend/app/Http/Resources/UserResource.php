@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -14,9 +15,10 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
+        Log::debug("the firstname is: " . $this->firstname);
         return [
-            'email' => $this->email,
-            //'email_verified_at' => $this->email_verified_at,
+            'id' => $this->id,
+            'name' => $this->firstname,
         ];
     }
 }

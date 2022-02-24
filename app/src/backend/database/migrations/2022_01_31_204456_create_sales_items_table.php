@@ -16,10 +16,11 @@ class CreateSalesItemsTable extends Migration
         Schema::create('sales_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('invoice_id')->constrained('sales', 'invoice_id')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('seller_id')->constrained('sellers', 'id')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('seller_id')->constrained('users', 'id')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('item_id')->constrained('items', 'id')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('quantity');
             $table->decimal('total_price', 8, 2);
+            $table->timestamps();
         });
     }
 

@@ -15,8 +15,8 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id('invoice_id');
-            $table->foreignId('seller_id')->constrained('sellers', 'id')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('customer_id')->constrained('customers', 'id')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('seller_id')->constrained('users', 'id')->onUpdate('cascade')->onDelete('cascade');
+            $table->bigInteger('customer_id');
             $table->enum('payment_method', ['credit_card', 'debit_card', 'paypal', 'bitcoin']);
             $table->decimal('total_price', 8, 2);
             $table->timestamps();
