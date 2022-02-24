@@ -17,6 +17,11 @@
         <img src="https://img.shields.io/github/issues-pr-closed/jaspreet305/jeff_bezos_startup-soen341project2022" />
     </a>
 </p>
+<p align="center">
+    <a href="https://github.com/jaspreet305/jeff_bezos_startup-soen341project2022/graphs/contributors" alt="Contributors">
+            <img src="https://img.shields.io/github/contributors/jaspreet305/jeff_bezos_startup-soen341project2022" />
+    </a>
+</p>
 
 ## Description
 Building an e-commerce platform with all the required functionalities such as shopping cart, sign-up/sign-in, check-out, complete with a database containing the store's and customer's informations.
