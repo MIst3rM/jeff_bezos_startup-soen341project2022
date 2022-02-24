@@ -46,21 +46,20 @@
               <span class="md-error" v-if="!$v.form.password.required"
                 >The password is required</span
               >
-              >
             </md-field>
           </div>
           <span class="invalidCreds" v-if="failedLogin">
             {{ errorMsg }}
           </span>
         </md-card-content>
-          <md-card-actions>
+        <md-card-actions>
           <router-link class="md-primary" to="/register" tag="md-button">
             Don't have an account? Register Now
           </router-link>
           <span id="login-button">
-          <md-button type="submit" class="md-primary" :disabled="sending"
-            >Login</md-button
-          >
+            <md-button type="submit" class="md-primary" :disabled="sending"
+              >Login</md-button
+            >
           </span>
         </md-card-actions>
       </md-card>
@@ -71,12 +70,7 @@
 <script>
 import axios from "axios";
 import { validationMixin } from "vuelidate";
-import {
-  required,
-  email,
-  minLength,
-  maxLength,
-} from "vuelidate/lib/validators";
+import { required, email } from "vuelidate/lib/validators";
 
 export default {
   name: "Login",
@@ -119,7 +113,6 @@ export default {
     },
     saveUser() {
       this.sending = true;
-
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
           .post("/api/login", {
@@ -128,6 +121,7 @@ export default {
           })
           .then((response) => {
             this.sending = false;
+            console.log(response);
             this.clearForm();
             this.$store.commit("setAuthUser", response.data);
             setTimeout(() => this.$router.push({ path: "/" }), 500);
@@ -162,10 +156,9 @@ export default {
 }
 
 .md-card-actions {
-  display:inline-block;
+  display: inline-block;
   width: 100%;
   padding-left: 2.5%;
-
 }
 
 #login-button {

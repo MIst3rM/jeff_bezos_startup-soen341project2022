@@ -2750,6 +2750,11 @@ cosmiconfig@^5.0.0:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
+country-region-data@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/country-region-data/-/country-region-data-2.1.0.tgz#20c72b22c87cc4068bb562418696c24244e4be0b"
+  integrity sha512-tEZYA029yIMfFgVpjbixspybCgZQv/zTHpbIApo0qqF5S8rJrroTlDgVVZZZlLG/QguOzoqkS6K0MOY0YzAufQ==
+
 create-ecdh@^4.0.0:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/create-ecdh/-/create-ecdh-4.0.4.tgz#d6e7f4bffa66736085a0762fd3a632684dabcc4e"

@@ -6,7 +6,7 @@
           <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
             <md-icon>menu</md-icon>
           </md-button>
-          <span class="md-title">Profile</span>
+          <span class="md-title">Hi, {{ currentUser.firstname }}</span>
         </div>
       </md-app-toolbar>
       <md-app-drawer :md-active.sync="menuVisible">
@@ -37,7 +37,7 @@
       </md-app-drawer>
       <md-app-content>
         <div class="md-layout">
-          <form class="md-layout">
+          <form novalidate class="md-layout" @submit.prevent="validateUser">
             <md-card class="md-layout-item">
               <md-card-header>
                 <div class="md-title">Contact</div>
@@ -45,35 +45,74 @@
               <md-card-content>
                 <div class="md-layout md-gutter">
                   <div class="md-layout-item md-small-size-100">
-                    <md-field>
+                    <md-field :class="getValidationClass('firstname')">
                       <label for="first-name">First Name</label>
                       <md-input
                         name="first-name"
                         id="first-name"
                         autocomplete="given-name"
+                        v-model="currentUser.firstname"
                       />
+                      <span
+                        class="md-error"
+                        v-if="!$v.currentUser.firstname.minlength"
+                        >firstname too short min: 2 char</span
+                      >
+                      <span
+                        class="md-error"
+                        v-if="!$v.currentUser.firstname.maxlength"
+                        >firstname too long max: 255 char</span
+                      >
                     </md-field>
                   </div>
                   <div class="md-layout-item md-small-size-100">
-                    <md-field>
+                    <md-field :class="getValidationClass('lastname')">
                       <label for="last-name">Last Name</label>
                       <md-input
                         name="last-name"
                         id="last-name"
                         autocomplete="last-name"
+                        v-model="currentUser.lastname"
                       />
+                      <span
+                        class="md-error"
+                        v-if="!$v.currentUser.lastname.minlength"
+                        >lastname too short min: 2 char</span
+                      >
+                      <span
+                        class="md-error"
+                        v-if="!$v.currentUser.lastname.maxlength"
+                        >lastname too long max: 255 char</span
+                      >
+                    </md-field>
+                  </div>
+                </div>
+                <div class="md-layout md-gutter">
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field :class="getValidationClass('email')">
+                      <label for="email">Email</label>
+                      <md-input
+                        name="email"
+                        id="email"
+                        autocomplete="email"
+                        v-model="currentUser.email"
+                        readonly
+                      />
+                      <span class="md-error" v-if="!$v.currentUser.email.email"
+                        >email is not valid</span
+                      >
                     </md-field>
                   </div>
                 </div>
                 <div class="md-layout md-gutter">
                   <div class="md-layout-item md-small-size-100">
                     <md-field>
-                      <label for="email">Email</label>
+                      <label for="phone">Phone</label>
                       <md-input
-                        name="email"
-                        id="email"
-                        autocomplete="email"
-                        disabled
+                        name="phone"
+                        id="phone"
+                        autocomplete="phone"
+                        v-model="currentUser.phone"
                       />
                     </md-field>
                   </div>
@@ -83,11 +122,13 @@
                 <div class="md-title">Payment Methods</div>
               </md-card-header>
               <md-card-actions>
-                <md-button type="submit" class="md-primary"> Save </md-button>
+                <md-button type="submit" class="md-primary" :disabled="sending">
+                  Save
+                </md-button>
               </md-card-actions>
             </md-card>
           </form>
-          <form class="md-layout">
+          <form novalidate class="md-layout" @submit.prevent="validateAddress">
             <md-card class="md-layout-item">
               <md-card-header>
                 <div class="md-title">Address</div>
@@ -101,6 +142,7 @@
                         name="address"
                         id="address"
                         autocomplete="address-line1"
+                        v-model="currentUser.address_line1"
                       />
                     </md-field>
                   </div>
@@ -111,6 +153,7 @@
                         name="address2"
                         id="address2"
                         autocomplete="address-line2"
+                        v-model="currentUser.address_line2"
                       />
                     </md-field>
                   </div>
@@ -119,7 +162,12 @@
                   <div class="md-layout-item md-small-size-100">
                     <md-field>
                       <label for="city">City</label>
-                      <md-input name="city" id="city" autocomplete="city" />
+                      <md-input
+                        name="city"
+                        id="city"
+                        autocomplete="city"
+                        v-model="currentUser.city"
+                      />
                     </md-field>
                   </div>
                 </div>
@@ -128,7 +176,7 @@
                     <md-field>
                       <label for="province">State/Province</label>
                       <md-select
-                        v-model="province"
+                        v-model="currentUser.province"
                         name="province"
                         id="province"
                       >
@@ -147,13 +195,17 @@
                   <div class="md-layout-item md-small-size-100">
                     <md-field>
                       <label for="country">Country</label>
-                      <md-select v-model="country" name="country" id="country">
+                      <md-select
+                        v-model="currentUser.country"
+                        name="country"
+                        id="country"
+                      >
                         <md-option
-                          v-for="province in provinces"
-                          :value="province.name"
-                          :key="province.abbreviation"
+                          v-for="country in allCountries"
+                          :value="country[0]"
+                          :key="country[1]"
                         >
-                          {{ province.name }}
+                          {{ country[0] }}
                         </md-option>
                       </md-select>
                     </md-field>
@@ -167,6 +219,7 @@
                         name="postal-code"
                         id="postal-code"
                         autocomplete="postal-code"
+                        v-model="currentUser.postalCode"
                       />
                     </md-field>
                   </div>
@@ -201,14 +254,30 @@
 
 <script>
 import axios from "axios";
+import { allCountries } from "country-region-data";
+import { validationMixin } from "vuelidate";
+import { email, alpha, minLength, maxLength } from "vuelidate/lib/validators";
 
 export default {
   name: "Profile",
+  mixins: [validationMixin],
   data: () => ({
-    username: "",
+    currentUser: {
+      firstname: "",
+      lastname: "",
+      email: "",
+      address: "",
+      address2: "",
+      city: "",
+      province_state: "",
+      postal_code_zip: "",
+      country: "",
+    },
+    sending: false,
     menuVisible: false,
     province: "",
     country: "",
+    allCountries: allCountries,
     provinces: [
       {
         name: "Alberta",
@@ -264,21 +333,93 @@ export default {
       },
     ],
   }),
+  beforeMount() {
+    axios.get("/sanctum/csrf-cookie").then(() => {
+      axios
+        .get(`/api/user/${this.$store.getters.getAuthUser.data.id}`)
+        .then((response) => {
+          this.currentUser = response.data[0];
+          console.log(this.currentUser);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  },
   methods: {
-    setUsername() {
-      //this.username = this.$store.state.user.name;
+    getValidationClass(fieldName) {
+      const field = this.$v.currentUser[fieldName];
+
+      if (field) {
+        return {
+          "md-invalid": field.$invalid && field.$dirty,
+        };
+      }
     },
-    signout(event) {
+    persistChanges() {
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
-          .post("/api/logout", {})
+          .post("/api/updateUser", {
+            updatedUser: {
+              id: this.$store.getters.getAuthUser.data.id,
+              firstname: this.currentUser.firstname,
+              lastname: this.currentUser.lastname,
+              email: this.currentUser.email,
+              address: this.currentUser.address,
+              address2: this.currentUser.address2,
+              city: this.currentUser.city,
+              province_state: this.currentUser.province,
+              postal_code_zip: this.currentUser.postalCode,
+              country: this.currentUser.country,
+            },
+          })
           .then((response) => {
+            console.log(response.data)
+            //snackbar
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+    },
+    validateUser() {
+      this.$v.$touch();
+
+      if (!this.$v.$invalid) {
+        this.persistChanges();
+      }
+    },
+    signout(event) {
+      console.log("signout");
+      axios.get("/sanctum/csrf-cookie").then(() => {
+        axios
+          .post("/api/logout")
+          .then(() => {
             window.sessionStorage.clear();
           })
           .catch((error) => {
             console.log(error);
           });
       });
+    },
+  },
+  validations: {
+    currentUser: {
+      firstname: {
+        alpha,
+        minLength: minLength(2),
+        maxLength: maxLength(255),
+      },
+      lastname: {
+        alpha,
+        minLength: minLength(2),
+        maxLength: maxLength(255),
+      },
+      email: {
+        email,
+        minLength: minLength(2),
+        maxLength: maxLength(255),
+      },
     },
   },
 };

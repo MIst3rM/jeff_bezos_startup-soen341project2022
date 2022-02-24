@@ -8,19 +8,6 @@ import VueHorizontal from "vue-horizontal";
 import { Home, Admin, Shop, Profile } from "./views";
 import { Login, Registration } from "./components";
 
-// import {
-//   MdToolbar,
-//   MdButton,
-//   MdIcon,
-//   MdCard,
-//   MdField,
-//   MdList,
-//   MdApp,
-//   MdContent,
-//   MdDrawer,
-//   MdProgressBar,
-// }
-
 import VueMaterial from "vue-material";
 
 import "vue-material/dist/vue-material.min.css";
@@ -66,6 +53,9 @@ const routes = () => {
         },
       },
       { path: "/register", component: Registration, meta: { header: true } },
+      { path: "/about", meta: { header: true } },
+      { path: "/faq", meta: { header: true } },
+      { path: "/cart", meta: { header: true } },
     ];
   } else if (subdomain === "admin") {
     routes = [{ path: "/", component: Admin }];
@@ -84,16 +74,6 @@ Vue.use(Router);
 Vue.use(Vuex);
 Vue.use(VueMaterial);
 Vue.use(VueHorizontal);
-// Vue.use(MdToolbar);
-// Vue.use(MdButton);
-// Vue.use(MdIcon);
-// Vue.use(MdCard);
-// Vue.use(MdField);
-// Vue.use(MdList);
-// Vue.use(MdApp);
-// Vue.use(MdContent);
-// Vue.use(MdDrawer);
-// Vue.use(MdProgressBar);
 
 const store = new Vuex.Store({
   plugins: [
@@ -119,15 +99,17 @@ const store = new Vuex.Store({
   },
   getters: {
     isLoggedIn(state) {
-      return state.user !== null;
+      if (state.user !== null) {
+        if (state.user.data !== undefined) return true;
+      } else {
+        return false;
+      }
     },
     getAuthUser(state) {
       return state.user;
     },
   },
-  actions: {
-    
-  },
+  actions: {},
 });
 
 new Vue({
