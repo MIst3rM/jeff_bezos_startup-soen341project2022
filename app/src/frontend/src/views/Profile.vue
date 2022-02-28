@@ -3,7 +3,7 @@
     <md-app md-waterfall md-mode="overlap">
       <md-app-toolbar class="md-primary md-large">
         <div class="md-toolbar-row">
-          <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
+          <md-button class="md-icon-button" @click="menuVisible = true">
             <md-icon>menu</md-icon>
           </md-button>
           <span class="md-title">Hi, {{ currentUser.firstname }}</span>
@@ -333,18 +333,12 @@ export default {
       },
     ],
   }),
+  beforeRouteLeave(to, from, next) {
+    this.menuVisible = false;
+    next();
+  },
   beforeMount() {
-    axios.get("/sanctum/csrf-cookie").then(() => {
-      axios
-        .get(`/api/user/${this.$store.getters.getAuthUser.data.id}`)
-        .then((response) => {
-          this.currentUser = response.data[0];
-          console.log(this.currentUser);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
+    this.currentUser = this.$store.getters.getAuthUser.user;
   },
   methods: {
     getValidationClass(fieldName) {
@@ -357,27 +351,29 @@ export default {
       }
     },
     persistChanges() {
+      this.sending = true;
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
           .post("/api/updateUser", {
             updatedUser: {
-              id: this.$store.getters.getAuthUser.data.id,
               firstname: this.currentUser.firstname,
               lastname: this.currentUser.lastname,
               email: this.currentUser.email,
-              address: this.currentUser.address,
-              address2: this.currentUser.address2,
-              city: this.currentUser.city,
-              province_state: this.currentUser.province,
-              postal_code_zip: this.currentUser.postalCode,
-              country: this.currentUser.country,
+              // address: this.currentUser.address,
+              // address2: this.currentUser.address2,
+              // city: this.currentUser.city,
+              // province_state: this.currentUser.province,
+              // postal_code_zip: this.currentUser.postalCode,
+              // country: this.currentUser.country,
             },
           })
           .then((response) => {
-            console.log(response.data)
+            this.sending = false;
+            console.log(response.data);
             //snackbar
           })
           .catch((error) => {
+            this.sending = false;
             console.log(error);
           });
       });
@@ -395,7 +391,7 @@ export default {
         axios
           .post("/api/logout")
           .then(() => {
-            window.sessionStorage.clear();
+            this.$store.commit("clearAuthUser");
           })
           .catch((error) => {
             console.log(error);

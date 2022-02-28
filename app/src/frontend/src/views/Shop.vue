@@ -1,72 +1,26 @@
-<script>
-import axios from "axios";
-import ItemCard from "../components/ItemCard.vue";
-
-export default {
-  name: "Shop",
-  components: {
-    ItemCard,
-  },
-  data() {
-    return {
-      items: null,
-      selectedFilter: null,
-      listOfCategories: [], 
-    };
-  },
-  created() {
-    axios.get("/sanctum/csrf-cookie").then(() => {
-      axios
-        .get("/api/allItems")
-        .then((response) => {
-          this.items = response.data;
-          console.log(this.items);
-
-          (this.items).forEach(item => {
-              (this.listOfCategories).push(item.category);
-            });
-          console.log(this.listOfCategories);
-
-          (this.listOfCategories) = [... new Set(this.listOfCategories)];
-          console.log(this.listOfCategories);
-
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
-  },
-};
-</script>
-
 <template>
   <div>
     <md-app>
       <md-app-drawer md-permanent="full">
-        <md-toolbar class="md-transparent" md-elevation="0">
-          <h5>Filter</h5>
+        <md-toolbar class="md-transparent" md-elevation="1">
+          <h3>Filters</h3>
         </md-toolbar>
-        <!-- <md-list>
-          <md-list-item></md-list-item>
 
-          <md-list-item> </md-list-item>
+        <md-subheader>Category</md-subheader>
+        <md-checkbox
+          v-for="category in categories"
+          :key="category"
+          v-model="selectedCategories"
+          :id="category"
+          :value="category"
+        >
+          {{ category }}
+        </md-checkbox>
 
-          <md-list-item> </md-list-item>
-
-          <md-list-item> </md-list-item>
-        </md-list> -->
-        <div class="center">
-          <select v-model="selectedFilter">
-            <option v-for="category in listOfCategories" v-bind:value="category">
-                {{ category }}
-            </option>
-          </select>
-            <md-card-actions>
-              <!-- v-on:click="event_handler" or @click="event_handler" -->
-              <md-button>Filter</md-button>
-          </md-card-actions>
-        </div>
+        <md-subheader>Price</md-subheader>
+        <vue-slider></vue-slider>
       </md-app-drawer>
+
       <md-app-content>
         <div class="md-layout md-gutter md-alignment-center-center">
           <ItemCard
@@ -81,7 +35,87 @@ export default {
   </div>
 </template>
 
+<script>
+import axios from "axios";
+import ItemCard from "../components/ItemCard.vue";
+
+export default {
+  name: "Shop",
+  components: {
+    ItemCard,
+  },
+  data() {
+    return {
+      items: null,
+      categories: [],
+      selectedCategories: [],
+    };
+  },
+  created() {
+    axios.get("/sanctum/csrf-cookie").then(() => {
+      axios
+        .get("/api/allItems")
+        .then((response) => {
+          this.items = response.data;
+          this.items.filter((item) => {
+            if (!this.categories.includes(this.pascalCase(item.category))) {
+              this.categories.push(this.pascalCase(item.category));
+            }
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  },
+  methods: {
+    pascalCase(str) {
+      return str
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+.vue-slider-rail {
+  background-color: #acb2ba;
+}
+
+.vue-slider-dot-handle {
+  background-color: #fe7e6d;
+}
+
+.vue-slider-dot-handle::after {
+  background-color: #fe7e6d78;
+}
+
+.vue-slider-process {
+  background-color: #082c5c;
+}
+
+.vue-slider-dot-tooltip-inner-top {
+  background-color: #082c5c;
+}
+</style>
+
 <style lang="scss" scoped>
+
+.md-drawer.md-permanent-full {
+  z-index: 1;
+}
+
+.md-checkbox {
+  display: flex;
+  padding: 8px;
+}
+
+.vue-slider {
+  margin: 20px;
+}
+
 .md-layout {
   width: 100%;
 }
@@ -98,10 +132,5 @@ export default {
 
 .md-app-content {
   overflow-y: hidden;
-}
-
-.center {
-  margin: auto;
-  padding: 20px;
 }
 </style>
