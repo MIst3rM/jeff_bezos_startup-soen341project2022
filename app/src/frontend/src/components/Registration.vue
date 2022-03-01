@@ -131,7 +131,7 @@
           {{ errorMsg }}
         </span>
         <md-card-actions>
-          <md-button type="submit" class="md-primary" :disabled="sending"
+          <md-button id = "button-registration"  type="submit" class="md-primary" :disabled="sending"
             >Create user</md-button
           >
         </md-card-actions>
