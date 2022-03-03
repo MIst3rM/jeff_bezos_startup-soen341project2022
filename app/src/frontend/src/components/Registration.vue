@@ -7,7 +7,7 @@
       class="md-layout"
       @submit.prevent="validateUser"
     >
-      <md-card class="md-layout-item md-size-50 md-small-size-100">
+      <md-card class="md-layout-item md-size-50 md-small-size-40">
 
         <md-card-header>
           <div id="register-title" class="md-title">Create Account</div>
@@ -127,11 +127,11 @@
         </md-card-content>
 
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
-        <span class="invalidCreds" v-if="failedLogin">
+        <span class="invalidCreds" v-if="failedRegister">
           {{ errorMsg }}
         </span>
         <md-card-actions>
-          <md-button type="submit" class="md-primary" :disabled="sending"
+          <md-button id="button-registration" type="submit" class="md-primary" :disabled="sending"
             >Create user</md-button
           >
         </md-card-actions>
@@ -166,6 +166,7 @@ export default {
     userSaved: false,
     sending: false,
     lastUser: null,
+    failedRegister: false,
   }),
   validations: {
     form: {
@@ -249,7 +250,6 @@ export default {
               })
               .catch((error) => {
                 this.sending = false;
-                this.failedLogin = true;
                 this.clearForm();
                 if (error.response.data.errors.email[0]) {
                   this.errorMsg = error.response.data.errors.email[0];
@@ -258,7 +258,7 @@ export default {
           })
           .catch((error) => {
             this.sending = false;
-            this.failedLogin = true;
+            this.failedRegister = true;
             this.clearForm();
           });
       });
