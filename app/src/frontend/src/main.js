@@ -24,9 +24,12 @@ Vue.config.productionTip = false;
 const host = window.location.host;
 const subdomain = host.split(".")[0];
 
+// console.log("host is: " + host);
+// console.log("subdomain is: " + subdomain);
+
 const routes = () => {
   let routes;
-  if (subdomain === "store") {
+  if (subdomain === "store") { // frontend
     routes = [
       { path: "/", component: Home, meta: { header: true } },
       {

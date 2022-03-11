@@ -13,7 +13,8 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "http://backend.store.conco/";
+// axios.defaults.baseURL = "https://backend-mist3rm.cloud.okteto.net/";
+axios.defaults.baseURL = "http://backend.store.conco";
 
 export default {
   name: "App",

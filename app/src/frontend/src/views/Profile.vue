@@ -122,7 +122,7 @@
                 <div class="md-title">Payment Methods</div>
               </md-card-header>
               <md-card-actions>
-                <md-button type="submit" class="md-primary" :disabled="sending">
+                <md-button ref="save_info" id="save_info" type="submit" class="md-primary" :disabled="sending">
                   Save
                 </md-button>
               </md-card-actions>
@@ -226,7 +226,7 @@
                 </div>
               </md-card-content>
               <md-card-actions>
-                <md-button type="submit" class="md-primary"> Save </md-button>
+                <md-button id="save_addr" type="submit" class="md-primary"> Save </md-button>
               </md-card-actions>
             </md-card>
           </form>
@@ -338,7 +338,7 @@ export default {
     next();
   },
   beforeMount() {
-    this.currentUser = this.$store.getters.getAuthUser.user;
+    //this.currentUser = this.$store.getters.getAuthUser.user;
   },
   methods: {
     getValidationClass(fieldName) {
