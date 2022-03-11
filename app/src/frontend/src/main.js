@@ -33,7 +33,7 @@ const routes = () => {
         path: "/login",
         component: Login,
         beforeEnter: (to, from, next) => {
-          if (window.sessionStorage.getItem("store")) {
+          if (window.sessionStorage.getItem("store") !== '{"user":null}') {
             next({ path: "/profile" });
           } else {
             next();
@@ -47,14 +47,6 @@ const routes = () => {
       {
         path: "/profile",
         component: Profile,
-        beforeEnter: (to, from, next) => {
-          console.log(!window.sessionStorage.getItem("store").includes("null"));
-          if (true) {
-            next();
-          } else {
-            next({ path: "/login" });
-          }
-        },
         meta: {
           header: false,
         },

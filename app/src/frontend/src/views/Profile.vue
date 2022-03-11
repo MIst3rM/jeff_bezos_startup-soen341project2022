@@ -59,7 +59,7 @@
                         >firstname too short min: 2 char</span
                       >
                       <span
-                        class="md-error"
+                        class="md-error second-error"
                         v-if="!$v.currentUser.firstname.maxlength"
                         >firstname too long max: 255 char</span
                       >
@@ -80,7 +80,7 @@
                         >lastname too short min: 2 char</span
                       >
                       <span
-                        class="md-error"
+                        class="md-error second-error"
                         v-if="!$v.currentUser.lastname.maxlength"
                         >lastname too long max: 255 char</span
                       >
@@ -263,6 +263,7 @@ export default {
   mixins: [validationMixin],
   data: () => ({
     currentUser: {
+      id: "",
       firstname: "",
       lastname: "",
       email: "",
@@ -343,6 +344,7 @@ export default {
   methods: {
     getValidationClass(fieldName) {
       const field = this.$v.currentUser[fieldName];
+      console.log(this.$v.currentUser.firstname);
 
       if (field) {
         return {
@@ -356,6 +358,7 @@ export default {
         axios
           .post("/api/updateUser", {
             updatedUser: {
+              id: this.currentUser.id,
               firstname: this.currentUser.firstname,
               lastname: this.currentUser.lastname,
               email: this.currentUser.email,
@@ -402,13 +405,13 @@ export default {
   validations: {
     currentUser: {
       firstname: {
-        alpha,
-        minLength: minLength(2),
+        //alpha,
+        minLength: minLength(1),
         maxLength: maxLength(255),
       },
       lastname: {
-        alpha,
-        minLength: minLength(2),
+        //alpha,
+        minLength: minLength(1),
         maxLength: maxLength(255),
       },
       email: {
@@ -447,5 +450,9 @@ $border: 1px solid rgba(#000, 0.12);
 
 form {
   margin-bottom: 20px;
+}
+
+.second-error {
+  margin: -11px 0px;
 }
 </style>
