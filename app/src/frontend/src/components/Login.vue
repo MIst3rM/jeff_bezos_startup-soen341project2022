@@ -54,11 +54,13 @@
           </span>
         </md-card-content>
         <md-card-actions>
+          <span id="button-register">
           <router-link class="md-primary" to="/register" tag="md-button">
             Don't have an account? Register Now
           </router-link>
+          </span>
           <span id="login-button">
-            <md-button type="submit" class="md-primary" :disabled="sending"
+            <md-button id="login-color" type="submit" class="md-primary" :disabled="sending"
               >Login</md-button
             >
           </span>
