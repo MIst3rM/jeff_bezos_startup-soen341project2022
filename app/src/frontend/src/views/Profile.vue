@@ -3,7 +3,7 @@
     <md-app md-waterfall md-mode="overlap">
       <md-app-toolbar class="md-primary md-large">
         <div class="md-toolbar-row">
-          <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
+          <md-button class="md-icon-button" @click="menuVisible = true">
             <md-icon>menu</md-icon>
           </md-button>
           <span class="md-title">Hi, {{ currentUser.firstname }}</span>
@@ -59,7 +59,7 @@
                         >firstname too short min: 2 char</span
                       >
                       <span
-                        class="md-error"
+                        class="md-error second-error"
                         v-if="!$v.currentUser.firstname.maxlength"
                         >firstname too long max: 255 char</span
                       >
@@ -80,7 +80,7 @@
                         >lastname too short min: 2 char</span
                       >
                       <span
-                        class="md-error"
+                        class="md-error second-error"
                         v-if="!$v.currentUser.lastname.maxlength"
                         >lastname too long max: 255 char</span
                       >
@@ -263,6 +263,7 @@ export default {
   mixins: [validationMixin],
   data: () => ({
     currentUser: {
+      id: "",
       firstname: "",
       lastname: "",
       email: "",
@@ -333,22 +334,17 @@ export default {
       },
     ],
   }),
+  beforeRouteLeave(to, from, next) {
+    this.menuVisible = false;
+    next();
+  },
   beforeMount() {
-    axios.get("/sanctum/csrf-cookie").then(() => {
-      axios
-        .get(`/api/user/${this.$store.getters.getAuthUser.data.id}`)
-        .then((response) => {
-          this.currentUser = response.data[0];
-          console.log(this.currentUser);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
+    this.currentUser = this.$store.getters.getAuthUser.user;
   },
   methods: {
     getValidationClass(fieldName) {
       const field = this.$v.currentUser[fieldName];
+      console.log(this.$v.currentUser.firstname);
 
       if (field) {
         return {
@@ -357,27 +353,30 @@ export default {
       }
     },
     persistChanges() {
+      this.sending = true;
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
           .post("/api/updateUser", {
             updatedUser: {
-              id: this.$store.getters.getAuthUser.data.id,
+              id: this.currentUser.id,
               firstname: this.currentUser.firstname,
               lastname: this.currentUser.lastname,
               email: this.currentUser.email,
-              address: this.currentUser.address,
-              address2: this.currentUser.address2,
-              city: this.currentUser.city,
-              province_state: this.currentUser.province,
-              postal_code_zip: this.currentUser.postalCode,
-              country: this.currentUser.country,
+              // address: this.currentUser.address,
+              // address2: this.currentUser.address2,
+              // city: this.currentUser.city,
+              // province_state: this.currentUser.province,
+              // postal_code_zip: this.currentUser.postalCode,
+              // country: this.currentUser.country,
             },
           })
           .then((response) => {
-            console.log(response.data)
+            this.sending = false;
+            console.log(response.data);
             //snackbar
           })
           .catch((error) => {
+            this.sending = false;
             console.log(error);
           });
       });
@@ -395,7 +394,7 @@ export default {
         axios
           .post("/api/logout")
           .then(() => {
-            window.sessionStorage.clear();
+            this.$store.commit("clearAuthUser");
           })
           .catch((error) => {
             console.log(error);
@@ -406,13 +405,13 @@ export default {
   validations: {
     currentUser: {
       firstname: {
-        alpha,
-        minLength: minLength(2),
+        //alpha,
+        minLength: minLength(1),
         maxLength: maxLength(255),
       },
       lastname: {
-        alpha,
-        minLength: minLength(2),
+        //alpha,
+        minLength: minLength(1),
         maxLength: maxLength(255),
       },
       email: {
@@ -451,5 +450,9 @@ $border: 1px solid rgba(#000, 0.12);
 
 form {
   margin-bottom: 20px;
+}
+
+.second-error {
+  margin: -11px 0px;
 }
 </style>

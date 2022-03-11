@@ -28,11 +28,6 @@ Route::get('/allItems', function () {
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    Route::get('/authenticated', function () {
-        Log::debug("authenticated");
-        return new UserResource(auth()->user());
-    });
-
     Route::get('/user/{id}', function ($id) {
         return User::where('id', $id)->get()->toJson();
     });

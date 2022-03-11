@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="md-layout md-gutter md-alignment-center-right">
-        <b class="account" v-if="login">Hi, {{ name }}</b>
+        <b class="account" v-if="login">Hi, {{ username }}</b>
         <div class="md-layout-item">
           <router-link class="icon-btn" to="/login" tag="md-button">
             <md-icon class="sideicon">person</md-icon>
@@ -40,8 +40,8 @@ export default {
     login() {
       return this.$store.getters.isLoggedIn;
     },
-    name() {
-      return this.$store.getters.getAuthUser.data.name;
+    username: function () {
+      return this.$store.getters.getAuthUser.user.firstname;
     },
   },
 };

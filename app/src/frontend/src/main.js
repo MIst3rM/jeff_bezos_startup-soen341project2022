@@ -4,35 +4,36 @@ import App from "./App.vue";
 import Router from "vue-router";
 import createPersistedState from "vuex-persistedstate";
 import VueHorizontal from "vue-horizontal";
-import VueSnip from 'vue-snip';
+import VueSnip from "vue-snip";
+import VueMaterial from "vue-material";
+import VueSlider from "vue-slider-component";
+
 import "bootstrap/dist/css/bootstrap.min.css";
+import "vue-slider-component/theme/material.css";
+import "vue-material/dist/theme/default.css";
+import "vue-material/dist/vue-material.min.css";
+
 import Popper from "@popperjs/core/dist/esm/popper.js";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import { Home, Admin, Shop, Profile } from "./views";
 import { Login, Registration } from "./components";
 
-import VueMaterial from "vue-material";
-
-import "vue-material/dist/vue-material.min.css";
-import "vue-material/dist/theme/default.css";
-
-
 Vue.config.productionTip = false;
 
 const host = window.location.host;
-const subdomain = host.split('.')[0];
+const subdomain = host.split(".")[0];
 
 const routes = () => {
   let routes;
-  if (subdomain === 'store') {
+  if (subdomain === "store") {
     routes = [
       { path: "/", component: Home, meta: { header: true } },
       {
         path: "/login",
         component: Login,
         beforeEnter: (to, from, next) => {
-          if (window.sessionStorage.getItem("store")) {
+          if (window.sessionStorage.getItem("store") !== '{"user":null}') {
             next({ path: "/profile" });
           } else {
             next();
@@ -46,13 +47,6 @@ const routes = () => {
       {
         path: "/profile",
         component: Profile,
-        beforeEnter: (to, from, next) => {
-          if (window.sessionStorage.getItem("store")) {
-            next();
-          } else {
-            next({ path: "/login" });
-          }
-        },
         meta: {
           header: false,
         },
@@ -79,6 +73,8 @@ Vue.use(Router);
 Vue.use(Vuex);
 Vue.use(VueMaterial);
 Vue.use(VueHorizontal);
+Vue.use(VueSnip);
+Vue.component("VueSlider", VueSlider);
 
 const store = new Vuex.Store({
   plugins: [
@@ -101,11 +97,14 @@ const store = new Vuex.Store({
     setAuthUser(state, user) {
       state.user = user;
     },
+    clearAuthUser(state) {
+      state.user = null;
+    },
   },
   getters: {
     isLoggedIn(state) {
       if (state.user !== null) {
-        if (state.user.data !== undefined) return true;
+        return true;
       } else {
         return false;
       }
@@ -124,6 +123,6 @@ new Vue({
   store,
   render: (h) => h(App),
   components: {
-    App
-  }
-}).$mount('#app');
+    App,
+  },
+}).$mount("#app");
