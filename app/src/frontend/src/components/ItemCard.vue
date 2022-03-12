@@ -26,7 +26,7 @@
 
       <md-card-content>
         <p v-snip>{{ item.description }}</p>
-        <div class="md-subhead">{{item.price}}</div>
+        <div class="md-subhead">${{item.price}}</div>
       </md-card-content>
 
       <md-card-actions>
