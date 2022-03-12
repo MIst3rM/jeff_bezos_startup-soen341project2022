@@ -69,4 +69,8 @@ export default {
 .md-subhead {
   text-align: right;
 }
+
+.md-card-content {
+  padding: 0px 16px;
+}
 </style>
