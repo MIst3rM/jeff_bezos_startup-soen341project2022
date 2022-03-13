@@ -1,12 +1,12 @@
 import Vue from "vue";
-import Vuex from "vuex";
 import App from "./App.vue";
 import Router from "vue-router";
-import createPersistedState from "vuex-persistedstate";
 import VueHorizontal from "vue-horizontal";
 import VueSnip from "vue-snip";
 import VueMaterial from "vue-material";
 import VueSlider from "vue-slider-component";
+import axios from "axios";
+import store from "./store";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "vue-slider-component/theme/material.css";
@@ -21,6 +21,9 @@ import { Login, Registration } from "./components";
 
 Vue.config.productionTip = false;
 
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = "http://backend.store.conco/";
+
 const host = window.location.host;
 const subdomain = host.split(".")[0];
 
@@ -33,7 +36,7 @@ const routes = () => {
         path: "/login",
         component: Login,
         beforeEnter: (to, from, next) => {
-          if (window.sessionStorage.getItem("store") !== '{"user":null}') {
+          if (store.getters.isAuthenticated) {
             next({ path: "/profile" });
           } else {
             next();
@@ -49,12 +52,13 @@ const routes = () => {
         component: Profile,
         meta: {
           header: false,
+          requiresAuth: true,
         },
       },
       { path: "/register", component: Registration, meta: { header: true } },
       { path: "/about", meta: { header: true } },
       { path: "/faq", meta: { header: true } },
-      { path: "/cart", meta: { header: true } },
+      { path: "/cart", meta: { header: true, requiresAuth: true } },
     ];
   } else if (subdomain === "admin") {
     routes = [{ path: "/", component: Admin }];
@@ -69,54 +73,23 @@ const router = new Router({
   routes: routes(),
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (store.getters.isAuthenticated) {
+      next();
+      return;
+    }
+    next("/login");
+  } else {
+    next();
+  }
+});
+
 Vue.use(Router);
-Vue.use(Vuex);
 Vue.use(VueMaterial);
 Vue.use(VueHorizontal);
 Vue.use(VueSnip);
 Vue.component("VueSlider", VueSlider);
-
-const store = new Vuex.Store({
-  plugins: [
-    createPersistedState({
-      key: "store",
-      paths: ["user"],
-      storage: window.sessionStorage,
-      getState: (key) => {
-        return JSON.parse(sessionStorage.getItem(key));
-      },
-      setState: (key, value) => {
-        sessionStorage.setItem(key, JSON.stringify(value));
-      },
-    }),
-  ],
-  state: {
-    user: null,
-  },
-  mutations: {
-    setAuthUser(state, user) {
-      state.user = user;
-    },
-    clearAuthUser(state) {
-      state.user = null;
-    },
-  },
-  getters: {
-    isLoggedIn(state) {
-      if (state.user !== null) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    getAuthUser(state) {
-      return state.user;
-    },
-  },
-  actions: {},
-});
-
-Vue.use(VueSnip);
 
 new Vue({
   router,

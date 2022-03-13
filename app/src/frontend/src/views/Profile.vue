@@ -28,7 +28,7 @@
           </md-list-item>
 
           <md-list-item>
-            <router-link to="/" tag="md-button" @click.native="signout">
+            <router-link to="/" tag="md-button" @click.native="logout">
               <md-icon>logout</md-icon>
             </router-link>
             <span class="md-list-item-text">Sign out</span>
@@ -344,7 +344,6 @@ export default {
   methods: {
     getValidationClass(fieldName) {
       const field = this.$v.currentUser[fieldName];
-      console.log(this.$v.currentUser.firstname);
 
       if (field) {
         return {
@@ -373,7 +372,9 @@ export default {
           .then((response) => {
             this.sending = false;
             console.log(response.data);
-            //snackbar
+            this.$store.dispatch("updateUser", {
+              user: response.data,
+            });
           })
           .catch((error) => {
             this.sending = false;
@@ -388,13 +389,12 @@ export default {
         this.persistChanges();
       }
     },
-    signout(event) {
-      console.log("signout");
+    async logout(event) {
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
           .post("/api/logout")
           .then(() => {
-            this.$store.commit("clearAuthUser");
+            this.$store.dispatch("Logout");
           })
           .catch((error) => {
             console.log(error);
@@ -405,12 +405,10 @@ export default {
   validations: {
     currentUser: {
       firstname: {
-        //alpha,
         minLength: minLength(1),
         maxLength: maxLength(255),
       },
       lastname: {
-        //alpha,
         minLength: minLength(1),
         maxLength: maxLength(255),
       },
