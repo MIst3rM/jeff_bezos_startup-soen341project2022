@@ -1,0 +1,35 @@
+name: Docker Actions
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./app
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Add hosts to /etc/hosts
+        run: |
+          sudo echo "127.0.0.1 backend.store.conco store.conco admin.store.conco phpmyadmin.conco" | sudo tee -a /etc/hosts
+          
+      - name: Set env vars for backend and build project
+        run: |
+          touch .env
+          echo ${{ secrets.BACKEND_VARS }} | base64 -d > .env
+          source .env
+          docker-compose up -d
+          docker ps
+          
+          
