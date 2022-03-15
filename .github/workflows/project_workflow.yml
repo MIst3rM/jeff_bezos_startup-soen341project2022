@@ -24,12 +24,8 @@ jobs:
         run: |
           sudo echo "127.0.0.1 backend.store.conco store.conco admin.store.conco phpmyadmin.conco" | sudo tee -a /etc/hosts
           
-      - name: Set env vars for backend and build project
+      - name: Run initialize project script
         run: |
-          touch .env
-          echo ${{ secrets.BACKEND_VARS }} | base64 -d > .env
-          source .env
-          docker-compose up -d
+          sudo chmod +x setup
+          ./setup init
           docker ps
-          
-          
