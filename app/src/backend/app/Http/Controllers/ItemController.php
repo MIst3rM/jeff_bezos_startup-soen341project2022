@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Items;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class ItemController extends Controller
 {
@@ -20,10 +21,10 @@ class ItemController extends Controller
                 $item->image = $data['image'];
 				$item->price = $data['price'];
 				$item->save();
-				return redirect('insert')->with('status', "Insert successfully");
+                return response('Item added', 200)->header('Content-Type', 'text/plain'); 
 			}
 			catch(Exception $e){
-				return redirect('insert')->with('failed', "operation failed");
+				return response('Item could not be added', 500)->header('Content-Type', 'text/plain'); 
 			}
     
     }
