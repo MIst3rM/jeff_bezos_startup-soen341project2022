@@ -17,7 +17,7 @@ import Popper from "@popperjs/core/dist/esm/popper.js";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import { Home, Admin, Shop, Profile } from "./views";
-import { Login, Registration } from "./components";
+import { Login, Registration, AddItem } from "./components";
 
 Vue.config.productionTip = false;
 
@@ -32,13 +32,13 @@ const routes = () => {
       {
         path: "/login",
         component: Login,
-        beforeEnter: (to, from, next) => {
-          if (window.sessionStorage.getItem("store") !== '{"user":null}') {
-            next({ path: "/profile" });
-          } else {
-            next();
-          }
-        },
+        // beforeEnter: (to, from, next) => {
+        //   if (window.sessionStorage.getItem("store") !== '{"user":null}') {
+        //     next({ path: "/profile" });
+        //   } else {
+        //     next();
+        //   }
+        // },
         meta: {
           header: true,
         },
@@ -57,7 +57,10 @@ const routes = () => {
       { path: "/cart", meta: { header: true } },
     ];
   } else if (subdomain === "admin") {
-    routes = [{ path: "/", component: Admin }];
+    routes = [
+      { path: '/', component: Admin },
+      { path: '/login', component: Login},
+    ];
   } else {
     routes = [];
   }

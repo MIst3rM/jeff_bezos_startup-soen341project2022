@@ -10,11 +10,12 @@ class Items extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'seller_id',
+        'category',
+        'title',
         'description',
         'price',
-        'stock',
-        'image',
+        'image'
     ];
 
     public function salesItems()
