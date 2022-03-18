@@ -7,8 +7,8 @@ import Popper from "@popperjs/core/dist/esm/popper.js";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
 
-import { Home, Admin, Shop } from "./views";
-import { Login, Registration } from "./components";
+import { Home, Admin, Shop, Profile, AdminLogin, AdminRegister } from "./views";
+import { Login, Registration} from "./components";
 
 import { MdToolbar, MdButton, MdIcon, MdCard, MdField, MdList, MdApp, MdContent, MdDrawer} from "vue-material/dist/components";
 
@@ -36,7 +36,9 @@ const routes = () => {
   } else if (subdomain === "admin") {
     routes = [
       { path: "/", component: Admin },
-    ]
+      { path: "/login", component: AdminLogin, meta: { header: false } },
+      { path: "/register", component: AdminRegister, meta: { header: false } },
+    ];
   } else {
     routes = []
   }
