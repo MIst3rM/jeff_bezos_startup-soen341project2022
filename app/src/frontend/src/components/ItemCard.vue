@@ -26,6 +26,7 @@
 
       <md-card-content>
         <p v-snip>{{ item.description }}</p>
+        <div class="md-subhead">${{item.price}}</div>
       </md-card-content>
 
       <md-card-actions>
@@ -63,5 +64,13 @@ export default {
 
 .md-card-media {
   margin: auto !important;
+}
+
+.md-subhead {
+  text-align: right;
+}
+
+.md-card-content {
+  padding: 0px 16px;
 }
 </style>
