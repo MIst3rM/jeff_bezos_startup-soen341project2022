@@ -2,6 +2,9 @@
 import { Login } from "../components";
 export default {
   name: "AdminLogin",
+  data: () => ({
+    redirectPath: ""
+  }),
   components: {
     Login,
   },
@@ -10,6 +13,6 @@ export default {
 
 <template>
   <div id="adminlogin" lang="scss">
-    <Login />
+    <Login :redirectPath=this.redirectPath />
   </div>
 </template>
