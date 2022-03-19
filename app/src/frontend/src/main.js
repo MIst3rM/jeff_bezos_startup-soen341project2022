@@ -16,8 +16,9 @@ import "vue-material/dist/vue-material.min.css";
 import Popper from "@popperjs/core/dist/esm/popper.js";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
+
+import { Login, Registration, AddItem } from "./components";
 import { Home, Admin, Shop, Profile, AdminLogin, AdminRegister } from "./views";
-import { Login, Registration} from "./components";
 
 Vue.config.productionTip = false;
 
@@ -32,13 +33,6 @@ const routes = () => {
       {
         path: "/login",
         component: Login,
-        beforeEnter: (to, from, next) => {
-          if (window.sessionStorage.getItem("store") !== '{"user":null}') {
-            next({ path: "/profile" });
-          } else {
-            next();
-          }
-        },
         meta: {
           header: true,
         },

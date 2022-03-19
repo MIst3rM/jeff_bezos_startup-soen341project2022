@@ -6,6 +6,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('/updateUser', [UserController::class, 'updateUser']);
+
+    Route::post('/addItem', [ItemController::class, 'addItem']);
 });

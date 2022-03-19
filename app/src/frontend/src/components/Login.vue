@@ -78,6 +78,12 @@ import { required, email } from "vuelidate/lib/validators";
 
 export default {
   name: "Login",
+  props: {
+    redirectPath: {
+      type: String,
+      required: true
+    }
+  },
   mixins: [validationMixin],
   data: () => ({
     form: {
@@ -127,7 +133,7 @@ export default {
             this.sending = false;
             this.clearForm();
             this.$store.commit("setAuthUser", response.data);
-            setTimeout(() => this.$router.push({ path: "/" }), 500);
+            setTimeout(() => this.$router.push({ path: redirectPath }), 500);
           })
           .catch((error) => {
             this.sending = false;
