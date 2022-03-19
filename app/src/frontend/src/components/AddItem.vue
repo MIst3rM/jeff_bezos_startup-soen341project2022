@@ -183,7 +183,6 @@ export default {
     },
     saveItem() {
       this.sending = true;
-      console.log(this.form.title,this.form.description,this.form.image,this.form.category,this.form.price,)
 
       axios.get("/sanctum/csrf-cookie").then(() => { 
             axios

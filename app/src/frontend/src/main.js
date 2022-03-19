@@ -32,13 +32,6 @@ const routes = () => {
       {
         path: "/login",
         component: Login,
-        // beforeEnter: (to, from, next) => {
-        //   if (window.sessionStorage.getItem("store") !== '{"user":null}') {
-        //     next({ path: "/profile" });
-        //   } else {
-        //     next();
-        //   }
-        // },
         meta: {
           header: true,
         },
