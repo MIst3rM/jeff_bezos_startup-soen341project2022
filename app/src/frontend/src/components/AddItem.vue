@@ -40,7 +40,10 @@
                   v-model="form.image"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.image.valid || !$v.form.image.required"
+                <span class="md-error" v-if="!$v.form.image.required"
+                  >An image is required</span
+                >
+                <span class="md-error" v-else-if="!$v.form.image.valid"
                   >A valid image type is required</span
                 >
               </md-field>
@@ -103,13 +106,13 @@
                 <span class="md-error" v-if="!$v.form.price.required"
                   >The item price is required</span
                 >
-                <span class="md-error" v-if="!$v.form.price.decimal"
+                <span class="md-error" v-else-if="!$v.form.price.decimal"
                   >The item price must be a numeric value</span
                 >
-                <span class="md-error" v-if="!$v.form.price.minLength"
+                <span class="md-error" v-else-if="!$v.form.price.minLength"
                   >The item price must contain at least one figure</span
                 >
-                <span class="md-error" v-if="!$v.form.price.maxLength"
+                <span class="md-error" v-else-if="!$v.form.price.maxLength"
                   >The item price must be a at most six figures</span
                 >
               </md-field>
@@ -201,8 +204,6 @@ export default {
     },
     saveItem() {
       this.sending = true;
-      console.log(this.form.title,this.form.description,this.form.image,this.form.category,this.form.price,)
-
       axios.get("/sanctum/csrf-cookie").then(() => { 
             axios
               .post("/api/addItem", {
