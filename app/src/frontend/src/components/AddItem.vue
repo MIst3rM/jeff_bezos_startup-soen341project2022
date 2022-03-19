@@ -10,7 +10,7 @@
       <md-card class="md-layout-item md-size-50 md-small-size-40">
 
         <md-card-header>
-          <div id="register-title" class="md-title">Add Item</div>
+          <div id="add-item-title" class="md-title">Add Item</div>
         </md-card-header>
 
         <md-card-content>
@@ -42,6 +42,9 @@
                 />
                 <span class="md-error" v-if="!$v.form.image.required"
                   >An image is required</span
+                >
+                <span class="md-error" v-else-if="!$v.form.image.valid"
+                  >A valid image type is required</span
                 >
               </md-field>
             </div>
@@ -103,6 +106,15 @@
                 <span class="md-error" v-if="!$v.form.price.required"
                   >The item price is required</span
                 >
+                <span class="md-error" v-else-if="!$v.form.price.decimal"
+                  >The item price must be a numeric value</span
+                >
+                <span class="md-error" v-else-if="!$v.form.price.minLength"
+                  >The item price must contain at least one figure</span
+                >
+                <span class="md-error" v-else-if="!$v.form.price.maxLength"
+                  >The item price must be a at most six figures</span
+                >
               </md-field>
             </div>
           </div>
@@ -130,7 +142,8 @@ import {
   required,
   minLength,
   maxLength,
-  sameAs,
+  decimal,
+  helpers,
 } from "vuelidate/lib/validators";
 
 export default {
@@ -157,9 +170,17 @@ export default {
       },
       image: {
         required,
+        valid: function (value) {
+          const alpha = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(value);
+          console.log(alpha);
+          return alpha;
+        },
       },
       price: {
         required,
+        minLength: minLength(1),
+        maxLength: maxLength(6),
+        decimal,
       }
     },
   },
@@ -183,7 +204,6 @@ export default {
     },
     saveItem() {
       this.sending = true;
-
       axios.get("/sanctum/csrf-cookie").then(() => { 
             axios
               .post("/api/addItem", {
@@ -249,7 +269,7 @@ export default {
     border-radius: 28px;
   }
 
-  #register-title {
+  #add-item-title {
     font-weight: bolder;
   }
 
