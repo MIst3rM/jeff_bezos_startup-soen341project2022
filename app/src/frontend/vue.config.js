@@ -1,4 +1,11 @@
 module.exports = {
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@import "@/assets/styles/theme.scss";`,
+      },
+    },
+  },
   lintOnSave: true,
   devServer: {
     disableHostCheck: true,
@@ -7,7 +14,7 @@ module.exports = {
     watchOptions: {
       ignored: /node_modules/,
       aggregateTimeout: 300,
-      poll: 500,
+      poll: 2000,
     },
   },
   pages: {

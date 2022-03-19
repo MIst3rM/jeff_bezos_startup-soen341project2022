@@ -7,7 +7,5 @@
     accent: #fe7e6d,
   )
 );
-
-@import "~vue-material/dist/components/MdButton/theme"; // Apply the Button theme
-@import "~vue-material/dist/components/MdToolbar/theme"; // Apply the Toolbar theme
 @import "~vue-material/dist/components/MdIcon/theme"; // Apply the Icon theme
+@import "~vue-material/dist/components/MdToolbar/theme"; // Apply the Toolbar theme
