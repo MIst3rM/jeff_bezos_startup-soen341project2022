@@ -34,6 +34,7 @@ export default {
       :key="item.id"
       v-for="item in items"
       :item="item"
+      data-cy="item-card"
     />
   </div>
 </template>

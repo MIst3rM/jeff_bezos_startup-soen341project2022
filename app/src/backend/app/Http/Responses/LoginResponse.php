@@ -8,10 +8,8 @@ use Illuminate\Support\Facades\Log;
 
 class LoginResponse implements LoginResponseContract
 {
-
     public function toResponse($request)
     {
-
         Log::debug(Auth()->user());
         return $request->wantsJson()
             ? response()->json([

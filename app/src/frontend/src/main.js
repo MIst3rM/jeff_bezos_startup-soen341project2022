@@ -16,7 +16,7 @@ import "vue-material/dist/vue-material.min.css";
 import Popper from "@popperjs/core/dist/esm/popper.js";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
-import { Home, Admin, Shop, Profile } from "./views";
+import { Home, Admin, Shop, Profile, AdminLogin, AdminRegister } from "./views";
 import { Login, Registration } from "./components";
 
 Vue.config.productionTip = false;
@@ -35,6 +35,8 @@ const routes = () => {
       {
         path: "/login",
         component: Login,
+        name: "login",
+        props: true,
         beforeEnter: (to, from, next) => {
           if (store.getters.isAuthenticated) {
             next({ path: "/profile" });
@@ -46,10 +48,11 @@ const routes = () => {
           header: true,
         },
       },
-      { path: "/shop", component: Shop, meta: { header: true } },
+      { path: "/shop", component: Shop, name: "shop", meta: { header: true } },
       {
         path: "/profile",
         component: Profile,
+        name: "profile",
         meta: {
           header: false,
           requiresAuth: true,
@@ -58,10 +61,14 @@ const routes = () => {
       { path: "/register", component: Registration, meta: { header: true } },
       { path: "/about", meta: { header: true } },
       { path: "/faq", meta: { header: true } },
-      { path: "/cart", meta: { header: true, requiresAuth: true } },
+      { path: "/cart", meta: { header: true, requiresAuth: false } },
     ];
   } else if (subdomain === "admin") {
-    routes = [{ path: "/", component: Admin }];
+    routes = [
+      { path: "/", component: Admin },
+      { path: "/login", component: AdminLogin, meta: { header: false } },
+      { path: "/register", component: AdminRegister, meta: { header: false } },
+    ];
   } else {
     routes = [];
   }

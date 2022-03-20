@@ -29,7 +29,7 @@
 
           <md-list-item>
             <router-link to="/" tag="md-button" @click.native="logout">
-              <md-icon>logout</md-icon>
+              <md-icon data-cy="logout">logout</md-icon>
             </router-link>
             <span class="md-list-item-text">Sign out</span>
           </md-list-item>
@@ -40,7 +40,7 @@
           <form novalidate class="md-layout" @submit.prevent="validateUser">
             <md-card class="md-layout-item">
               <md-card-header>
-                <div class="md-title">Contact</div>
+                <div class="md-title">Personal Information</div>
               </md-card-header>
               <md-card-content>
                 <div class="md-layout md-gutter">
@@ -55,14 +55,22 @@
                       />
                       <span
                         class="md-error"
-                        v-if="!$v.currentUser.firstname.minlength"
-                        >firstname too short min: 2 char</span
+                        v-if="!$v.currentUser.firstname.required"
                       >
+                        firstname is required
+                      </span>
+                      <span
+                        class="md-error"
+                        v-else-if="!$v.currentUser.firstname.minLength"
+                      >
+                        firstname too short min: 2 char
+                      </span>
                       <span
                         class="md-error second-error"
-                        v-if="!$v.currentUser.firstname.maxlength"
-                        >firstname too long max: 255 char</span
+                        v-else-if="!$v.currentUser.firstname.maxLength"
                       >
+                        firstname too long max: 255 char
+                      </span>
                     </md-field>
                   </div>
                   <div class="md-layout-item md-small-size-100">
@@ -71,19 +79,27 @@
                       <md-input
                         name="last-name"
                         id="last-name"
-                        autocomplete="last-name"
+                        autocomplete="lastname"
                         v-model="currentUser.lastname"
                       />
                       <span
                         class="md-error"
-                        v-if="!$v.currentUser.lastname.minlength"
-                        >lastname too short min: 2 char</span
+                        v-if="!$v.currentUser.lastname.required"
                       >
+                        lastname is required
+                      </span>
+                      <span
+                        class="md-error"
+                        v-else-if="!$v.currentUser.lastname.minLength"
+                      >
+                        lastname too short min: 2 char
+                      </span>
                       <span
                         class="md-error second-error"
-                        v-if="!$v.currentUser.lastname.maxlength"
-                        >lastname too long max: 255 char</span
+                        v-else-if="!$v.currentUser.lastname.maxLength"
                       >
+                        lastname too long max: 255 char
+                      </span>
                     </md-field>
                   </div>
                 </div>
@@ -96,11 +112,19 @@
                         id="email"
                         autocomplete="email"
                         v-model="currentUser.email"
-                        readonly
                       />
-                      <span class="md-error" v-if="!$v.currentUser.email.email"
-                        >email is not valid</span
+                      <span
+                        class="md-error"
+                        v-if="!$v.currentUser.email.required"
                       >
+                        email is required
+                      </span>
+                      <span
+                        class="md-error"
+                        v-else-if="!$v.currentUser.email.email"
+                      >
+                        email is not valid
+                      </span>
                     </md-field>
                   </div>
                 </div>
@@ -118,11 +142,141 @@
                   </div>
                 </div>
               </md-card-content>
-              <md-card-header>
+              <!-- <md-card-header>
                 <div class="md-title">Payment Methods</div>
-              </md-card-header>
+              </md-card-header> -->
+
+              <!-- <md-progress-bar md-mode="indeterminate" v-if="sending1" /> -->
+
               <md-card-actions>
-                <md-button type="submit" class="md-primary" :disabled="sending">
+                <md-button
+                  ref="save_info"
+                  type="submit"
+                  class="md-primary"
+                  :disabled="sending1"
+                >
+                  Save
+                </md-button>
+              </md-card-actions>
+            </md-card>
+          </form>
+          <form novalidate class="md-layout" @submit.prevent="validatePassword">
+            <md-card class="md-layout-item">
+              <md-card-header>
+                <div class="md-title">Update Password</div>
+              </md-card-header>
+              <md-card-content>
+                <div class="md-layout md-gutter">
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field :class="getValidationClass('current_password')">
+                      <label for="current_password">Current Password</label>
+                      <md-input
+                        name="current_password"
+                        type="password"
+                        id="current_password"
+                        autocomplete="current-password"
+                        v-model="updatePassword.current_password"
+                      />
+                      <span
+                        class="md-error"
+                        v-if="!$v.updatePassword.current_password.required"
+                      >
+                        password is required
+                      </span>
+                      <span
+                        class="md-error"
+                        v-else-if="
+                          !$v.updatePassword.current_password.minLength
+                        "
+                      >
+                        password too short min: 6 char
+                      </span>
+                      <span
+                        class="md-error second-error"
+                        v-else-if="
+                          !$v.updatePassword.current_password.maxLength
+                        "
+                      >
+                        password too long max: 255 char
+                      </span>
+                    </md-field>
+                    <md-field :class="getValidationClass('new_password')">
+                      <label for="new_password">New Password</label>
+                      <md-input
+                        name="new_password"
+                        type="password"
+                        id="new_password"
+                        autocomplete="new-password"
+                        v-model="updatePassword.new_password"
+                      />
+                      <span
+                        class="md-error"
+                        v-if="!$v.updatePassword.new_password.required"
+                      >
+                        password is required
+                      </span>
+                      <span
+                        class="md-error"
+                        v-else-if="!$v.updatePassword.new_password.minLength"
+                      >
+                        password too short min: 6 char
+                      </span>
+                      <span
+                        class="md-error second-error"
+                        v-else-if="!$v.updatePassword.new_password.maxLength"
+                      >
+                        password too long max: 255 char
+                      </span>
+                    </md-field>
+                    <md-field :class="getValidationClass('confirmed_password')">
+                      <label for="confirmed_password">
+                        Confirm New Password</label
+                      >
+                      <md-input
+                        name="confirmed_password"
+                        type="password"
+                        id="confirmed_password"
+                        autocomplete="new-password"
+                        v-model="updatePassword.confirmed_password"
+                      />
+                      <span
+                        class="md-error"
+                        v-if="!$v.updatePassword.confirmed_password.required"
+                      >
+                        password is required
+                      </span>
+                      <span
+                        class="md-error"
+                        v-else-if="!$v.updatePassword.confirmed_password.sameAs"
+                      >
+                        password does not match
+                      </span>
+                      <span
+                        class="md-error"
+                        v-else-if="
+                          !$v.updatePassword.confirmed_password.minLength
+                        "
+                      >
+                        password too short min: 6 char
+                      </span>
+                      <span
+                        class="md-error second-error"
+                        v-else-if="
+                          !$v.updatePassword.confirmed_password.maxLength
+                        "
+                      >
+                        password too long max: 255 char
+                      </span>
+                    </md-field>
+                  </div>
+                </div>
+              </md-card-content>
+              <md-card-actions>
+                <md-button
+                  type="submit"
+                  class="md-primary"
+                  :disabled="sending2"
+                >
                   Save
                 </md-button>
               </md-card-actions>
@@ -136,14 +290,19 @@
               <md-card-content>
                 <div class="md-layout md-gutter">
                   <div class="md-layout-item md-small-size-100">
-                    <md-field>
+                    <md-field :class="getValidationClass('address1')">
                       <label for="address">Address</label>
                       <md-input
-                        name="address"
-                        id="address"
+                        name="address1"
+                        id="address1"
                         autocomplete="address-line1"
-                        v-model="currentUser.address_line1"
+                        v-model="currentUser.address1"
                       />
+                      <span
+                        class="md-error"
+                        v-if="!$v.currentUser.address1.minLength"
+                        >address is not valid</span
+                      >
                     </md-field>
                   </div>
                   <div class="md-layout-item md-small-size-100">
@@ -153,14 +312,14 @@
                         name="address2"
                         id="address2"
                         autocomplete="address-line2"
-                        v-model="currentUser.address_line2"
+                        v-model="currentUser.address2"
                       />
                     </md-field>
                   </div>
                 </div>
                 <div class="md-layout md-gutter">
                   <div class="md-layout-item md-small-size-100">
-                    <md-field>
+                    <md-field :class="getValidationClass('city')">
                       <label for="city">City</label>
                       <md-input
                         name="city"
@@ -168,6 +327,9 @@
                         autocomplete="city"
                         v-model="currentUser.city"
                       />
+                      <span class="md-error" v-if="!$v.currentUser.city.alpha"
+                        >city is not valid</span
+                      >
                     </md-field>
                   </div>
                 </div>
@@ -176,7 +338,7 @@
                     <md-field>
                       <label for="province">State/Province</label>
                       <md-select
-                        v-model="currentUser.province"
+                        v-model="currentUser.province_state"
                         name="province"
                         id="province"
                       >
@@ -219,14 +381,23 @@
                         name="postal-code"
                         id="postal-code"
                         autocomplete="postal-code"
-                        v-model="currentUser.postalCode"
+                        v-model="currentUser.postal_code"
                       />
                     </md-field>
                   </div>
                 </div>
               </md-card-content>
+
+              <md-progress-bar md-mode="indeterminate" v-if="sending3" />
+
               <md-card-actions>
-                <md-button type="submit" class="md-primary"> Save </md-button>
+                <md-button
+                  type="submit"
+                  class="md-primary"
+                  :disabled="sending3"
+                >
+                  Save
+                </md-button>
               </md-card-actions>
             </md-card>
           </form>
@@ -238,28 +409,48 @@
           <md-card-content>
             <vue-horizontal>
               <section v-for="index in 10" :key="index">
-                <md-card>
+                <!-- <md-card>
                   <md-card-header>
                     <div class="md-title">{{ index }}</div>
                   </md-card-header>
-                </md-card>
+                </md-card> -->
               </section>
             </vue-horizontal>
           </md-card-content>
         </md-card>
       </md-app-content>
     </md-app>
+    <md-snackbar
+      :md-position="position"
+      :md-duration="4000"
+      :md-active.sync="showSnackbar"
+      md-persistent
+    >
+      <span>{{ message }}</span>
+    </md-snackbar>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import { ItemCard } from "../components";
 import { allCountries } from "country-region-data";
 import { validationMixin } from "vuelidate";
-import { email, alpha, minLength, maxLength } from "vuelidate/lib/validators";
+import {
+  required,
+  email,
+  alpha,
+  alphaNum,
+  or,
+  numeric,
+  sameAs,
+  minLength,
+  maxLength,
+} from "vuelidate/lib/validators";
 
 export default {
   name: "Profile",
+  components: { ItemCard },
   mixins: [validationMixin],
   data: () => ({
     currentUser: {
@@ -267,15 +458,27 @@ export default {
       firstname: "",
       lastname: "",
       email: "",
-      address: "",
+      address1: "",
       address2: "",
       city: "",
       province_state: "",
-      postal_code_zip: "",
+      postal_code: "",
       country: "",
     },
-    sending: false,
+    updatePassword: {
+      current_password: "",
+      new_password: "",
+      confirmed_password: "",
+      new_password_confirmation: false,
+    },
+    sending1: false,
+    sending2: false,
+    sending3: false,
     menuVisible: false,
+    showSnackbar: false,
+    position: "center",
+    duration: 4000,
+    message: "",
     province: "",
     country: "",
     allCountries: allCountries,
@@ -338,12 +541,15 @@ export default {
     this.menuVisible = false;
     next();
   },
-  beforeMount() {
-    this.currentUser = this.$store.getters.getAuthUser.user;
+  created() {
+    if (process.env.NODE_ENV !== "test") {
+      this.currentUser = this.$store.getters.getAuthUser.user;
+    }
   },
   methods: {
     getValidationClass(fieldName) {
-      const field = this.$v.currentUser[fieldName];
+      const field =
+        this.$v.currentUser[fieldName] || this.$v.updatePassword[fieldName];
 
       if (field) {
         return {
@@ -351,8 +557,40 @@ export default {
         };
       }
     },
+    persistAddressChanges() {
+      this.sending3 = true;
+      axios.get("/sanctum/csrf-cookie").then(() => {
+        axios
+          .post("/api/updateAddress", {
+            updatedUser: {
+              id: this.currentUser.id,
+              address1: this.currentUser.address1,
+              address2: this.currentUser.address2,
+              city: this.currentUser.city,
+              province_state: this.currentUser.province_state
+                ? this.currentUser.province_state
+                : "",
+              postal_code: this.currentUser.postal_code,
+              country: this.currentUser.country ? this.currentUser.country : "",
+            },
+          })
+          .then((response) => {
+            this.sending3 = false;
+            this.$store.dispatch("updateUser", {
+              user: response.data,
+            });
+          })
+          .catch((error) => {
+            this.sending3 = false;
+            if (error.response.status === 401) {
+              this.$store.dispatch("Logout");
+              setTimeout(() => this.$router.push({ path: "/login" }), 500);
+            }
+          });
+      });
+    },
     persistChanges() {
-      this.sending = true;
+      this.sending1 = true;
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
           .post("/api/updateUser", {
@@ -361,35 +599,98 @@ export default {
               firstname: this.currentUser.firstname,
               lastname: this.currentUser.lastname,
               email: this.currentUser.email,
-              // address: this.currentUser.address,
-              // address2: this.currentUser.address2,
-              // city: this.currentUser.city,
-              // province_state: this.currentUser.province,
-              // postal_code_zip: this.currentUser.postalCode,
-              // country: this.currentUser.country,
             },
           })
           .then((response) => {
-            this.sending = false;
-            console.log(response.data);
+            this.sending1 = false;
             this.$store.dispatch("updateUser", {
               user: response.data,
             });
           })
           .catch((error) => {
-            this.sending = false;
-            console.log(error);
+            this.sending1 = false;
+            if (error.response.status === 401) {
+              this.$store.dispatch("Logout");
+              setTimeout(
+                () =>
+                  this.$router.push({
+                    name: "login",
+                    params: { showSnackbar: true },
+                  }),
+                500
+              );
+            }
+          });
+      });
+    },
+    persistPasswordChanges() {
+      this.sending2 = true;
+      axios.get("/sanctum/csrf-cookie").then(() => {
+        axios
+          .put("/api/user/password ", {
+            current_password: this.updatePassword.current_password,
+            new_password: this.updatePassword.new_password,
+            new_password_confirmation: this.updatePassword.confirmed_password,
+          })
+          .then((response) => {
+            this.sending2 = false;
+            this.showSnackbar = true;
+            this.message = "Password updated successfully";
+            this.updatePassword.current_password = "";
+            this.updatePassword.new_password = "";
+            this.updatePassword.confirmed_password = "";
+            this.$v.updatePassword.$reset();
+            setTimeout(() => {
+              this.showSnackbar = false;
+              this.message = "";
+            }, this.duration);
+          })
+          .catch((error) => {
+            this.sending1 = false;
+            if (error.response.status === 401) {
+              this.$store.dispatch("Logout");
+              setTimeout(
+                () =>
+                  this.$router.push({
+                    name: "login",
+                    params: { showSnackbar: true },
+                  }),
+                500
+              );
+            }
           });
       });
     },
     validateUser() {
-      this.$v.$touch();
+      this.$nextTick().then(() => {
+        this.$v.currentUser.$touch();
 
-      if (!this.$v.$invalid) {
-        this.persistChanges();
-      }
+        if (!this.$v.currentUser.$invalid) {
+          this.persistChanges();
+        }
+      });
+    },
+    validateAddress() {
+      this.$nextTick().then(() => {
+        this.$v.currentUser.$touch();
+
+        if (!this.$v.currentUser.$invalid) {
+          this.persistAddressChanges();
+        }
+      });
+    },
+    validatePassword() {
+      this.$nextTick().then(() => {
+        this.$v.updatePassword.$touch();
+
+        if (!this.$v.updatePassword.$invalid) {
+          this.new_password_confirmation = true;
+          this.persistPasswordChanges();
+        }
+      });
     },
     async logout(event) {
+      this.$v.$reset();
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
           .post("/api/logout")
@@ -405,16 +706,43 @@ export default {
   validations: {
     currentUser: {
       firstname: {
-        minLength: minLength(1),
+        required,
+        minLength: minLength(2),
         maxLength: maxLength(255),
       },
       lastname: {
-        minLength: minLength(1),
+        required,
+        minLength: minLength(2),
         maxLength: maxLength(255),
       },
       email: {
+        required,
         email,
         minLength: minLength(2),
+        maxLength: maxLength(255),
+      },
+      address1: {
+        minLength: minLength(1),
+      },
+      city: {
+        alpha,
+      },
+    },
+    updatePassword: {
+      current_password: {
+        required,
+        minLength: minLength(6),
+        maxLength: maxLength(255),
+      },
+      new_password: {
+        required,
+        minLength: minLength(6),
+        maxLength: maxLength(255),
+      },
+      confirmed_password: {
+        required,
+        sameAs: sameAs("new_password"),
+        minLength: minLength(6),
         maxLength: maxLength(255),
       },
     },
@@ -426,6 +754,13 @@ export default {
 $light: #fe7e6d !important;
 $dark: #071931 !important;
 $border: 1px solid rgba(#000, 0.12);
+
+.md-progress-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+}
 
 .md-button {
   margin: 6px 2px !important;

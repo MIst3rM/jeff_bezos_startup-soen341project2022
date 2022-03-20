@@ -33,4 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('/updateUser', [UserController::class, 'updateUser']);
+
+    Route::post('/updateAddress', [UserController::class, 'updateAddress']);
+
+    Route::get('/userOrderHistory', [UserController::class, 'userOrderHistory']);
 });

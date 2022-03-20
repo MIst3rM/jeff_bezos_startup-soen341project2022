@@ -13,7 +13,6 @@ services:
       - phpmyadmin
       - frontend
 
-  # Frontend Service
   frontend:
     build: ./src/frontend
     working_dir: /var/www/frontend
@@ -21,6 +20,20 @@ services:
       - ./src/frontend:/var/www/frontend
     depends_on:
       - backend
+
+  cypress-chrome:
+    build: ./src/cy-m1
+    command: "--browser chromium --project /"
+    network_mode: host
+    environment:
+      - DISPLAY=host.docker.internal:0
+      - BROWSER=/usr/bin/chromium
+    volumes:
+      - ./src/cy-m1/cypress:/cypress
+      - ./src/cy-m1/cypress.json:/cypress.json
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    depends_on:
+      - frontend
 
   backend:
     build: ./src/backend

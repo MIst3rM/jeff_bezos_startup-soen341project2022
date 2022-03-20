@@ -11,42 +11,41 @@
         </div>
       </div>
       <div class="md-layout md-gutter md-alignment-center-right">
-        <b class="account" v-if="login">Hi, {{ username }}</b>
+        <b class="account" v-if="login" data-cy="username"
+          >Hi, {{ username }}</b
+        >
 
-        <md-menu class="md-layout-item">
-          <md-button
-            class="md-icon-button"
-            md-menu-trigger
-            @click.native="handleMenu"
-          >
-            <md-icon class="sideicon">person</md-icon>
+        <md-menu class="md-layout-item" ref="menu" :mdCloseOnClick="true">
+          <md-button class="md-icon-button" md-menu-trigger>
+            <md-icon class="sideicon" data-cy="menu">person</md-icon>
           </md-button>
 
-          <md-menu-content v-if="login" ref="menu">
-            <md-menu-item>
+          <md-menu-content>
+            <md-menu-item v-if="login">
               <router-link to="/profile" tag="md-button">
-                <md-icon>person</md-icon>
+                <md-icon data-cy="profile">person</md-icon>
               </router-link>
               <span>My Profile</span>
             </md-menu-item>
 
-            <md-menu-item>
+            <md-menu-item v-if="login">
               <router-link to="/" tag="md-button" @click.native="logout">
-                <md-icon>logout</md-icon>
+                <md-icon data-cy="logout">logout</md-icon>
               </router-link>
               <span>Logout</span>
             </md-menu-item>
+
+            <md-menu-item v-if="!login">
+              <router-link to="/login" tag="md-button">
+                <md-icon data-cy="login">login</md-icon>
+              </router-link>
+              <span>Login</span>
+            </md-menu-item>
           </md-menu-content>
         </md-menu>
-
-        <!-- <div class="md-layout-item">
-          <router-link class="icon-btn" to="/login" tag="md-button">
-            <md-icon class="sideicon">person</md-icon>
-          </router-link>
-        </div> -->
         <div class="md-layout-item">
           <router-link class="icon-btn" to="/cart" tag="md-button">
-            <md-icon class="sideicon">shopping_bag</md-icon>
+            <md-icon class="sideicon" data-cy="cart">shopping_bag</md-icon>
           </router-link>
         </div>
       </div>
@@ -73,13 +72,7 @@ export default {
     },
   },
   methods: {
-    handleMenu(event) {
-      if (!this.login) {
-        this.$router.push("/login");
-      }
-    },
     async logout(event) {
-      console.log("logout");
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
           .post("/api/logout")

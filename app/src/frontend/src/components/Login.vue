@@ -26,10 +26,16 @@
                   v-on:click="failedLogin = false"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.email.required"
+                <span
+                  class="md-error"
+                  data-cy="email_required"
+                  v-if="!$v.form.email.required"
                   >The email is required</span
                 >
-                <span class="md-error" v-else-if="!$v.form.email.email"
+                <span
+                  class="md-error"
+                  data-cy="invalid_email"
+                  v-else-if="!$v.form.email.email"
                   >Invalid email</span
                 >
               </md-field>
@@ -44,12 +50,19 @@
                   v-model="form.password"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.password.required"
+                <span
+                  class="md-error"
+                  data-cy="password_required"
+                  v-if="!$v.form.password.required"
                   >The password is required</span
                 >
               </md-field>
             </div>
-            <span class="invalidCreds" v-if="failedLogin">
+            <span
+              class="invalidCreds"
+              data-cy="login_failed"
+              v-if="failedLogin"
+            >
               {{ errorMsg }}
             </span>
           </md-card-content>
@@ -71,6 +84,14 @@
           </md-card-actions>
         </md-card>
       </form>
+      <md-snackbar
+        :md-position="position"
+        :md-duration="duration"
+        :md-active.sync="showSnackbar"
+        md-persistent
+      >
+        <span>Due to inactivity, you were logged out.</span>
+      </md-snackbar>
     </div>
   </body>
 </template>
@@ -82,6 +103,12 @@ import { required, email } from "vuelidate/lib/validators";
 
 export default {
   name: "Login",
+  props: {
+    showSnackbar: {
+      type: Boolean,
+      default: false,
+    },
+  },
   mixins: [validationMixin],
   data: () => ({
     form: {
@@ -92,6 +119,8 @@ export default {
     failedLogin: false,
     rememberMe: false,
     sending: false,
+    position: "center",
+    duration: 4000,
   }),
   validations: {
     form: {
@@ -133,7 +162,6 @@ export default {
             this.$store.dispatch("Login", {
               user: response.data,
             });
-            //this.$store.commit("setAuthUser", response.data);
             setTimeout(() => this.$router.push({ path: "/" }), 500);
           })
           .catch((error) => {
