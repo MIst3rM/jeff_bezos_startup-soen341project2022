@@ -1,143 +1,148 @@
 <template>
-<body>
-  <div>
-    <form
-      id="registration-form"
-      novalidate
-      class="md-layout"
-      @submit.prevent="validateUser"
-    >
-      <md-card class="md-layout-item md-size-50 md-small-size-40">
+  <body>
+    <div>
+      <form
+        id="registration-form"
+        novalidate
+        class="md-layout"
+        @submit.prevent="validateUser"
+      >
+        <md-card class="md-layout-item md-size-50 md-small-size-40">
+          <md-card-header>
+            <div id="register-title" class="md-title">Create Account</div>
+          </md-card-header>
 
-        <md-card-header>
-          <div id="register-title" class="md-title">Create Account</div>
-        </md-card-header>
+          <md-card-content>
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item md-small-size-100">
+                <md-field :class="getValidationClass('firstName')">
+                  <label for="first-name">First Name</label>
+                  <md-input
+                    name="first-name"
+                    id="first-name"
+                    autocomplete="given-name"
+                    v-model="form.firstName"
+                    :disabled="sending"
+                  />
+                  <span class="md-error" v-if="!$v.form.firstName.required"
+                    >The first name is required</span
+                  >
+                  <span
+                    class="md-error"
+                    v-else-if="!$v.form.firstName.minlength"
+                    >Invalid first name</span
+                  >
+                </md-field>
+              </div>
 
-        <md-card-content>
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('firstName')">
-                <label for="first-name">First Name</label>
-                <md-input
-                  name="first-name"
-                  id="first-name"
-                  autocomplete="given-name"
-                  v-model="form.firstName"
-                  :disabled="sending"
-                />
-                <span class="md-error" v-if="!$v.form.firstName.required"
-                  >The first name is required</span
-                >
-                <span class="md-error" v-else-if="!$v.form.firstName.minlength"
-                  >Invalid first name</span
-                >
-              </md-field>
+              <div class="md-layout-item md-small-size-100">
+                <md-field :class="getValidationClass('lastName')">
+                  <label for="last-name">Last Name</label>
+                  <md-input
+                    name="last-name"
+                    id="last-name"
+                    autocomplete="family-name"
+                    v-model="form.lastName"
+                    :disabled="sending"
+                  />
+                  <span class="md-error" v-if="!$v.form.lastName.required"
+                    >The last name is required</span
+                  >
+                  <span class="md-error" v-else-if="!$v.form.lastName.minlength"
+                    >Invalid last name</span
+                  >
+                </md-field>
+              </div>
             </div>
 
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('lastName')">
-                <label for="last-name">Last Name</label>
-                <md-input
-                  name="last-name"
-                  id="last-name"
-                  autocomplete="family-name"
-                  v-model="form.lastName"
-                  :disabled="sending"
-                />
-                <span class="md-error" v-if="!$v.form.lastName.required"
-                  >The last name is required</span
-                >
-                <span class="md-error" v-else-if="!$v.form.lastName.minlength"
-                  >Invalid last name</span
-                >
-              </md-field>
-            </div>
-          </div>
-
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('email')">
-                <label for="email">Email</label>
-                <md-input
-                  type="email"
-                  name="email"
-                  id="email"
-                  autocomplete="email"
-                  v-model="form.email"
-                  :disabled="sending"
-                />
-                <span class="md-error" v-if="!$v.form.email.required"
-                  >The email is required</span
-                >
-                <span class="md-error" v-else-if="!$v.form.email.email"
-                  >Invalid email</span
-                >
-              </md-field>
-            </div>
-          </div>
-
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item">
-              <md-field :class="getValidationClass('password')">
-                <label for="password">Password</label>
-                <md-input
-                  type="password"
-                  name="password"
-                  id="password"
-                  v-model="form.password"
-                  :disabled="sending"
-                />
-                <span class="md-error" v-if="!$v.form.password.required"
-                  >The password is required</span
-                >
-                <span class="md-error" v-else-if="!$v.form.password.minLength"
-                  >Password must be at least 8 characters</span
-                >
-                <span class="md-error" v-else-if="!$v.form.password.maxLength"
-                  >Password should not exceed 20 characters</span
-                >
-                <span class="md-error" v-else-if="!$v.form.password.valid"
-                  >Password should contain uppercase, lowercase, and special
-                  characters and at least one number.</span
-                >
-              </md-field>
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item md-small-size-100">
+                <md-field :class="getValidationClass('email')">
+                  <label for="email">Email</label>
+                  <md-input
+                    type="email"
+                    name="email"
+                    id="email"
+                    autocomplete="email"
+                    v-model="form.email"
+                    :disabled="sending"
+                  />
+                  <span class="md-error" v-if="!$v.form.email.required"
+                    >The email is required</span
+                  >
+                  <span class="md-error" v-else-if="!$v.form.email.email"
+                    >Invalid email</span
+                  >
+                </md-field>
+              </div>
             </div>
 
-            <div class="md-layout-item">
-              <md-field :class="getValidationClass('confirmPassword')">
-                <label for="confirmPassword">Confirm Password</label>
-                <md-input
-                  type="password"
-                  name="confirmPassword"
-                  id="confirmPassword"
-                  v-model="form.confirmPassword"
-                  :disabled="sending"
-                />
-                <span class="md-error" v-if="!$v.form.password.required"
-                  >Please confirm password</span
-                >
-                <span
-                  class="md-error"
-                  v-if="!$v.form.confirmPassword.sameAsPassword"
-                  >Passwords do not match, please try again</span
-                >
-              </md-field>
-            </div>
-          </div>
-        </md-card-content>
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item">
+                <md-field :class="getValidationClass('password')">
+                  <label for="password">Password</label>
+                  <md-input
+                    type="password"
+                    name="password"
+                    id="password"
+                    v-model="form.password"
+                    :disabled="sending"
+                  />
+                  <span class="md-error" v-if="!$v.form.password.required"
+                    >The password is required</span
+                  >
+                  <span class="md-error" v-else-if="!$v.form.password.minLength"
+                    >Password must be at least 8 characters</span
+                  >
+                  <span class="md-error" v-else-if="!$v.form.password.maxLength"
+                    >Password should not exceed 20 characters</span
+                  >
+                  <span class="md-error" v-else-if="!$v.form.password.valid"
+                    >Password should contain uppercase, lowercase, and special
+                    characters and at least one number.</span
+                  >
+                </md-field>
+              </div>
 
-        <md-progress-bar md-mode="indeterminate" v-if="sending" />
-        <span class="invalidCreds" v-if="failedRegister">
-          {{ errorMsg }}
-        </span>
-        <md-card-actions>
-          <md-button id="button-registration" type="submit" class="md-primary" :disabled="sending"
-            >Create user</md-button
-          >
-        </md-card-actions>
-      </md-card>
-    </form>
-  </div>
+              <div class="md-layout-item">
+                <md-field :class="getValidationClass('confirmPassword')">
+                  <label for="confirmPassword">Confirm Password</label>
+                  <md-input
+                    type="password"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    v-model="form.confirmPassword"
+                    :disabled="sending"
+                  />
+                  <span class="md-error" v-if="!$v.form.password.required"
+                    >Please confirm password</span
+                  >
+                  <span
+                    class="md-error"
+                    v-if="!$v.form.confirmPassword.sameAsPassword"
+                    >Passwords do not match, please try again</span
+                  >
+                </md-field>
+              </div>
+            </div>
+          </md-card-content>
+
+          <md-progress-bar md-mode="indeterminate" v-if="sending" />
+          <span class="invalidCreds" v-if="failedRegister">
+            {{ errorMsg }}
+          </span>
+          <md-card-actions>
+            <md-button
+              id="button-registration"
+              type="submit"
+              class="md-primary"
+              :disabled="sending"
+              >Create user</md-button
+            >
+          </md-card-actions>
+        </md-card>
+      </form>
+    </div>
   </body>
 </template>
 
@@ -154,6 +159,13 @@ import {
 
 export default {
   name: "FormValidation",
+  props: {
+    adminLogin: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
   mixins: [validationMixin],
   data: () => ({
     form: {
@@ -162,6 +174,7 @@ export default {
       email: null,
       password: null,
       confirmPassword: null,
+      password_confirmation: false,
     },
     userSaved: false,
     sending: false,
@@ -233,7 +246,8 @@ export default {
             lastname: this.form.lastName,
             email: this.form.email,
             password: this.form.password,
-            role: "customer",
+            password_confirmation: this.form.password_confirmation,
+            role: this.adminLogin ? "admin" : "customer",
           })
           .then((response) => {
             this.sending = false;
@@ -267,6 +281,7 @@ export default {
       this.$v.$touch();
 
       if (!this.$v.$invalid) {
+        this.password_confirmation = true;
         this.saveUser();
       }
     },
@@ -289,61 +304,67 @@ export default {
   min-width: 100%;
 }
 
-  body {
-    background:	#f0f8ff !important;
-    min-height: 100vh;
-    display: flex;
-    font-weight: 400;
-  }
+body {
+  background: #f0f8ff !important;
+  min-height: 100vh;
+  display: flex;
+  font-weight: 400;
+}
 
-  .md-progress-bar {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-  }
+.md-progress-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+}
 
-  #registration-form {
-    justify-content: center;
-    position: fixed;
-    top: 30%;
-    min-width: 100%;
-  }
+#registration-form {
+  justify-content: center;
+  position: fixed;
+  top: 30%;
+  min-width: 100%;
+}
 
-  .invalidCreds {
-    color: red;
-    margin-top: 0.5em;
-  }
-  .md-card{
-    border-radius: 28px;
-  }
+.invalidCreds {
+  color: red;
+  margin-top: 0.5em;
+}
+.md-card {
+  border-radius: 28px;
+}
 
-  #register-title {
-    font-weight: bolder;
-  }
+#register-title {
+  font-weight: bolder;
+}
 
-  #button-registration {
-    background-color:#1d4fd8;
-    background-size: 0% 100%;
-    border:none;
-    border-radius:7px;
-    color:#fff;
-    display: inline-block;
-    font-size:20px;
-    text-decoration:none;
-    transition: background-color .5s;
-    width:150px;
-  }
+#button-registration {
+  background-color: #1d4fd8;
+  background-size: 0% 100%;
+  border: none;
+  border-radius: 7px;
+  color: #fff;
+  display: inline-block;
+  font-size: 20px;
+  text-decoration: none;
+  transition: background-color 0.5s;
+  width: 150px;
+}
 
-  #button-registration:hover {
-    background-color:#011f4b;
-    background-image:linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,.7) 100%);
-    background-repeat:no-repeat;
-    background-size: 200% 100%; 
-    transition:background-size 1s, background-color 1s;
-  }
+#button-registration:hover {
+  background-color: #011f4b;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.7) 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 200% 100%;
+  transition: background-size 1s, background-color 1s;
+}
 
-  #button-registration:active {
-    background-color:#294fb9; transition:background-size 0
-  }
+#button-registration:active {
+  background-color: #294fb9;
+  transition: background-size 0;
+}
 </style>

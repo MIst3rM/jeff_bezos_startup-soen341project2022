@@ -1,21 +1,25 @@
 <template>
   <div>
-    <AddItem/>
+    <AdminHeader />
+    <AddItem />
   </div>
 </template>
 
 
 <script>
-import Login from "../components/Login.vue";
-import AddItem from "../components/AddItem.vue"
+import { AddItem, AdminHeader } from "../components";
 
 export default {
   name: "Admin",
   components: {
-    Login,
-    AddItem
+    AddItem,
+    AdminHeader,
   },
-
+  computed: {
+    login() {
+      return this.$store.getters.isAuthenticated;
+    },
+  },
 };
 </script>
 
@@ -23,5 +27,4 @@ export default {
 .md-layout {
   width: 100%;
 }
-
 </style>

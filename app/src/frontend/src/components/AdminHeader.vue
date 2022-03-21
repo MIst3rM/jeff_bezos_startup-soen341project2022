@@ -1,13 +1,9 @@
 <template>
-  <div id="header">
+  <div id="admin_header">
     <md-toolbar id="row1" class="md-dense" md-theme="default">
       <div class="md-layout md-gutter md-alignment-center-left" id="logo">
         <div class="md-layout-item">
-          <router-link to="/" tag="md-button">
-            <md-icon class="md-accent md-size-2x store-logo"
-              >storefront</md-icon
-            >
-          </router-link>
+          <md-icon class="md-accent md-size-2x store-logo">storefront</md-icon>
         </div>
       </div>
       <div class="md-layout md-gutter md-alignment-center-right">
@@ -22,39 +18,14 @@
 
           <md-menu-content>
             <md-menu-item v-if="login">
-              <router-link to="/profile" tag="md-button">
-                <md-icon data-cy="profile">person</md-icon>
-              </router-link>
-              <span>My Profile</span>
-            </md-menu-item>
-
-            <md-menu-item v-if="login">
               <router-link to="/" tag="md-button" @click.native="logout">
                 <md-icon data-cy="logout">logout</md-icon>
               </router-link>
               <span>Logout</span>
             </md-menu-item>
-
-            <md-menu-item v-if="!login">
-              <router-link to="/login" tag="md-button">
-                <md-icon data-cy="login">login</md-icon>
-              </router-link>
-              <span>Login</span>
-            </md-menu-item>
           </md-menu-content>
         </md-menu>
-        <div class="md-layout-item">
-          <router-link class="icon-btn" to="/cart" tag="md-button">
-            <md-icon class="sideicon" data-cy="cart">shopping_bag</md-icon>
-          </router-link>
-        </div>
       </div>
-    </md-toolbar>
-    <md-toolbar class="md-dense" md-elevation="1">
-      <router-link to="/" tag="md-button">Home</router-link>
-      <router-link to="/about" tag="md-button">About</router-link>
-      <router-link to="/shop" tag="md-button">Shop</router-link>
-      <router-link to="/faq" tag="md-button">FAQ</router-link>
     </md-toolbar>
   </div>
 </template>
@@ -62,7 +33,7 @@
 <script>
 import axios from "axios";
 export default {
-  name: "Header",
+  name: "AdminHeader",
   computed: {
     login() {
       return this.$store.getters.isAuthenticated;
@@ -78,6 +49,7 @@ export default {
           .post("/api/logout")
           .then(() => {
             this.$store.dispatch("Logout");
+            this.$router.push("/");
           })
           .catch((error) => {
             console.log(error);

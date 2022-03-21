@@ -5,6 +5,7 @@ namespace App\Actions\Fortify;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Validation;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
@@ -14,13 +15,12 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      *
      * @param  mixed  $user
      * @param  array  $input
-     * @return void
      */
     public function update($user, array $input)
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-
+            'firstname' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
                 'string',
@@ -30,14 +30,21 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             ],
         ])->validateWithBag('updateProfileInformation');
 
-        if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
+        if (
+            $input['email'] !== $user->email &&
+            $user instanceof MustVerifyEmail
+        ) {
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
-                'name' => $input['name'],
+                'firstname' => $input['firstname'],
+                'lastname' => $input['lastname'],
                 'email' => $input['email'],
             ])->save();
+
+            return response()->json([
+                'message' => __('Your profile information has been updated.'),
+            ]);
         }
     }
 
@@ -46,16 +53,17 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      *
      * @param  mixed  $user
      * @param  array  $input
-     * @return void
      */
     protected function updateVerifiedUser($user, array $input)
     {
         $user->forceFill([
-            'name' => $input['name'],
+            'firstname' => $input['firstname'],
+            'lastname' => $input['lastname'],
             'email' => $input['email'],
-            'email_verified_at' => null,
         ])->save();
 
-        $user->sendEmailVerificationNotification();
+        return response()->json([
+            'message' => __('Your profile information has been updated.'),
+        ]);
     }
 }

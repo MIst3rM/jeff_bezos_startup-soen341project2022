@@ -8,13 +8,11 @@ use Illuminate\Support\Facades\Log;
 
 class LoginResponse implements LoginResponseContract
 {
-
     public function toResponse($request)
     {
-
-        Log::debug(Auth()->user());
+        //Log::debug(Auth()->user());
         return $request->wantsJson()
-            ? response()->json(['user' => [
+            ? response()->json([
                 'id' => Auth::user()->id,
                 'firstname' => Auth::user()->firstname,
                 'lastname' => Auth::user()->lastname,
@@ -26,7 +24,7 @@ class LoginResponse implements LoginResponseContract
                 'province' => Auth::user()->province_state,
                 'postal_code' => Auth::user()->postal_code_zip,
                 'country' => Auth::user()->country,
-            ]])
+            ])
             : redirect()->intended(config('fortify.home'));
     }
 }

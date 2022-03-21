@@ -1,0 +1,10 @@
+{
+  "fixturesFolder": "cypress/fixtures",
+  "integrationFolder": "cypress/integration",
+  "screenshotsFolder": "cypress/screenshots",
+  "videosFolder": "cypress/videos",
+  "supportFile": false,
+  "testFiles": "**/*.*.*",
+  "projectId": "vkpnjp",
+  "watchForFileChanges": true
+}

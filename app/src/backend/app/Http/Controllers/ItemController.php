@@ -9,23 +9,20 @@ use Exception;
 
 class ItemController extends Controller
 {
-    function addItem(Request $request)
-    {  
-        $data = $request->input();
-			try{
-				$item = new Items;
-                $item->sellerid = $data['seller_id'];
-                $item->title = $data['title'];
-				$item->description = $data['description'];
-                $item->category = $data['category'];
-                $item->image = $data['image'];
-				$item->price = $data['price'];
-				$item->save();
-                return response('Item added', 200)->header('Content-Type', 'text/plain'); 
-			}
-			catch(Exception $e){
-				return response('Item could not be added', 500)->header('Content-Type', 'text/plain'); 
-			}
-    
+    public function store(Request $request)
+    {
+        try {
+            $item = new Items;
+            $item->seller_id = $request->seller_id;
+            $item->title = $request->title;
+            $item->description = $request->description;
+            $item->category = $request->category;
+            $item->image = $request->image;
+            $item->price = $request->price;
+            $item->save();
+            return response('Item added', 200)->header('Content-Type', 'text/plain');
+        } catch (Exception $e) {
+            return response('Item could not be added', 500)->header('Content-Type', 'text/plain');
+        }
     }
 }

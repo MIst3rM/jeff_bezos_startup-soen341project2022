@@ -1,12 +1,12 @@
 import Vue from "vue";
-import Vuex from "vuex";
 import App from "./App.vue";
 import Router from "vue-router";
-import createPersistedState from "vuex-persistedstate";
 import VueHorizontal from "vue-horizontal";
 import VueSnip from "vue-snip";
 import VueMaterial from "vue-material";
 import VueSlider from "vue-slider-component";
+import axios from "axios";
+import store from "./store";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "vue-slider-component/theme/material.css";
@@ -16,11 +16,13 @@ import "vue-material/dist/vue-material.min.css";
 import Popper from "@popperjs/core/dist/esm/popper.js";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
-
-import { Login, Registration, AddItem } from "./components";
+import { Login, Registration } from "./components";
 import { Home, Admin, Shop, Profile, AdminLogin, AdminRegister } from "./views";
 
 Vue.config.productionTip = false;
+
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = "http://backend.store.conco/";
 
 const host = window.location.host;
 const subdomain = host.split(".")[0];
@@ -29,32 +31,78 @@ const routes = () => {
   let routes;
   if (subdomain === "store") {
     routes = [
-      { path: "/", component: Home, meta: { header: true } },
+      {
+        path: "/",
+        component: Home,
+        meta: { header: true },
+      },
       {
         path: "/login",
         component: Login,
+        name: "login",
+        props: true,
+        beforeEnter: (to, from, next) => {
+          if (store.getters.isAuthenticated) {
+            next({ path: "/profile" });
+          } else {
+            next();
+          }
+        },
         meta: {
           header: true,
         },
       },
-      { path: "/shop", component: Shop, meta: { header: true } },
+      {
+        path: "/shop",
+        component: Shop,
+        name: "shop",
+        meta: { header: true },
+      },
       {
         path: "/profile",
         component: Profile,
+        name: "profile",
         meta: {
           header: false,
+          requiresAuth: true,
         },
       },
-      { path: "/register", component: Registration, meta: { header: true } },
+      {
+        path: "/register",
+        component: Registration,
+        meta: { header: true },
+      },
       { path: "/about", meta: { header: true } },
       { path: "/faq", meta: { header: true } },
-      { path: "/cart", meta: { header: true } },
+      {
+        path: "/cart",
+        meta: { header: true, requiresAuth: false },
+      },
     ];
   } else if (subdomain === "admin") {
     routes = [
-      { path: "/", component: Admin },
-      { path: "/login", component: AdminLogin, meta: { header: false } },
+      {
+        path: "/",
+        component: AdminLogin,
+        meta: { header: false },
+        beforeEnter: (to, from, next) => {
+          if (store.getters.isAuthenticated) {
+            next({
+              name: "admin_user",
+              params: { username: store.getters.getUsername },
+            });
+          } else {
+            next();
+          }
+        },
+      },
       { path: "/register", component: AdminRegister, meta: { header: false } },
+      {
+        name: "admin_user",
+        path: "/:username",
+        component: Admin,
+        meta: { header: false },
+      },
     ];
   } else {
     routes = [];
@@ -67,54 +115,23 @@ const router = new Router({
   routes: routes(),
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (store.getters.isAuthenticated) {
+      next();
+      return;
+    }
+    next("/login");
+  } else {
+    next();
+  }
+});
+
 Vue.use(Router);
-Vue.use(Vuex);
 Vue.use(VueMaterial);
 Vue.use(VueHorizontal);
 Vue.use(VueSnip);
 Vue.component("VueSlider", VueSlider);
-
-const store = new Vuex.Store({
-  plugins: [
-    createPersistedState({
-      key: "store",
-      paths: ["user"],
-      storage: window.sessionStorage,
-      getState: (key) => {
-        return JSON.parse(sessionStorage.getItem(key));
-      },
-      setState: (key, value) => {
-        sessionStorage.setItem(key, JSON.stringify(value));
-      },
-    }),
-  ],
-  state: {
-    user: null,
-  },
-  mutations: {
-    setAuthUser(state, user) {
-      state.user = user;
-    },
-    clearAuthUser(state) {
-      state.user = null;
-    },
-  },
-  getters: {
-    isLoggedIn(state) {
-      if (state.user !== null) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    getAuthUser(state) {
-      return state.user;
-    },
-  },
-  actions: {},
-});
-
-Vue.use(VueSnip);
 
 new Vue({
   router,

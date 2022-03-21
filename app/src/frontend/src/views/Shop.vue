@@ -102,7 +102,6 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-
 .md-drawer.md-permanent-full {
   z-index: 1;
 }

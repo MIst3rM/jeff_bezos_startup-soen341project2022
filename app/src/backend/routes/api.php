@@ -20,7 +20,7 @@ use App\Http\Controllers\ItemController;
 */
 
 Route::get('/items', function () {
-    return DB::table('items')->take(5)->get()->toJson();
+    return DB::table('items')->orderBy('id', 'desc')->take(5)->get()->toJson();
 });
 
 Route::get('/allItems', function () {
@@ -35,5 +35,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/updateUser', [UserController::class, 'updateUser']);
 
-    Route::post('/addItem', [ItemController::class, 'addItem']);
+    Route::post('/updateAddress', [UserController::class, 'updateAddress']);
+
+    Route::get('/userOrderHistory', [UserController::class, 'userOrderHistory']);
+
+    Route::post('/addItem', [ItemController::class, 'store']);
 });
