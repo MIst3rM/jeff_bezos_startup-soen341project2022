@@ -108,6 +108,11 @@ export default {
       type: Boolean,
       default: false,
     },
+    adminLogin: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   mixins: [validationMixin],
   data: () => ({
@@ -162,7 +167,18 @@ export default {
             this.$store.dispatch("Login", {
               user: response.data,
             });
-            setTimeout(() => this.$router.push({ path: "/" }), 500);
+            if (!this.adminLogin) {
+              setTimeout(() => this.$router.push({ path: "/" }), 500);
+            } else {
+              setTimeout(
+                () =>
+                  this.$router.push({
+                    name: "admin_user",
+                    params: { username: response.data.firstname },
+                  }),
+                500
+              );
+            }
           })
           .catch((error) => {
             this.sending = false;

@@ -10,7 +10,7 @@ class LoginResponse implements LoginResponseContract
 {
     public function toResponse($request)
     {
-        Log::debug(Auth()->user());
+        //Log::debug(Auth()->user());
         return $request->wantsJson()
             ? response()->json([
                 'id' => Auth::user()->id,

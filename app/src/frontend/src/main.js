@@ -16,8 +16,8 @@ import "vue-material/dist/vue-material.min.css";
 import Popper from "@popperjs/core/dist/esm/popper.js";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
-import { Home, Admin, Shop, Profile, AdminLogin, AdminRegister } from "./views";
 import { Login, Registration } from "./components";
+import { Home, Admin, Shop, Profile, AdminLogin, AdminRegister } from "./views";
 
 Vue.config.productionTip = false;
 
@@ -31,7 +31,11 @@ const routes = () => {
   let routes;
   if (subdomain === "store") {
     routes = [
-      { path: "/", component: Home, meta: { header: true } },
+      {
+        path: "/",
+        component: Home,
+        meta: { header: true },
+      },
       {
         path: "/login",
         component: Login,
@@ -48,7 +52,12 @@ const routes = () => {
           header: true,
         },
       },
-      { path: "/shop", component: Shop, name: "shop", meta: { header: true } },
+      {
+        path: "/shop",
+        component: Shop,
+        name: "shop",
+        meta: { header: true },
+      },
       {
         path: "/profile",
         component: Profile,
@@ -58,16 +67,42 @@ const routes = () => {
           requiresAuth: true,
         },
       },
-      { path: "/register", component: Registration, meta: { header: true } },
+      {
+        path: "/register",
+        component: Registration,
+        meta: { header: true },
+      },
       { path: "/about", meta: { header: true } },
       { path: "/faq", meta: { header: true } },
-      { path: "/cart", meta: { header: true, requiresAuth: false } },
+      {
+        path: "/cart",
+        meta: { header: true, requiresAuth: false },
+      },
     ];
   } else if (subdomain === "admin") {
     routes = [
-      { path: "/", component: Admin },
-      { path: "/login", component: AdminLogin, meta: { header: false } },
+      {
+        path: "/",
+        component: AdminLogin,
+        meta: { header: false },
+        beforeEnter: (to, from, next) => {
+          if (store.getters.isAuthenticated) {
+            next({
+              name: "admin_user",
+              params: { username: store.getters.getUsername },
+            });
+          } else {
+            next();
+          }
+        },
+      },
       { path: "/register", component: AdminRegister, meta: { header: false } },
+      {
+        name: "admin_user",
+        path: "/:username",
+        component: Admin,
+        meta: { header: false },
+      },
     ];
   } else {
     routes = [];

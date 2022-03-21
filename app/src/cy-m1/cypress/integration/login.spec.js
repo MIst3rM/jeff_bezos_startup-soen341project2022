@@ -24,6 +24,8 @@ describe("Login", () => {
     // preparing for next test
     cy.get("[data-cy=menu]").click();
     cy.get("[data-cy=logout]").click();
+
+    cy.wait(2000);
   });
 
   it("Failed login with invalid credentials with show error messages", () => {

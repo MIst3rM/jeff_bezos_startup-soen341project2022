@@ -16,6 +16,8 @@ services:
   frontend:
     build: ./src/frontend
     working_dir: /var/www/frontend
+    env_file:
+      - ./src/frontend/.env
     volumes:
       - ./src/frontend:/var/www/frontend
     depends_on:

@@ -1,15 +1,30 @@
-<script>
-  export default {
-    name: "Admin",
-  };
-</script>
-
 <template>
-  <div id="admin" lang="scss">
-    <img
-      src="https://media4.giphy.com/media/fe4dDMD2cAU5RfEaCU/giphy.gif"
-      alt="admin"
-      class="center"
-    />
+  <div>
+    <AdminHeader />
+    <AddItem />
   </div>
 </template>
+
+
+<script>
+import { AddItem, AdminHeader } from "../components";
+
+export default {
+  name: "Admin",
+  components: {
+    AddItem,
+    AdminHeader,
+  },
+  computed: {
+    login() {
+      return this.$store.getters.isAuthenticated;
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.md-layout {
+  width: 100%;
+}
+</style>

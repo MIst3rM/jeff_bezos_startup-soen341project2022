@@ -10,6 +10,6 @@ export default {
 
 <template>
   <div id="adminlogin" lang="scss">
-    <Login />
+    <Login :adminLogin="true" />
   </div>
 </template>

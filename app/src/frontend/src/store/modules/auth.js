@@ -4,6 +4,7 @@ const state = {
 const getters = {
   isAuthenticated: (state) => !!state.user,
   getAuthUser: (state) => state.user,
+  getUsername: (state) => state.user.user.firstname,
 };
 const actions = {
   Login({ commit }, user) {

@@ -37,7 +37,12 @@
       </md-app-drawer>
       <md-app-content>
         <div class="md-layout">
-          <form novalidate class="md-layout" @submit.prevent="validateUser">
+          <form
+            novalidate
+            class="md-layout"
+            @submit.prevent="validateUser"
+            data-cy="personal_info_form"
+          >
             <md-card class="md-layout-item">
               <md-card-header>
                 <div class="md-title">Personal Information</div>
@@ -154,13 +159,19 @@
                   type="submit"
                   class="md-primary"
                   :disabled="sending1"
+                  data-cy="save_info"
                 >
                   Save
                 </md-button>
               </md-card-actions>
             </md-card>
           </form>
-          <form novalidate class="md-layout" @submit.prevent="validatePassword">
+          <form
+            novalidate
+            class="md-layout"
+            @submit.prevent="validatePassword"
+            data-cy="password_form"
+          >
             <md-card class="md-layout-item">
               <md-card-header>
                 <div class="md-title">Update Password</div>
@@ -282,7 +293,12 @@
               </md-card-actions>
             </md-card>
           </form>
-          <form novalidate class="md-layout" @submit.prevent="validateAddress">
+          <form
+            novalidate
+            class="md-layout"
+            @submit.prevent="validateAddress"
+            data-cy="address_form"
+          >
             <md-card class="md-layout-item">
               <md-card-header>
                 <div class="md-title">Address</div>
@@ -408,13 +424,7 @@
           </md-card-header>
           <md-card-content>
             <vue-horizontal>
-              <section v-for="index in 10" :key="index">
-                <!-- <md-card>
-                  <md-card-header>
-                    <div class="md-title">{{ index }}</div>
-                  </md-card-header>
-                </md-card> -->
-              </section>
+              <section v-for="index in 10" :key="index"></section>
             </vue-horizontal>
           </md-card-content>
         </md-card>
@@ -440,9 +450,6 @@ import {
   required,
   email,
   alpha,
-  alphaNum,
-  or,
-  numeric,
   sameAs,
   minLength,
   maxLength,
@@ -712,7 +719,7 @@ export default {
       },
       lastname: {
         required,
-        minLength: minLength(2),
+        minLength: minLength(1),
         maxLength: maxLength(255),
       },
       email: {
