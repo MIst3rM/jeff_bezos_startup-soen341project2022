@@ -33,4 +33,8 @@ jobs:
         run: |
           sudo chmod +x setup
           ./setup init
-          docker ps
+      
+      - name: Run tests
+        run: |
+          export $(echo ${{ secrets.CYPRESS_RECORD_KEY }} | base64 -d)
+          docker compose -f docker-compose-x64.yml up --exit-code-from cypress-x64

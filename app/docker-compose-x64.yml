@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  cypress-x64:
+    build: ./src/cy-x64
+    command: "--browser chrome --record"
+    network_mode: host
+    environment:
+      - DISPLAY=host.docker.internal:0
+      - CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
+    volumes:
+      - ./src/cy-resources/cypress:/cypress
+      - ./src/cy-resources/cypress.json:/cypress.json
+    depends_on:
+      - frontend
