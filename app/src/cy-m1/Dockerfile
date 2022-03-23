@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:16.13.2-bullseye as builder
+FROM --platform=linux/arm64 node:16.13.2-bullseye as builder
 
 ARG VERSION=9.4.1
 ENV CY_VERSION=$VERSION
@@ -27,7 +27,7 @@ RUN git clone https://github.com/cypress-io/cypress.git --depth 1 --branch v${CY
     && yarn \ 
     && yarn binary-build --version ${CY_VERSION} myvalue=3
 
-FROM --platform=linux/amd64 node:16-buster-slim
+FROM --platform=linux/arm64 node:16-buster-slim
 
 ARG VERSION=9.4.1
 
@@ -62,7 +62,7 @@ RUN apt-get update && \
     echo 'pcm.!default {\n type hw\n card 0\n}\n\nctl.!default {\n type hw\n card 0\n}' > /root/.asoundrc
 
 # Copy cypress binary from intermediate container
-COPY --from=builder /tmp/cypress-build/linux/build/linux-amd64-unpacked /root/.cache/Cypress/${CY_VERSION}/Cypress
+COPY --from=builder /tmp/cypress-build/linux/build/linux-arm64-unpacked /root/.cache/Cypress/${CY_VERSION}/Cypress
 
 RUN apt update && apt upgrade
 RUN apt install chromium -y
