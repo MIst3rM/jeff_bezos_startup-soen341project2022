@@ -476,7 +476,6 @@ export default {
       current_password: "",
       new_password: "",
       confirmed_password: "",
-      new_password_confirmation: false,
     },
     sending1: false,
     sending2: false,
@@ -691,7 +690,6 @@ export default {
         this.$v.updatePassword.$touch();
 
         if (!this.$v.updatePassword.$invalid) {
-          this.new_password_confirmation = true;
           this.persistPasswordChanges();
         }
       });
