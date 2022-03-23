@@ -28,20 +28,18 @@ jobs:
         run: |
           echo ${{ secrets.VUE_APP_IMGBB_API_KEY }} | base64 -d > ./src/frontend/.env
 
-      - name: Build and Test
+      - name: Build containers
         run: |
-          echo "COMPOSE_PROJECT_NAME=online_store" > .env
-          docker compose -f docker-compose.yml build
-          docker compose -f docker-compose.yml run --rm --entrypoint="//opt/files/init" backend
-          docker compose -f docker-compose.yml run --rm frontend yarn install
-          docker compose -f docker-compose.yml up -d
+          sudo chmod +x setup
+          ./setup init
 
-      - name: Wait for frontend to be up and running
-        run: sleep 60s
-        shell: bash
-
-      - name: Run Tests
-        run: |           
-          export $(echo ${{ secrets.CYPRESS_RECORD_KEY }} | base64 -d)
-          docker compose -f docker-compose-x64.yml build
-          docker compose -f docker-compose-x64.yml up --exit-code-from cypress-x64
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          headless: true
+          wait-on: "http://store.conco"
+          project: ./src/cy-resources/
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
