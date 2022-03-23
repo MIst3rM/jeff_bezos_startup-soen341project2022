@@ -26,12 +26,22 @@ jobs:
 
       - name: Set env vars for frontend
         run: |
-          touch ./src/frontend/.env
-          echo ${{ secrets.VUE_APP_IMGBB_API_KEY }} > ./src/frontend/.env
+          export $(echo ${{ secrets.VUE_APP_IMGBB_API_KEY }} | base64 -d)
 
       - name: Build and Test
         run: |
-          sudo chmod +x setup
-          ./setup init          
+          echo "COMPOSE_PROJECT_NAME=online_store" > .env
+          docker compose -f docker-compose.yml build
+          docker compose -f docker-compose.yml run --rm --entrypoint="//opt/files/init" backend
+          docker compose -f docker-compose.yml run --rm frontend yarn install
+          docker compose -f docker-compose.yml up -d
+
+      - name: Wait for frontend to be up and running
+        run: sleep 60s
+        shell: bash
+
+      - name: Run Tests
+        run: |           
           export $(echo ${{ secrets.CYPRESS_RECORD_KEY }} | base64 -d)
+          docker compose -f docker-compose-x64.yml build
           docker compose -f docker-compose-x64.yml up --exit-code-from cypress-x64
