@@ -36,10 +36,6 @@ jobs:
           docker compose -f docker-compose.yml run --rm frontend yarn install
           docker compose -f docker-compose.yml up -d
 
-      - name: Wait for frontend to be up and running
-        run: sleep 60s
-        shell: bash
-
       - name: Run Tests
         run: |           
           export $(echo ${{ secrets.CYPRESS_RECORD_KEY }} | base64 -d)
