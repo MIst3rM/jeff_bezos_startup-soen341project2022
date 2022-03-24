@@ -4,4 +4,4 @@ COPY ./wait-for-it.sh /usr/local/bin/wait-for-it.sh
 
 RUN chmod +x /usr/local/bin/wait-for-it.sh
 
-ENTRYPOINT [ "/usr/local/bin/wait-for-it.sh", "http://store.conco", "-t", "60", "--", "cypress", "run", "--browser", "chrome"]
+ENTRYPOINT [ "/usr/local/bin/wait-for-it.sh", "http://store.conco", "-t", "60", "--", "cypress", "run", "--browser", "chrome","--record"]
