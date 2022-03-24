@@ -28,7 +28,7 @@ jobs:
         run: |
           echo ${{ secrets.VUE_APP_IMGBB_API_KEY }} | base64 -d > ./src/frontend/.env
 
-      - name: Build and Test
+      - name: Build containers
         run: |
           echo "COMPOSE_PROJECT_NAME=online_store" > .env
           export $(echo ${{ secrets.CYPRESS_RECORD_KEY }} | base64 -d)
