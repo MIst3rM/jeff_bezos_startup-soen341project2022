@@ -28,11 +28,17 @@ jobs:
         run: |
           echo ${{ secrets.VUE_APP_IMGBB_API_KEY }} | base64 -d > ./src/frontend/.env
 
-      - name: Build containers
+      - name: Set env vars for backend
+        run: |
+          echo ${{ secrets.BACKEND_VARS }} | base64 -d > ./src/backend/.env
+
+      - name: Build containers and run tests
         run: |
           echo "COMPOSE_PROJECT_NAME=online_store" > .env
           export $(echo ${{ secrets.CYPRESS_RECORD_KEY }} | base64 -d)
           docker compose -f docker-compose.yml -f docker-compose-x64.yml build
-          docker compose -f docker-compose.yml run --rm --entrypoint="//opt/files/init" backend
+          docker compose -f docker-compose.yml run --rm backend composer install
+          docker compose -f docker-compose.yml run --rm backend php artisan key:generate --ansi
+          docker compose -f docker-compose.yml run --rm backend php artisan migrate --seed
           docker compose -f docker-compose.yml run --rm frontend yarn install
           docker compose -f docker-compose.yml -f docker-compose-x64.yml up --exit-code-from cypress-x64
