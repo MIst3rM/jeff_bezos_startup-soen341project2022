@@ -30,19 +30,12 @@ jobs:
 
       - name: Build containers
         run: |
-          sudo chmod +x setup
-          ./setup init
+          echo "COMPOSE_PROJECT_NAME=online_store" > .env
+          docker compose -f docker-compose.yml build
+          docker compose -f docker-compose.yml run --rm --entrypoint="//opt/files/init" backend
+          docker compose -f docker-compose.yml run --rm frontend yarn install
+          docker compose -f docker-compose.yml up -d
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        with:
-          build: npm run build
-          start: npm start
-          working-directory: ./app
-          browser: chrome
-          headless: true
-          wait-on: "http://store.conco"
-          project: ./src/cy-resources/
-        env:
+      - name: Run tests
+        run: |
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

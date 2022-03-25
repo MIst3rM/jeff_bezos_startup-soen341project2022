@@ -2,7 +2,6 @@ version: '3.8'
 services:
   cypress-x64:
     build: ./src/cy-x64
-    command: "--browser chrome"
     network_mode: host
     environment:
       - DISPLAY=host.docker.internal:0
