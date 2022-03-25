@@ -31,11 +31,8 @@ jobs:
       - name: Build containers
         run: |
           echo "COMPOSE_PROJECT_NAME=online_store" > .env
-          docker compose -f docker-compose.yml build
+          export $(echo ${{ secrets.CYPRESS_RECORD_KEY }} | base64 -d)
+          docker compose -f docker-compose.yml -f docker-compose-x64.yml build
           docker compose -f docker-compose.yml run --rm --entrypoint="//opt/files/init" backend
           docker compose -f docker-compose.yml run --rm frontend yarn install
-          docker compose -f docker-compose.yml up -d
-
-      - name: Run tests
-        run: |
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          docker compose -f docker-compose.yml -f docker-compose-x64.yml up --exit-code-from cypress-x64
