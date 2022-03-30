@@ -605,6 +605,7 @@ export default {
               firstname: this.currentUser.firstname,
               lastname: this.currentUser.lastname,
               email: this.currentUser.email,
+              phone: this.currentUser.phone,
             },
           })
           .then((response) => {

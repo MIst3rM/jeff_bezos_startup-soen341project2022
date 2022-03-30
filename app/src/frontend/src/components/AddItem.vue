@@ -12,7 +12,7 @@
             <div id="add-item-title" class="md-title">Add Item</div>
           </md-card-header>
 
-          <md-card-content>
+          <md-card-content id="addItemForm">
             <div class="md-layout md-gutter">
               <div class="md-layout-item md-small-size-100">
                 <md-field :class="getValidationClass('title')">
@@ -74,13 +74,13 @@
                     id="category"
                     v-model="form.category"
                     :disabled="sending"
-                    required
                     data-cy="category"
                   >
                     <md-option value="mens-clothing">Men's Clothing</md-option>
                     <md-option value="womens-clothing" data-cy="womens-clothing"
                       >Women's Clothing</md-option
                     >
+                    <md-option value="electronics">Electronics</md-option>
                     <md-option value="jewelery">Jewelery</md-option>
                     <md-option value="shoes">Shoes</md-option>
                     <md-option value="health-and-beauty"
@@ -112,21 +112,15 @@
                   <span class="md-error" v-else-if="!$v.form.price.decimal"
                     >The item price must be a numeric value</span
                   >
-                  <span class="md-error" v-else-if="!$v.form.price.minLength"
-                    >The item price must contain at least one figure</span
-                  >
-                  <span class="md-error" v-else-if="!$v.form.price.maxLength"
-                    >The item price must be a at most six figures</span
-                  >
                 </md-field>
               </div>
             </div>
+            <span class="invalidCreds" v-if="failedItemAdd">
+              {{ errorMsg }}
+            </span>
           </md-card-content>
 
           <md-progress-bar md-mode="indeterminate" v-if="sending" />
-          <span class="invalidCreds" v-if="failedItemAdd">
-            {{ errorMsg }}
-          </span>
 
           <md-snackbar
             :md-position="position"
@@ -157,17 +151,14 @@
 <script>
 import axios from "axios";
 import { validationMixin } from "vuelidate";
-import {
-  required,
-  minLength,
-  maxLength,
-  decimal,
-} from "vuelidate/lib/validators";
+import { required, decimal, helpers } from "vuelidate/lib/validators";
 
 const instance = axios.create({
   baseURL: "https://api.imgbb.com/1",
   withCredentials: false,
 });
+
+const priceRequirements = helpers.regex(/^\d+(\.\d{1,2})?$/, /^(?!0).*/);
 
 export default {
   name: "AddItem",
@@ -206,9 +197,8 @@ export default {
       },
       price: {
         required,
-        minLength: minLength(1),
-        maxLength: maxLength(6),
         decimal,
+        priceRequirements,
       },
     },
   },
@@ -229,6 +219,7 @@ export default {
       this.form.image = null;
       this.form.category = null;
       this.form.price = null;
+      this.errorMsg = "";
     },
     saveItem() {
       this.sending = true;
@@ -245,14 +236,18 @@ export default {
           .then((response) => {
             this.sending = false;
             this.clearForm();
+            this.successMsg = response.data;
             this.showSnackbar = true;
-            this.successMsg = response.data.message;
           })
           .catch((error) => {
             this.sending = false;
             this.failedItemAdd = true;
-            this.clearForm();
             this.errorMsg = error.response.data.message;
+            if (error.response.status === 401) {
+              this.$store.dispatch("Logout");
+              this.clearForm();
+              setTimeout(() => this.$router.push({ path: "/" }), 500);
+            }
           });
       });
     },
@@ -285,6 +280,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#addItemForm {
+  text-align: center;
+  font-size: 18px;
+}
+
 .md-progress-bar {
   position: absolute;
   top: 0;
