@@ -3,7 +3,11 @@
     <md-app md-waterfall md-mode="overlap">
       <md-app-toolbar class="md-primary md-large">
         <div class="md-toolbar-row">
-          <md-button class="md-icon-button" @click="menuVisible = true">
+          <md-button
+            class="md-icon-button"
+            @click="menuVisible = true"
+            data-cy="sidemenu"
+          >
             <md-icon>menu</md-icon>
           </md-button>
           <span class="md-title">Hi, {{ currentUser.firstname }}</span>
@@ -28,8 +32,13 @@
           </md-list-item>
 
           <md-list-item>
-            <router-link to="/" tag="md-button" @click.native="logout">
-              <md-icon data-cy="logout">logout</md-icon>
+            <router-link
+              to="/"
+              tag="md-button"
+              @click.native="logout"
+              data-cy="logout"
+            >
+              <md-icon>logout</md-icon>
             </router-link>
             <span class="md-list-item-text">Sign out</span>
           </md-list-item>
