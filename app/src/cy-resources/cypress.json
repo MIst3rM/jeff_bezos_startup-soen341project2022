@@ -4,7 +4,8 @@
   "screenshotsFolder": "cypress/screenshots",
   "videosFolder": "cypress/videos",
   "supportFile": false,
+  "pluginsFile": false,
   "testFiles": "**/*.*.*",
-  "projectId": "vkpnjp",
+  "projectId": "e2wtfv",
   "watchForFileChanges": true
 }

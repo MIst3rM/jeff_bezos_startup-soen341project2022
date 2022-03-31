@@ -14,6 +14,7 @@ class UserController extends Controller
         $user->firstname = $newUser['firstname'];
         $user->lastname = $newUser['lastname'];
         $user->email = $newUser['email'];
+        $user->phone = $newUser['phone'];
         $user->save();
         $user->refresh();
         return response()->json([

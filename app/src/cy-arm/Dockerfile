@@ -70,4 +70,4 @@ RUN apt install chromium -y
 RUN npm install -g cypress@${CY_VERSION} && \ 
     cypress verify 
 
-ENTRYPOINT ["cypress", "run"]
+ENTRYPOINT ["cypress", "open"]
