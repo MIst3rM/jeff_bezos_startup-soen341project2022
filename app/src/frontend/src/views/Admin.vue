@@ -2,18 +2,21 @@
   <div>
     <AdminHeader />
     <AddItem />
+    <ItemsList />
+
   </div>
 </template>
 
 
 <script>
-import { AddItem, AdminHeader } from "../components";
+import { AddItem, AdminHeader, ItemsList } from "../components";
 
 export default {
   name: "Admin",
   components: {
     AddItem,
     AdminHeader,
+    ItemsList,
   },
   computed: {
     login() {

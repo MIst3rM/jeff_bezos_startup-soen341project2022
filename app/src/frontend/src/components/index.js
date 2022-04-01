@@ -6,6 +6,7 @@ import ItemCard from "./ItemCard.vue";
 import Order from "./Order.vue";
 import AddItem from "./AddItem.vue";
 import AdminHeader from "./AdminHeader.vue";
+import ItemsList from "./ItemsList.vue";
 
 export {
   Login,
@@ -16,4 +17,5 @@ export {
   Order,
   AdminHeader,
   AddItem,
+  ItemsList
 };

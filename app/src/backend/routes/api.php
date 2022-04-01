@@ -33,6 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
         return User::where('id', $id)->get()->toJson();
     });
 
+    Route::get('/sellerItems', [SellerController::class, 'getSellerItems']);
+
     Route::post('/updateUser', [UserController::class, 'updateUser']);
 
     Route::post('/updateAddress', [UserController::class, 'updateAddress']);

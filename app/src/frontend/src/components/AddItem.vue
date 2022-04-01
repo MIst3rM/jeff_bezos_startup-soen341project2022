@@ -308,7 +308,7 @@ body {
 
 #item-form {
   justify-content: center;
-  position: fixed;
+  position: absolute;
   top: 30%;
   min-width: 100%;
 }
