@@ -4,10 +4,14 @@
 
       <md-list-item v-for="item in items" :key="item.title">
 
+        <md-icon >
+          <img :src="item.image" alt="Items">
+        </md-icon>
+
         <div class="md-list-item-text">
           <span>{{ item.title }}</span>
-          <!-- <span>{{ item.description }}</span>
-          <p>{{ item.price }}</p> -->
+          <span>{{ item.description }}</span>
+          <p>{{ item.price }}</p>
         </div>
 
         <md-button class="md-icon-button md-list-action">
@@ -20,24 +24,20 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "ItemsList",
   data() {
     return {
       items: null,
-      currentUser: null,
     }
   },
   created() {
-    if (process.env.NODE_ENV !== "test") {
-      this.currentUser = this.$store.getters.getAuthUser.user;   
-    }
 
     axios.get("/sanctum/csrf-cookie").then(() => {
       axios
-        .get("/api/sellerItems", {
-          seller_id: this.currentUser.id
-        })
+        .get("/api/sellerItems")
         .then((response) => {
           this.items = response.data;
         })
