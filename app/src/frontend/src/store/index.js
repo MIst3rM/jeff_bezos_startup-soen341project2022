@@ -23,6 +23,39 @@ const mutations = {
     }
 }
 
+// initial state
+const state = {
+  added: [],
+  all: [
+  ]
+}
+
+// getters
+const getters = {
+  allProducts: state => state.all, // would need action/mutation if data fetched async
+  getNumberOfProducts: state => (state.all) ? state.all.length : 0,
+  cartProducts: state => {
+    return state.added.map(({ id, quantity }) => {
+      const product = state.all.find(p => p.id === id)
+
+      return {
+        name: product.name,
+        price: product.price,
+        quantity
+      }
+    })
+  }
+}
+
+// actions
+const actions = {
+  addToCart({ commit }, product){
+    commit(types.ADD_TO_CART, {
+      id: product.id
+    })
+  }
+}
+
 export default new Vuex.Store({
   modules: {
     auth,
@@ -38,3 +71,7 @@ export default new Vuex.Store({
   actions,
   mutations
 });
+
+
+
+
