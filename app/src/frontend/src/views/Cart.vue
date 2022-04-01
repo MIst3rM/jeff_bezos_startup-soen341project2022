@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for-key="p in products">
+        <tr v-for="p in products" :key="p.id">
             <td>{{ p.name }}</td>
             <td>${{ p.price }}</td>
             <td>{{ p.quantity }}</td>
@@ -47,15 +47,15 @@ import { mapGetters } from 'vuex'
 
 export default {
     name: "Cart",
-    computed: {
-    ...mapGetters({
-      products: 'cartProducts'
-    }),
+    data() {
+      return {
+      sending: false
+    }
+    },
     total () {
       return this.products.reduce((total, p) => {
         return total + p.price * p.quantity
       }, 0)
-    }
   },
   methods: {
     checkout(){
