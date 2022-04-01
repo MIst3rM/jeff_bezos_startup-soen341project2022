@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for-key="p in products">
+            <tr v-for-key="p in products">
             <td>{{ p.name }}</td>
             <td>${{ p.price }}</td>
             <td>{{ p.quantity }}</td>

@@ -30,14 +30,16 @@
       </md-card-content>
 
       <md-card-actions>
-        <md-button>Add To Cart</md-button>
+        <md-button @click='addToCart(item)'>Add To Cart</md-button>
         <md-button>Buy Now</md-button>
       </md-card-actions>
     </md-card>
   </div>
 </template>
 
+
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: "ItemCard",
   props: {
@@ -46,6 +48,13 @@ export default {
       required: true,
     },
   },
+  computed: mapGetters({
+    products: 'allProducts',
+    length: 'getNumberOfProducts'
+  }),
+  methods: mapActions([
+    'addToCart'
+  ])
 };
 </script>
 
