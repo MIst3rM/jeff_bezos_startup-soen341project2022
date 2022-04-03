@@ -1,9 +1,7 @@
 <template>
   <div>
     <AdminHeader />
-    <AddItem />
     <ItemsList />
-
   </div>
 </template>
 
