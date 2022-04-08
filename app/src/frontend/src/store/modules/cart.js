@@ -1,63 +1,110 @@
-// initial state
-const state = {
-    myCart : [
-    ]
-  }
-  
-  // getters
-  const getters = {
-    allProducts: state => state.myCart, // would need action/mutation if data fetched async
-    getNumberOfProducts: state => (state.myCart) ? state.myCart.length : 0,
-    isInCart: (state) => (id) => {
-      return state.myCart.some(p => p.id === id)
-    } 
-  }
-  
-  // actions
-  const actions = {
-    addToCart({ commit }, id){
-      commit("addToCart", {
-        id: id,
-        quatity: 1
-      })
-    },
-    increaseQuantity({commit},id){
-        commit("increaseQuantity",{
-            id: id
-        })
+const state = () => ({
+  items: [],
+  checkoutStatus: null,
+});
+
+const getters = {
+  getCartProducts: (state) => {
+    return state.items.map(({ product, quantity }) => {
+      return {
+        id: product.id,
+        title: product.title,
+        category: product.category,
+        image: product.image,
+        price: product.price,
+        quantity,
+      };
+    });
+  },
+
+  getCartTotalPrice: (state) => {
+    return state.items.reduce((total, item) => {
+      return total + item.product.price * item.quantity;
+    }, 0.0);
+  },
+
+  getCartTotalQuantity: (state) => {
+    return state.items.reduce((total, item) => {
+      return total + item.quantity;
+    }, 0);
+  },
+
+  isCartEmpty: (state) => {
+    return state.items.length === 0;
+  },
+};
+
+const actions = {
+  // checkout({ commit, state }, products) {
+  //   const savedCartItems = [...state.items];
+  //   commit("setCheckoutStatus", null);
+
+  //   commit("setCartItems", { items: [] });
+  //   shop.buyProducts(
+  //     products,
+  //     () => commit("setCheckoutStatus", "successful"),
+  //     () => {
+  //       commit("setCheckoutStatus", "failed");
+  //       // rollback to the cart saved before sending the request
+  //       commit("setCartItems", { items: savedCartItems });
+  //     }
+  //   );
+  // },
+
+  addProductToCart({ state, commit }, product) {
+    commit("setCheckoutStatus", null);
+    const cartItem = state.items.find((item) => item.product.id === product.id);
+    if (!cartItem) {
+      commit("pushProductToCart", { product: product });
+    } else {
+      commit("incrementItemQuantity", cartItem);
     }
-  }
-  
-  
-// mutations
+  },
+
+  removeProductFromCart({ state, commit }, product) {
+    commit("setCheckoutStatus", null);
+    const cartItem = state.items.find((item) => item.product.id === product.id);
+    if (cartItem) {
+      commit("removeProductFromCart", cartItem);
+    }
+  },
+};
+
 const mutations = {
+  pushProductToCart(state, { product }) {
+    state.items.push({
+      product,
+      quantity: 1,
+    });
+  },
 
-    addToCart (state,  id ) {
-        const record = state.myCart.find(p => p.id === id)
-  
-        if (!record) {
-          state.myCart.push({
-            id,
-            quantity: 1
-          })
-        } 
-      },
+  removeProductFromCart(state, { product }) {
+    state.items = state.items.filter((item) => item.product.id !== product.id);
+  },
 
-    increaseQuantity (state, id){
-        state.myCart.find((item) => {
-            if(item.id === id){
-                item.quantity++;
-            }
-        });
+  incrementItemQuantity(state, { product }) {
+    const cartItem = state.items.find((item) => item.product.id === product.id);
+    cartItem.quantity++;
+  },
 
-      },
+  decrementItemQuantity(state, { id }) {
+    const cartItem = state.items.find((item) => item.product.id === id);
+    cartItem.quantity--;
+  },
 
+  setCartItems(state, { items }) {
+    state.items = items;
+  },
 
-  }
-  
-  export default {
-    state,
-    getters,
-    actions,
-    mutations,
-  };
+  setCheckoutStatus(state, status) {
+    state.checkoutStatus = status;
+  },
+};
+
+export default {
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations,
+};
