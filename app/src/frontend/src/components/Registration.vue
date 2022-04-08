@@ -15,40 +15,40 @@
           <md-card-content>
             <div class="md-layout md-gutter">
               <div class="md-layout-item md-small-size-100">
-                <md-field :class="getValidationClass('firstName')">
+                <md-field :class="getValidationClass('firstname')">
                   <label for="first-name">First Name</label>
                   <md-input
                     name="first-name"
                     id="first-name"
                     autocomplete="given-name"
-                    v-model="form.firstName"
+                    v-model="form.firstname"
                     :disabled="sending"
                   />
-                  <span class="md-error" v-if="!$v.form.firstName.required"
+                  <span class="md-error" v-if="!$v.form.firstname.required"
                     >The first name is required</span
                   >
                   <span
                     class="md-error"
-                    v-else-if="!$v.form.firstName.minlength"
+                    v-else-if="!$v.form.firstname.minlength"
                     >Invalid first name</span
                   >
                 </md-field>
               </div>
 
               <div class="md-layout-item md-small-size-100">
-                <md-field :class="getValidationClass('lastName')">
+                <md-field :class="getValidationClass('lastname')">
                   <label for="last-name">Last Name</label>
                   <md-input
                     name="last-name"
                     id="last-name"
                     autocomplete="family-name"
-                    v-model="form.lastName"
+                    v-model="form.lastname"
                     :disabled="sending"
                   />
-                  <span class="md-error" v-if="!$v.form.lastName.required"
+                  <span class="md-error" v-if="!$v.form.lastname.required"
                     >The last name is required</span
                   >
-                  <span class="md-error" v-else-if="!$v.form.lastName.minlength"
+                  <span class="md-error" v-else-if="!$v.form.lastname.minlength"
                     >Invalid last name</span
                   >
                 </md-field>
@@ -97,7 +97,9 @@
                   <span class="md-error" v-else-if="!$v.form.password.maxLength"
                     >Password should not exceed 20 characters</span
                   >
-                  <span class="md-error" v-else-if="!$v.form.password.valid"
+                  <span
+                    class="md-error"
+                    v-else-if="!$v.form.password.passwordRequirements"
                     >Password should contain uppercase, lowercase, and special
                     characters and at least one number.</span
                   >
@@ -105,21 +107,23 @@
               </div>
 
               <div class="md-layout-item">
-                <md-field :class="getValidationClass('confirmPassword')">
-                  <label for="confirmPassword">Confirm Password</label>
+                <md-field :class="getValidationClass('password_confirmation')">
+                  <label for="password_confirmation">Confirm Password</label>
                   <md-input
                     type="password"
-                    name="confirmPassword"
-                    id="confirmPassword"
-                    v-model="form.confirmPassword"
+                    name="password_confirmation"
+                    id="password_confirmation"
+                    v-model="form.password_confirmation"
                     :disabled="sending"
                   />
-                  <span class="md-error" v-if="!$v.form.password.required"
+                  <span
+                    class="md-error"
+                    v-if="!$v.form.password_confirmation.required"
                     >Please confirm password</span
                   >
                   <span
                     class="md-error"
-                    v-if="!$v.form.confirmPassword.sameAsPassword"
+                    v-if="!$v.form.password_confirmation.sameAsPassword"
                     >Passwords do not match, please try again</span
                   >
                 </md-field>
@@ -155,7 +159,15 @@ import {
   minLength,
   maxLength,
   sameAs,
+  helpers,
 } from "vuelidate/lib/validators";
+
+const passwordRequirements = helpers.regex(
+  /[A-Z]/,
+  /[a-z]/,
+  /[0-9]/,
+  /[^A-Za-z0-9]/
+);
 
 export default {
   name: "FormValidation",
@@ -169,25 +181,23 @@ export default {
   mixins: [validationMixin],
   data: () => ({
     form: {
-      firstName: null,
-      lastName: null,
-      email: null,
-      password: null,
-      confirmPassword: null,
-      password_confirmation: false,
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
     },
-    userSaved: false,
     sending: false,
-    lastUser: null,
     failedRegister: false,
+    errorMsg: "",
   }),
   validations: {
     form: {
-      firstName: {
+      firstname: {
         required,
         minLength: minLength(3),
       },
-      lastName: {
+      lastname: {
         required,
         minLength: minLength(3),
       },
@@ -199,20 +209,9 @@ export default {
         required,
         minLength: minLength(8),
         maxLength: maxLength(20),
-        valid: function (value) {
-          const containsUppercase = /[A-Z]/.test(value);
-          const containsLowercase = /[a-z]/.test(value);
-          const containsNumber = /[0-9]/.test(value);
-          const containsSpecial = /[^A-Za-z0-9]/.test(value);
-          return (
-            containsUppercase &&
-            containsLowercase &&
-            containsNumber &&
-            containsSpecial
-          );
-        },
+        passwordRequirements,
       },
-      confirmPassword: {
+      password_confirmation: {
         required,
         sameAsPassword: sameAs("password"),
       },
@@ -230,26 +229,25 @@ export default {
     },
     clearForm() {
       this.$v.$reset();
-      this.form.firstName = null;
-      this.form.lastName = null;
-      this.form.email = null;
-      this.form.password = null;
-      this.form.confirmPassword = null;
+      this.form.firstname = "";
+      this.form.lastname = "";
+      this.form.email = "";
+      this.form.password = "";
+      this.form.password_confirmation = "";
     },
     saveUser() {
       this.sending = true;
-
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
           .post("/api/register", {
-            firstname: this.form.firstName,
-            lastname: this.form.lastName,
+            firstname: this.form.firstname,
+            lastname: this.form.lastname,
             email: this.form.email,
             password: this.form.password,
             password_confirmation: this.form.password_confirmation,
             role: this.adminLogin ? "admin" : "customer",
           })
-          .then((response) => {
+          .then(() => {
             this.sending = false;
             axios
               .post("/api/login", {
@@ -259,8 +257,21 @@ export default {
               .then((response) => {
                 this.sending = false;
                 this.clearForm();
-                this.$store.commit("setAuthUser", response.data);
-                setTimeout(() => this.$router.push({ path: "/" }), 1000);
+                this.$store.dispatch("Login", {
+                  user: response.data,
+                });
+                if (!this.adminLogin) {
+                  setTimeout(() => this.$router.push({ path: "/" }), 500);
+                } else {
+                  setTimeout(
+                    () =>
+                      this.$router.push({
+                        name: "admin_user",
+                        params: { username: response.data.firstname },
+                      }),
+                    500
+                  );
+                }
               })
               .catch((error) => {
                 this.sending = false;
@@ -281,7 +292,6 @@ export default {
       this.$v.$touch();
 
       if (!this.$v.$invalid) {
-        this.password_confirmation = true;
         this.saveUser();
       }
     },

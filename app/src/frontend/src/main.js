@@ -102,7 +102,7 @@ const routes = () => {
         name: "admin_user",
         path: "/:username",
         component: Admin,
-        meta: { header: false },
+        meta: { header: false, requiresAuth: true },
       },
     ];
   } else {
@@ -121,8 +121,11 @@ router.beforeEach((to, from, next) => {
     if (store.getters.isAuthenticated) {
       next();
       return;
+    } else if (subdomain === "admin") {
+      next("/");
+    } else {
+      next("/login");
     }
-    next("/login");
   } else {
     next();
   }
@@ -133,6 +136,30 @@ Vue.use(VueMaterial);
 Vue.use(VueHorizontal);
 Vue.use(VueSnip);
 Vue.component("VueSlider", VueSlider);
+Vue.component(
+  "MdSelect",
+  Vue.options.components.MdSelect.extend({
+    methods: {
+      isInvalidValue: function isInvalidValue() {
+        return this.$el.validity
+          ? this.$el.validity.badInput
+          : this.$el.querySelector("input").validity.badInput;
+      },
+    },
+  })
+);
+Vue.component(
+  "MdFile",
+  Vue.options.components.MdFile.extend({
+    methods: {
+      isInvalidValue: function isInvalidValue() {
+        return this.$el.validity
+          ? this.$el.validity.badInput
+          : this.$el.querySelector("input").validity.badInput;
+      },
+    },
+  })
+);
 
 new Vue({
   router,

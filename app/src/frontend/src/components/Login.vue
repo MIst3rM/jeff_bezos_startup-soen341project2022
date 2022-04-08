@@ -230,7 +230,6 @@ body {
   padding-left: 2.5%;
 }
 
-/* Button for login */
 .md-card {
   text-align: center;
 }
@@ -272,7 +271,6 @@ body {
   color: white;
 }
 
-/* Button for registration */
 .md-primary {
   padding-right: 100px;
   padding-left: 100px;
