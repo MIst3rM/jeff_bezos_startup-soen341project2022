@@ -17,8 +17,8 @@ export default new Vuex.Store({
       storage: window.sessionStorage,
     }),
   ],
-  state,
-  getters,
-  actions,
-  mutations
 });
+
+
+
+
