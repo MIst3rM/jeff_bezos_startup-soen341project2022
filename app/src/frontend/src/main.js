@@ -17,7 +17,7 @@ import Popper from "@popperjs/core/dist/esm/popper.js";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import { Login, Registration } from "./components";
-import { Home, Admin, Shop, Profile, AdminLogin, AdminRegister } from "./views";
+import { Home, Admin, Shop, Profile, AdminLogin, AdminRegister, Cart } from "./views";
 
 Vue.config.productionTip = false;
 
@@ -76,6 +76,7 @@ const routes = () => {
       { path: "/faq", meta: { header: true } },
       {
         path: "/cart",
+        component: Cart,
         meta: { header: true, requiresAuth: false },
       },
     ];

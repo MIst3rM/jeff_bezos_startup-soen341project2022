@@ -6,5 +6,6 @@ import Shop from "./Shop.vue";
 import Profile from "./Profile.vue";
 import AdminLogin from "./AdminLogin.vue";
 import AdminRegister from "./AdminRegister.vue";
+import Cart from "./Cart.vue";
 
-export { Home, Admin, About, Faq, Shop, Profile, AdminLogin, AdminRegister };
+export { Home, Admin, About, Faq, Shop, Profile, AdminLogin, AdminRegister, Cart };
