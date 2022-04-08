@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-size">
     <md-app md-waterfall md-mode="fixed">
       <md-app-toolbar class="md-primary">
         <span class="md-title">Add new items</span>
@@ -8,7 +8,7 @@
          <md-toolbar class="md-transparent" md-elevation="0">
           Seller Items List
         </md-toolbar>
-        <md-list class="md-triple-line">
+        <md-list class="md-triple-line" > 
           
           <md-list-item v-for="item in items" :key="item.title">
 
@@ -66,10 +66,25 @@ export default {
 
 <style lang="scss" scoped>
   .md-list {
-    width: 320px;
+    //width: 350px;
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
     border: 1px solid rgba(#000, .12);
   }
+  .md-app {
+    max-height: 850px;
+    border: 1px solid rgba(#000, .12);
+  }
+
+   // Demo purposes only
+  .md-drawer {
+    width: 400px;
+    max-width: calc(100vw - 125px);
+  }
+
+  .app-size {
+    height: 60%;
+  }
+
 </style>
