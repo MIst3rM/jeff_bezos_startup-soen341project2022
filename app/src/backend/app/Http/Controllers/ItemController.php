@@ -25,4 +25,15 @@ class ItemController extends Controller
             return response('Item could not be added', 500)->header('Content-Type', 'text/plain');
         }
     }
+
+    public function destroy($id)
+    {
+        try {
+            $item = Items::find($id);
+            $item->delete();
+            return response('Item deleted', 200)->header('Content-Type', 'text/plain');
+        } catch (Exception $e) {
+            return response('Item could not be deleted', 500)->header('Content-Type', 'text/plain');
+        }
+    }
 }

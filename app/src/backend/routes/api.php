@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\SellerController;
+use App\Models\Items;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,11 @@ Route::get('/allItems', function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::delete('/deleteItem/{id}', [ItemController::class, 'destroy']);
+
+    Route::get('/sellerItems/{seller_id}', function ($seller_id) {
+        return Items::where('seller_id', $seller_id)->get()->toJson();
+    });
 
     Route::get('/user/{id}', function ($id) {
         return User::where('id', $id)->get()->toJson();
@@ -43,4 +49,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/userOrderHistory', [UserController::class, 'userOrderHistory']);
 
     Route::post('/addItem', [ItemController::class, 'store']);
+
+    
 });
