@@ -1,6 +1,5 @@
 const state = () => ({
   items: [],
-  checkoutStatus: null,
 });
 
 const getters = {
@@ -35,24 +34,11 @@ const getters = {
 };
 
 const actions = {
-  // checkout({ commit, state }, products) {
-  //   const savedCartItems = [...state.items];
-  //   commit("setCheckoutStatus", null);
-
-  //   commit("setCartItems", { items: [] });
-  //   shop.buyProducts(
-  //     products,
-  //     () => commit("setCheckoutStatus", "successful"),
-  //     () => {
-  //       commit("setCheckoutStatus", "failed");
-  //       // rollback to the cart saved before sending the request
-  //       commit("setCartItems", { items: savedCartItems });
-  //     }
-  //   );
-  // },
+  checkout({ commit }) {
+    commit("checkout");
+  },
 
   addProductToCart({ state, commit }, product) {
-    commit("setCheckoutStatus", null);
     const cartItem = state.items.find((item) => item.product.id === product.id);
     if (!cartItem) {
       commit("pushProductToCart", { product: product });
@@ -62,11 +48,18 @@ const actions = {
   },
 
   removeProductFromCart({ state, commit }, product) {
-    commit("setCheckoutStatus", null);
     const cartItem = state.items.find((item) => item.product.id === product.id);
     if (cartItem) {
       commit("removeProductFromCart", cartItem);
     }
+  },
+
+  incrementItemQuantity({ commit }, product) {
+    commit("incrementItemQuantity", product);
+  },
+
+  decrementItemQuantity({ commit }, product) {
+    commit("decrementItemQuantity", product);
   },
 };
 
@@ -82,13 +75,13 @@ const mutations = {
     state.items = state.items.filter((item) => item.product.id !== product.id);
   },
 
-  incrementItemQuantity(state, { product }) {
+  incrementItemQuantity(state, product) {
     const cartItem = state.items.find((item) => item.product.id === product.id);
     cartItem.quantity++;
   },
 
-  decrementItemQuantity(state, { id }) {
-    const cartItem = state.items.find((item) => item.product.id === id);
+  decrementItemQuantity(state, product) {
+    const cartItem = state.items.find((item) => item.product.id === product.id);
     cartItem.quantity--;
   },
 
@@ -96,8 +89,8 @@ const mutations = {
     state.items = items;
   },
 
-  setCheckoutStatus(state, status) {
-    state.checkoutStatus = status;
+  checkout(state) {
+    state.items = [];
   },
 };
 
