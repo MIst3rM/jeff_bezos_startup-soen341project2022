@@ -79,6 +79,12 @@ const routes = () => {
         component: Cart,
         meta: { header: true, requiresAuth: false },
       },
+      {
+        name: "checkout",
+        path: "/checkout",
+        component: Checkout,
+        meta: { header: true, requiresAuth: false },
+      },
     ];
   } else if (subdomain === "admin") {
     routes = [
@@ -102,7 +108,27 @@ const routes = () => {
         name: "admin_user",
         path: "/:username",
         component: Admin,
-        meta: { header: false },
+        meta: { header: false, requiresAuth: true },
+        children: [
+          {
+            name: "listed",
+            path: "listed",
+            component: SellerItems,
+            children: [
+              {
+                name: "edit_item",
+                path: "/:username/listed/:id/edit",
+                component: EditItem,
+                props: (route) => ({ item: route.params.item }),
+              },
+            ],
+          },
+          {
+            name: "sales",
+            path: "sales",
+            component: null,
+          },
+        ],
       },
     ];
   } else {
@@ -133,6 +159,8 @@ Vue.use(VueMaterial);
 Vue.use(VueHorizontal);
 Vue.use(VueSnip);
 Vue.component("VueSlider", VueSlider);
+
+export const bus = new Vue();
 
 new Vue({
   router,
