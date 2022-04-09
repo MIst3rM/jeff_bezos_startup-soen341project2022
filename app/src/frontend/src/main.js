@@ -79,6 +79,12 @@ const routes = () => {
         component: Cart,
         meta: { header: true, requiresAuth: false },
       },
+      {
+        name: "checkout",
+        path: "/checkout",
+        component: Checkout,
+        meta: { header: true, requiresAuth: false },
+      },
     ];
   } else if (subdomain === "admin") {
     routes = [
@@ -103,6 +109,26 @@ const routes = () => {
         path: "/:username",
         component: Admin,
         meta: { header: false, requiresAuth: true },
+        children: [
+          {
+            name: "listed",
+            path: "listed",
+            component: SellerItems,
+            children: [
+              {
+                name: "edit_item",
+                path: "/:username/listed/:id/edit",
+                component: EditItem,
+                props: (route) => ({ item: route.params.item }),
+              },
+            ],
+          },
+          {
+            name: "sales",
+            path: "sales",
+            component: null,
+          },
+        ],
       },
     ];
   } else {
@@ -160,6 +186,8 @@ Vue.component(
     },
   })
 );
+
+export const bus = new Vue();
 
 new Vue({
   router,
