@@ -13,12 +13,22 @@
           v-model="selectedCategories"
           :id="category"
           :value="category"
+          @change="filter()"
         >
           {{ category }}
         </md-checkbox>
 
         <md-subheader>Price</md-subheader>
-        <vue-slider></vue-slider>
+        <vue-slider
+          silent
+          :interval="1"
+          :adsorb="true"
+          v-model="price"
+          :min="minPrice"
+          :max="maxPrice"
+          @change="filter()"
+        ></vue-slider>
+        <md-button id="clear-filters" @click="clearFilters">Clear</md-button>
       </md-app-drawer>
 
       <md-app-content>
@@ -47,8 +57,14 @@ export default {
   data() {
     return {
       items: null,
+      allItems: null,
+      filteredItems: [],
       categories: [],
       selectedCategories: [],
+      prices: [],
+      price: 0,
+      minPrice: 0,
+      maxPrice: 0,
     };
   },
   created() {
@@ -57,11 +73,22 @@ export default {
         .get("/api/allItems")
         .then((response) => {
           this.items = response.data;
+          this.allItems = response.data;
           this.items.filter((item) => {
             if (!this.categories.includes(this.pascalCase(item.category))) {
               this.categories.push(this.pascalCase(item.category));
             }
           });
+
+          this.prices = this.allItems
+            .sort((a, b) => {
+              return a.price - b.price;
+            })
+            .map((item) => item.price);
+
+          this.minPrice = Math.floor(this.prices[0]);
+          this.maxPrice = Math.ceil(this.prices[this.prices.length - 1]);
+          this.price = this.minPrice;
         })
         .catch((error) => {
           console.log(error);
@@ -74,6 +101,24 @@ export default {
         .split(" ")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
+    },
+    filter() {
+      this.filteredItems = this.allItems.filter((item) => {
+        if (this.selectedCategories.length > 0) {
+          return (
+            this.selectedCategories.includes(this.pascalCase(item.category)) &&
+            item.price >= this.price
+          );
+        } else {
+          return item.price >= this.price;
+        }
+      });
+      this.items = this.filteredItems;
+    },
+    clearFilters() {
+      this.selectedCategories = [];
+      this.price = this.minPrice;
+      this.items = this.allItems;
     },
   },
 };
@@ -131,5 +176,9 @@ export default {
 
 .md-app-content {
   overflow-y: hidden;
+}
+
+#clear-filters {
+  float: right;
 }
 </style>
