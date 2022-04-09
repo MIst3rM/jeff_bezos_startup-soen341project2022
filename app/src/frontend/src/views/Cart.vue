@@ -1,11 +1,11 @@
 <template>
   <div class="cart">
     <h1 class="title">Your Cart</h1>
-    <p class ="cart-message">
+    <p class ="cart-message" v-show="!products.length">
       <i>Your cart is empty! </i>
       <router-link to="/"> Go shopping</router-link>
     </p>
-    <table class="table">
+    <table class="table" v-show="products.length">
       <thead>
         <tr>
           <td>Name</td>
@@ -14,11 +14,11 @@
         </tr>
       </thead>
       <tbody>
-        <!-- <tr v-for="p in products">
+        <tr v-for="p in products" :key="p.id">
             <td>{{ p.name }}</td>
             <td>${{ p.price }}</td>
             <td>{{ p.quantity }}</td>
-          </tr> -->
+          </tr>
           <tr>
             <td><b>Total:</b></td>
             <td></td>
@@ -29,6 +29,7 @@
     </table>
     <span id="login-button">
               <md-button
+                v-show="products.length"
                 id="login-color"
                 type="submit"
                 class="md-primary"
@@ -42,9 +43,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
     name: "Cart",
+    data() {
+      return {
+      sending: false
+    }
+    },
+    total () {
+      return this.products.reduce((total, p) => {
+        return total + p.price * p.quantity
+      }, 0)
+  },
   methods: {
     checkout(){
       alert('Pay us $' + this.total)
