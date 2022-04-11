@@ -9,7 +9,7 @@ describe("Register", () => {
     cy.get("input[name=last-name]").type("Johnston");
     cy.get("input[name=email]").type("don.johnston@example.com");
     cy.get("input[name=password]").type("Password_123");
-    cy.get("input[name=confirmPassword]").type(`Password_123{enter}`);
+    cy.get("input[name=password_confirmation]").type(`Password_123{enter}`);
 
     cy.wait(2000);
 

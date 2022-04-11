@@ -6,7 +6,7 @@ describe("Add Item", () => {
 
   it("Adding a new item as a seller", () => {
     cy.get("input[name=email]").type("MI5t3r_M@gmail.com");
-    cy.get("input[name=password]").type(`password{enter}`);
+    cy.get("input[name=password]").type(`Password_123{enter}`);
 
     cy.wait(2000);
 

@@ -39,7 +39,6 @@
 
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 export default {
   name: "ItemCard",
   props: {
@@ -48,13 +47,11 @@ export default {
       required: true,
     },
   },
-  computed: mapGetters({
-    products: 'allProducts',
-    length: 'getNumberOfProducts'
-  }),
-  methods: mapActions([
-    'addToCart'
-  ])
+  methods: {
+    addToCart(item) {
+      this.$store.dispatch("cart/addProductToCart", item);
+    },
+  },
 };
 </script>
 

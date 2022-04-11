@@ -8,7 +8,7 @@ describe("Login", () => {
     cy.viewport("macbook-16");
     cy.visit("http://store.conco/login");
     cy.get("input[name=email]").type("MI5t3r_M@gmail.com");
-    cy.get("input[name=password]").type(`password{enter}`);
+    cy.get("input[name=password]").type(`Password_123{enter}`);
 
     cy.wait(2000);
 

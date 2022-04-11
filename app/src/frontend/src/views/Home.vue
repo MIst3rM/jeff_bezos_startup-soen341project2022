@@ -10,6 +10,7 @@ export default {
   data() {
     return {
       items: null,
+      timer: null,
     };
   },
   created() {
@@ -17,12 +18,33 @@ export default {
       axios
         .get("/api/items")
         .then((response) => {
+          let img = new Image();
           this.items = response.data;
+          this.items.forEach((item) => {
+            img.src = item.image;
+          });
         })
         .catch((error) => {
           console.log(error);
         });
     });
+
+    this.timer = setInterval(() => {
+      axios.get("/sanctum/csrf-cookie").then(() => {
+        axios
+          .get("/api/items")
+          .then((response) => {
+            this.items = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+    }, 60000);
+  },
+  beforeRouteLeave(to, from, next) {
+    clearInterval(this.timer);
+    next();
   },
 };
 </script>

@@ -3,7 +3,11 @@
     <md-app md-waterfall md-mode="overlap">
       <md-app-toolbar class="md-primary md-large">
         <div class="md-toolbar-row">
-          <md-button class="md-icon-button" @click="menuVisible = true">
+          <md-button
+            class="md-icon-button"
+            @click="menuVisible = true"
+            data-cy="sidemenu"
+          >
             <md-icon>menu</md-icon>
           </md-button>
           <span class="md-title">Hi, {{ currentUser.firstname }}</span>
@@ -28,8 +32,13 @@
           </md-list-item>
 
           <md-list-item>
-            <router-link to="/" tag="md-button" @click.native="logout">
-              <md-icon data-cy="logout">logout</md-icon>
+            <router-link
+              to="/"
+              tag="md-button"
+              @click.native="logout"
+              data-cy="logout"
+            >
+              <md-icon>logout</md-icon>
             </router-link>
             <span class="md-list-item-text">Sign out</span>
           </md-list-item>
@@ -476,7 +485,6 @@ export default {
       current_password: "",
       new_password: "",
       confirmed_password: "",
-      new_password_confirmation: false,
     },
     sending1: false,
     sending2: false,
@@ -606,6 +614,7 @@ export default {
               firstname: this.currentUser.firstname,
               lastname: this.currentUser.lastname,
               email: this.currentUser.email,
+              phone: this.currentUser.phone,
             },
           })
           .then((response) => {
@@ -691,7 +700,6 @@ export default {
         this.$v.updatePassword.$touch();
 
         if (!this.$v.updatePassword.$invalid) {
-          this.new_password_confirmation = true;
           this.persistPasswordChanges();
         }
       });
