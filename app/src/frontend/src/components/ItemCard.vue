@@ -30,12 +30,13 @@
       </md-card-content>
 
       <md-card-actions>
-        <md-button @click="addToCart(item.id)">Add To Cart</md-button>
+        <md-button @click='addToCart(item)'>Add To Cart</md-button>
         <md-button>Buy Now</md-button>
       </md-card-actions>
     </md-card>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -47,20 +48,10 @@ export default {
     },
   },
   methods: {
-    addToCart(id) {
-      if (this.$store.getters.isInCart(id)) {
-        this.$store.dispatch("increaseQuantity",{
-          id: id
-        })
-      }
-      else {
-        this.$store.dispatch("addToCart",{
-          id: id
-      })
-      }
-    }
-    
-  }
+    addToCart(item) {
+      this.$store.dispatch("cart/addProductToCart", item);
+    },
+  },
 };
 </script>
 
