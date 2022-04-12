@@ -1,10 +1,21 @@
 import Home from "./Home.vue";
 import Admin from "./Admin.vue";
-import About from "./About.vue";
-import Faq from "./Faq.vue";
 import Shop from "./Shop.vue";
 import Profile from "./Profile.vue";
 import AdminLogin from "./AdminLogin.vue";
 import AdminRegister from "./AdminRegister.vue";
+import Cart from "./Cart.vue";
+import Checkout from "./Checkout.vue";
+import SellerProfile from "./SellerProfile.vue";
 
-export { Home, Admin, About, Faq, Shop, Profile, AdminLogin, AdminRegister };
+export {
+  Home,
+  Admin,
+  Shop,
+  Profile,
+  AdminLogin,
+  AdminRegister,
+  Cart,
+  Checkout,
+  SellerProfile,
+};

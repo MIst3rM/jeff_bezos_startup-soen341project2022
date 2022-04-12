@@ -12,14 +12,36 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "vue-slider-component/theme/material.css";
 import "vue-material/dist/theme/default.css";
 import "vue-material/dist/vue-material.min.css";
-
-import Popper from "@popperjs/core/dist/esm/popper.js";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
-import { Login, Registration } from "./components";
-import { Home, Admin, Shop, Profile, AdminLogin, AdminRegister } from "./views";
+import { EditItem, Login, Registration, SellerItems } from "./components";
+import {
+  Home,
+  Admin,
+  Shop,
+  Profile,
+  AdminLogin,
+  AdminRegister,
+  Cart,
+  Checkout,
+  SellerProfile,
+} from "./views";
 
 Vue.config.productionTip = false;
+
+import Echo from "laravel-echo";
+window.Pusher = require("pusher-js");
+
+window.Echo = new Echo({
+  broadcaster: "pusher",
+  key: process.env.VUE_APP_WEBSOCKETS_KEY,
+  wsHost: process.env.VUE_APP_WEBSOCKETS_SERVER,
+  wsPort: 6001,
+  wssPort: 6001,
+  forceTLS: false,
+  disableStats: true,
+  enabledTransports: ["ws", "wss"],
+});
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://backend.store.conco/";
@@ -72,10 +94,15 @@ const routes = () => {
         component: Registration,
         meta: { header: true },
       },
-      { path: "/about", meta: { header: true } },
-      { path: "/faq", meta: { header: true } },
       {
         path: "/cart",
+        component: Cart,
+        meta: { header: true, requiresAuth: false },
+      },
+      {
+        name: "checkout",
+        path: "/checkout",
+        component: Checkout,
         meta: { header: true, requiresAuth: false },
       },
     ];
@@ -102,6 +129,31 @@ const routes = () => {
         path: "/:username",
         component: Admin,
         meta: { header: false, requiresAuth: true },
+        children: [
+          {
+            name: "listed",
+            path: "/:username/listed",
+            component: SellerItems,
+            children: [
+              {
+                name: "edit_item",
+                path: "/:username/listed/:id/edit",
+                component: EditItem,
+                props: true,
+              },
+            ],
+          },
+          {
+            name: "seller_profile",
+            path: "/:username/profile",
+            component: SellerProfile,
+          },
+          {
+            name: "sales",
+            path: "/:username/sales",
+            component: null,
+          },
+        ],
       },
     ];
   } else {
@@ -160,7 +212,14 @@ Vue.component(
   })
 );
 
+export const bus = new Vue();
+
 new Vue({
+  data() {
+    return {
+      isCartEmpty: true,
+    };
+  },
   router,
   store,
   render: (h) => h(App),

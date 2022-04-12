@@ -8,9 +8,11 @@
         class="md-layout md-alignment-center-center"
         @submit.prevent="validateUser"
       >
-        <md-card class="md-layout-item md-size-40">
+        <md-card md-with-hover>
           <md-card-header>
-            <div class="title">Sign in</div>
+            <md-card-header-text>
+              <div class="title">Sign in</div>
+            </md-card-header-text>
           </md-card-header>
 
           <md-card-content>
@@ -120,6 +122,7 @@ export default {
       email: null,
       password: null,
     },
+    checkoutLogin: false,
     errorMsg: "",
     failedLogin: false,
     rememberMe: false,
@@ -137,6 +140,15 @@ export default {
         required,
       },
     },
+  },
+  beforeRouteEnter(to, from, next) {
+    if (from.name === "checkout") {
+      next((vm) => {
+        vm.checkoutLogin = true;
+      });
+    } else {
+      next();
+    }
   },
   methods: {
     getValidationClass(fieldName) {
@@ -168,7 +180,12 @@ export default {
               user: response.data,
             });
             if (!this.adminLogin) {
-              setTimeout(() => this.$router.push({ path: "/" }), 500);
+              if (this.checkoutLogin) {
+                this.checkoutLogin = false;
+                setTimeout(() => this.$router.push({ path: "/checkout" }), 500);
+              } else {
+                setTimeout(() => this.$router.push({ path: "/" }), 500);
+              }
             } else {
               setTimeout(
                 () =>
@@ -210,6 +227,7 @@ body {
 }
 .md-card {
   border-radius: 28px;
+  text-align: center;
 }
 .title {
   text-align: center;
@@ -230,16 +248,12 @@ body {
   padding-left: 2.5%;
 }
 
-.md-card {
-  text-align: center;
-}
-
 #login-color {
   background-color: #1d4fd8;
   background-size: 0% 100%;
   border: none;
   border-radius: 7px;
-  color: #fff;
+  color: white;
   display: inline-block;
   font-size: 20px;
   padding: 10px 30px;
@@ -265,10 +279,6 @@ body {
 #login-color:active {
   background-color: #294fb9;
   transition: background-size 0;
-}
-
-#login-color {
-  color: white;
 }
 
 .md-primary {

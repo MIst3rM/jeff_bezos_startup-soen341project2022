@@ -65,7 +65,7 @@ class FortifyServiceProvider extends ServiceProvider
             if ($request->header('origin') === 'http://admin.store.conco') {
                 if (
                     $user &&
-                    $user->role === 'admin' &&
+                    in_array($user->role, ['admin', 'seller']) &&
                     Hash::check($request->password, $user->password)
                 ) {
                     Log::debug(Auth::user());

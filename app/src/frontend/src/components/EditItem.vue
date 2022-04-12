@@ -1,23 +1,19 @@
 <template>
-  <div id="add-item-container">
+  <div class="edit-container">
     <form
       id="item-form"
       novalidate
       class="md-layout"
       @submit.prevent="validateItem"
     >
-      <md-card
-        class="
-          md-layout-item md-xsmall-80 md-small-size-100 md-medium-size-200 md-large-size-300
-        "
-      >
+      <md-card class="md-layout-item">
         <md-card-header>
-          <div id="add-item-title" class="md-title">Add Item</div>
+          <div id="edit-item-title" class="md-title">Edit Item</div>
         </md-card-header>
 
         <md-card-content>
           <div class="md-layout md-gutter">
-            <div class="md-layout-item">
+            <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('title')">
                 <label for="title">Title</label>
                 <md-input
@@ -32,7 +28,7 @@
               </md-field>
             </div>
 
-            <div class="md-layout-item">
+            <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('image')">
                 <label for="image">Image</label>
                 <md-file
@@ -50,20 +46,22 @@
             </div>
           </div>
 
-          <div class="md-layout-item">
-            <md-field :class="getValidationClass('description')">
-              <label for="description">Description</label>
-              <md-textarea
-                name="last-name"
-                id="last-name"
-                autocomplete="description"
-                v-model="form.description"
-                :disabled="sending"
-              />
-              <span class="md-error" v-if="!$v.form.description.required"
-                >The item description is required</span
-              >
-            </md-field>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('description')">
+                <label for="description">Description</label>
+                <md-textarea
+                  name="last-name"
+                  id="last-name"
+                  autocomplete="description"
+                  v-model="form.description"
+                  :disabled="sending"
+                />
+                <span class="md-error" v-if="!$v.form.description.required"
+                  >The item description is required</span
+                >
+              </md-field>
+            </div>
           </div>
 
           <div class="md-layout md-gutter">
@@ -116,7 +114,7 @@
               </md-field>
             </div>
           </div>
-          <span class="invalidCreds" v-if="failedItemAdd">
+          <span class="invalidCreds" v-if="failedItemEdit">
             {{ errorMsg }}
           </span>
         </md-card-content>
@@ -128,19 +126,19 @@
           :md-duration="2000"
           :md-active.sync="showSnackbar"
           md-persistent
-          data-cy="item_added"
+          data-cy="item_edited"
         >
           <span>{{ successMsg }}</span>
         </md-snackbar>
 
         <md-card-actions>
           <md-button
-            id="button-add-item"
+            id="button-edit-item"
             type="submit"
             class="md-primary"
             :disabled="sending"
-            data-cy="add_item"
-            >Add</md-button
+            data-cy="edit_item"
+            >Save Changes</md-button
           >
         </md-card-actions>
       </md-card>
@@ -150,9 +148,10 @@
 
 <script>
 import axios from "axios";
+import { bus } from "../main";
 import { validationMixin } from "vuelidate";
 import { required, decimal, helpers } from "vuelidate/lib/validators";
-import { bus } from "../main";
+
 const instance = axios.create({
   baseURL: "https://api.imgbb.com/1",
   withCredentials: false,
@@ -161,7 +160,7 @@ const instance = axios.create({
 const priceRequirements = helpers.regex(/^\d+(\.\d{1,2})?$/, /^(?!0).*/);
 
 export default {
-  name: "AddItem",
+  name: "EditItem",
   mixins: [validationMixin],
   data: () => ({
     form: {
@@ -172,16 +171,17 @@ export default {
       price: null,
     },
     sending: false,
-    failedItemAdd: false,
+    failedItemEdit: false,
     errorMsg: "",
     image_url: "",
     successMsg: "",
     showSnackbar: false,
     position: "center",
   }),
-  computed: {
-    id: function () {
-      return this.$store.getters.getAuthUser.user.id;
+  props: {
+    item: {
+      type: Object,
+      required: true,
     },
   },
   validations: {
@@ -200,6 +200,27 @@ export default {
         decimal,
         priceRequirements,
       },
+    },
+  },
+  created() {
+    console.log(this.$route);
+    this.form.title = this.item.title;
+    this.form.description = this.item.description;
+    this.form.image = this.item.image;
+    this.form.category = this.item.category;
+    this.form.price = this.item.price;
+  },
+  watch: {
+    item: {
+      handler() {
+        this.form.title = this.item.title;
+        this.form.description = this.item.description;
+        this.form.image = this.item.image;
+        this.form.category = this.item.category;
+        this.form.price = this.item.price;
+      },
+      immediate: true,
+      deep: true,
     },
   },
   methods: {
@@ -225,25 +246,27 @@ export default {
       this.sending = true;
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
-          .post("/api/addItem", {
-            seller_id: this.id,
-            title: this.form.title,
-            description: this.form.description,
-            image: this.image_url,
-            category: this.form.category,
-            price: this.form.price,
+          .post("/api/updateItem", {
+            updatedItem: {
+              id: this.item.id,
+              title: this.form.title,
+              description: this.form.description,
+              image: this.form.image,
+              category: this.form.category,
+              price: this.form.price,
+            },
           })
           .then((response) => {
             this.sending = false;
-            this.clearForm();
-            this.successMsg = response.data;
-            this.showSnackbar = true;
+            this.form.title = response.data.title;
+            this.form.description = response.data.description;
+            this.form.image = response.data.image;
+            this.form.category = response.data.category;
+            this.form.price = response.data.price;
             bus.$emit("refreshItems");
           })
           .catch((error) => {
             this.sending = false;
-            this.failedItemAdd = true;
-            this.errorMsg = error.response.data.message;
             if (error.response.status === 401) {
               this.$store.dispatch("Logout");
               this.clearForm();
@@ -279,11 +302,9 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-#item-form {
-  min-width: 550px;
-  max-width: 1000px;
+<style scoped lang="scss">
+.edit-container {
+  width: -webkit-fill-available;
 }
 
 .md-progress-bar {

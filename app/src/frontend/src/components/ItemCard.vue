@@ -26,12 +26,18 @@
 
       <md-card-content>
         <p v-snip>{{ item.description }}</p>
-        <div class="md-subhead">${{item.price}}</div>
+        <div class="md-subhead">${{ item.price }}</div>
       </md-card-content>
 
       <md-card-actions>
-        <md-button>Add To Cart</md-button>
-        <md-button>Buy Now</md-button>
+        <md-button @click="addToCart(item)">Add To Cart</md-button>
+        <md-button
+          @click="
+            addToCart(item);
+            goToCart();
+          "
+          >Buy Now</md-button
+        >
       </md-card-actions>
     </md-card>
   </div>
@@ -44,6 +50,14 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    addToCart(item) {
+      this.$store.dispatch("cart/addProductToCart", item);
+    },
+    goToCart() {
+      this.$router.push("/cart");
     },
   },
 };

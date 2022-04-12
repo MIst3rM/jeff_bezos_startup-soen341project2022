@@ -10,7 +10,6 @@ export default {
   data() {
     return {
       items: null,
-      timer: null,
     };
   },
   created() {
@@ -28,23 +27,13 @@ export default {
           console.log(error);
         });
     });
-
-    this.timer = setInterval(() => {
-      axios.get("/sanctum/csrf-cookie").then(() => {
-        axios
-          .get("/api/items")
-          .then((response) => {
-            this.items = response.data;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      });
-    }, 60000);
   },
-  beforeRouteLeave(to, from, next) {
-    clearInterval(this.timer);
-    next();
+  mounted() {
+    window.Echo.channel("channel").listen("AddedItem", (e) => {
+      this.items = e.items.sort((a, b) => {
+        return b.id - a.id;
+      }).slice(0,5);
+    });
   },
 };
 </script>

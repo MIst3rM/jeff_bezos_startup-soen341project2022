@@ -22,7 +22,7 @@ class SalesItemsSeeder extends Seeder
             foreach ($sale['products'] as $product) {
                 SalesItems::create([
                     'invoice_id' => $sale['id'],
-                    'seller_id' => 1,
+                    'seller_id' => $product['productId'] % 2 == 0 ? 3 : 2,
                     'item_id' => $product['productId'],
                     'quantity' => $product['quantity'],
                     'total_price' => $this->total($product),

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemController;
+use App\Models\Items;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,9 +36,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/updateUser', [UserController::class, 'updateUser']);
 
+    Route::post('/updateItem', [ItemController::class, 'updateItem']);
+
     Route::post('/updateAddress', [UserController::class, 'updateAddress']);
 
-    Route::get('/userOrderHistory', [UserController::class, 'userOrderHistory']);
+    Route::post('/userOrderHistory', [UserController::class, 'userOrderHistory']);
 
     Route::post('/addItem', [ItemController::class, 'store']);
+
+    Route::delete('/deleteItem/{id}', [ItemController::class, 'destroy']);
+
+    Route::get('/sellerItems/{seller_id}', function ($seller_id) {
+        return Items::where('seller_id', $seller_id)->get()->toJson();
+    });
 });

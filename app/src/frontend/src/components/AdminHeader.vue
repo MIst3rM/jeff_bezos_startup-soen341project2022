@@ -7,8 +7,8 @@
         </div>
       </div>
       <div class="md-layout md-gutter md-alignment-center-right">
-        <b class="account" v-if="login" data-cy="username"
-          >Hi, {{ username }}</b
+        <strong class="account" v-if="login" data-cy="username"
+          >Hi, {{ username }}</strong
         >
 
         <md-menu class="md-layout-item" ref="menu" :mdCloseOnClick="true">
