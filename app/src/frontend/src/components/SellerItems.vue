@@ -32,7 +32,7 @@
 
     <router-view />
 
-    <md-button id="add_new_item" class="md-fab" @click="showDialog = true">
+    <md-button id="add_new_item" data-cy="add_new_item" class="md-fab" @click="showDialog = true">
       <md-icon id="add_icon">add</md-icon>
     </md-button>
     <md-dialog :md-active.sync="showDialog">
@@ -49,6 +49,7 @@
         itemToDelete = null;
       "
       @md-confirm="onConfirm"
+      data-cy="delete_item_confirm"
     />
   </div>
 </template>
@@ -121,7 +122,11 @@ export default {
 <style lang="scss" scoped>
 .seller_items_container {
   display: flex;
+  flex-direction: row;
+  justify-content: unset;
+  align-items: center;
 }
+
 .md-list {
   width: 320px;
   max-width: 100%;

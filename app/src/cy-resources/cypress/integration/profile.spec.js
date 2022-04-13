@@ -6,8 +6,8 @@ describe("Profile", () => {
 
   it("Should display forms to edit information", () => {
     cy.visit("http://store.conco/login");
-    cy.get("input[name=email]").type("MI5t3r_M@gmail.com");
-    cy.get("input[name=password]").type(`Password_123{enter}`);
+    cy.get("input[name=email]").type("morrison@gmail.com");
+    cy.get("input[name=password]").type(`83r5^_{enter}`);
 
     cy.wait(2000);
 
@@ -23,8 +23,8 @@ describe("Profile", () => {
 
   it("Should be able to change name", () => {
     cy.visit("http://store.conco/login");
-    cy.get("input[name=email]").type("MI5t3r_M@gmail.com");
-    cy.get("input[name=password]").type(`Password_123{enter}`);
+    cy.get("input[name=email]").type("morrison@gmail.com");
+    cy.get("input[name=password]").type(`83r5^_{enter}`);
 
     cy.wait(2000);
 
@@ -35,7 +35,7 @@ describe("Profile", () => {
     cy.get("[data-cy=personal_info_form]").within(() => {
       cy.get("input[name=first-name]").clear();
       cy.wait(2000);
-      cy.get("input[name=first-name]").type("Mister");
+      cy.get("input[name=first-name]").type("Jim");
       cy.get("[data-cy=save_info]").click();
     });
 
@@ -46,7 +46,7 @@ describe("Profile", () => {
     cy.wait(2000);
 
     cy.get("[data-cy=personal_info_form]").within(() => {
-      cy.get("input[name=first-name]").should("have.value", "Mister");
+      cy.get("input[name=first-name]").should("have.value", "Jim");
     });
   });
 });

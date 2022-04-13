@@ -12,7 +12,7 @@
       <md-card-header>
         <div class="md-layout">
           <div class="md-layout-item">
-            <div class="md-title" v-snip>{{ item.title }}</div>
+            <div data-cy="item_title" class="md-title" v-snip>{{ item.title }}</div>
           </div>
         </div>
         <div class="md-layout">
@@ -26,12 +26,18 @@
 
       <md-card-content>
         <p v-snip>{{ item.description }}</p>
-        <div class="md-subhead">${{item.price}}</div>
+        <div class="md-subhead">${{ item.price }}</div>
       </md-card-content>
 
       <md-card-actions>
-        <md-button @click='addToCart(item)'>Add To Cart</md-button>
-        <md-button>Buy Now</md-button>
+        <md-button data-cy="add_to_cart" @click="addToCart(item)">Add To Cart</md-button>
+        <md-button
+          @click="
+            addToCart(item);
+            goToCart();
+          "
+          >Buy Now</md-button
+        >
       </md-card-actions>
     </md-card>
   </div>
@@ -50,6 +56,9 @@ export default {
   methods: {
     addToCart(item) {
       this.$store.dispatch("cart/addProductToCart", item);
+    },
+    goToCart() {
+      this.$router.push("/cart");
     },
   },
 };

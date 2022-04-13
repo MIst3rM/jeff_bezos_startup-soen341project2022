@@ -1,14 +1,20 @@
-describe("Add Item", () => {
+describe("Seller", () => {
   beforeEach(() => {
     cy.viewport("macbook-16");
     cy.visit("http://admin.store.conco/");
   });
 
   it("Adding a new item as a seller", () => {
-    cy.get("input[name=email]").type("MI5t3r_M@gmail.com");
+    cy.get("input[name=email]").type("agent_smith@seller.conco");
     cy.get("input[name=password]").type(`Password_123{enter}`);
 
-    cy.wait(2000);
+    cy.get("a[href='/seller/Agent/listed']").click();
+
+    cy.wait(3000);
+
+    cy.get("[data-cy=add_new_item]").click();
+
+    cy.wait(1000);
 
     cy.get("input[name=title]").type("Women's T -Shirt Blank, V -Neck");
     cy.get("textarea").type(
@@ -30,4 +36,23 @@ describe("Add Item", () => {
     cy.get("[data-cy=menu]").click();
     cy.get("[data-cy=logout]").click();
   });
+
+  it("Delete an item as a seller", () => {
+    cy.get("input[name=email]").type("agent_smith@seller.conco");
+    cy.get("input[name=password]").type(`Password_123{enter}`);
+
+    cy.get("a[href='/seller/Agent/listed']").click();
+
+    cy.wait(2000);
+
+    cy.get("li").last().find("button").click();
+
+    cy.wait(1000);
+
+    cy.get("[data-cy=delete_item_confirm]").find("button").last().click();
+
+    // preparing for next test
+    cy.get("[data-cy=menu]").click();
+    cy.get("[data-cy=logout]").click();
+  })
 });

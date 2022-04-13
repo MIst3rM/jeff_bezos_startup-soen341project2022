@@ -61,6 +61,9 @@ const actions = {
   decrementItemQuantity({ commit }, product) {
     commit("decrementItemQuantity", product);
   },
+  updateCartItem({ commit }, product) {
+    commit("updateCartItem", product);
+  },
 };
 
 const mutations = {
@@ -75,12 +78,12 @@ const mutations = {
     state.items = state.items.filter((item) => item.product.id !== product.id);
   },
 
-  incrementItemQuantity(state, product) {
+  incrementItemQuantity(state, { product }) {
     const cartItem = state.items.find((item) => item.product.id === product.id);
     cartItem.quantity++;
   },
 
-  decrementItemQuantity(state, product) {
+  decrementItemQuantity(state, { product }) {
     const cartItem = state.items.find((item) => item.product.id === product.id);
     cartItem.quantity--;
   },
@@ -91,6 +94,14 @@ const mutations = {
 
   checkout(state) {
     state.items = [];
+  },
+
+  updateCartItem(state, product) {
+    const cartItem = state.items.find((item) => item.product.id === product.id);
+    cartItem.product.title = product.title;
+    cartItem.product.price = product.price;
+    cartItem.product.image = product.image;
+    cartItem.product.category = product.category;
   },
 };
 

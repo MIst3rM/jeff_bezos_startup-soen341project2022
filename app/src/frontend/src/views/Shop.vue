@@ -95,6 +95,11 @@ export default {
         });
     });
   },
+  mounted(){
+    window.Echo.channel("channel").listen("AddedItem", (e) => {
+      this.items = e.items;
+    });
+  },
   methods: {
     pascalCase(str) {
       return str

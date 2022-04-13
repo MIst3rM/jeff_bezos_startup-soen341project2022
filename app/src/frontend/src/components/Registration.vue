@@ -266,7 +266,7 @@ export default {
                   setTimeout(
                     () =>
                       this.$router.push({
-                        name: "admin_user",
+                        name: "seller",
                         params: { username: response.data.firstname },
                       }),
                     500
@@ -307,25 +307,11 @@ export default {
   left: 0;
 }
 
-#registration-form {
-  justify-content: center;
-  position: fixed;
-  top: 30%;
-  min-width: 100%;
-}
-
 body {
   background: #f0f8ff !important;
   min-height: 100vh;
   display: flex;
   font-weight: 400;
-}
-
-.md-progress-bar {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
 }
 
 #registration-form {

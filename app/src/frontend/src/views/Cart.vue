@@ -22,7 +22,11 @@
           <h1 class="title">Your Cart</h1>
         </div>
       </md-table-toolbar>
-      <md-table-toolbar slot="md-table-alternate-header" slot-scope="{ count }">
+      <md-table-toolbar
+        class="md-table-alternate-header"
+        slot="md-table-alternate-header"
+        slot-scope="{ count }"
+      >
         <div class="md-toolbar-section-start">
           {{ getAlternateLabel(count) }}
         </div>
@@ -40,10 +44,10 @@
         <md-table-cell md-label="">
           <img class="item-img" :src="item.image" :alt="item.title" />
         </md-table-cell>
-        <md-table-cell md-label="Item">{{ item.title }}</md-table-cell>
+        <md-table-cell data-cy="item_title" md-label="Item">{{ item.title }}</md-table-cell>
         <md-table-cell md-label="Category">{{ item.category }}</md-table-cell>
         <md-table-cell md-label="Price">{{ item.price }}</md-table-cell>
-        <md-table-cell md-label="Quantity">
+        <md-table-cell data-cy="quantity" md-label="Quantity">
           <div class="actions-container">
             <md-button
               v-if="item.quantity > 1"
@@ -53,7 +57,7 @@
               <md-icon class="action-icon">remove</md-icon>
             </md-button>
             {{ item.quantity }}
-            <md-button class="md-icon-button" @click="increaseQuantity(item)">
+            <md-button data-cy="increaseQuantity" class="md-icon-button" @click="increaseQuantity(item)">
               <md-icon class="action-icon">add</md-icon>
             </md-button>
           </div>
@@ -62,12 +66,7 @@
     </md-table>
     <div v-if="getItems.length > 0" class="total">
       <h2>Total: {{ getTotal }}</h2>
-      <router-link
-        id="checkoutBtn"
-        class="md-primary"
-        to="/checkout"
-        tag="md-button"
-      >
+      <router-link id="checkoutBtn" class="md-primary" to="" tag="md-button">
         Checkout
       </router-link>
     </div>
@@ -82,6 +81,34 @@
         :md-stroke="3"
         md-mode="indeterminate"
       ></md-progress-spinner>
+    </md-dialog>
+    <md-dialog id="deletedDialog" :md-active.sync="showDeletedDialog">
+      <md-dialog-title>Items no longer available</md-dialog-title>
+      <vue-horizontal>
+        <section
+          class="deletedItem"
+          v-for="item in deletedItems"
+          :key="item.id"
+        >
+          <md-card class="deletedItemCard">
+            <md-card-header-text>
+              <div class="md-title">{{ item.title }}</div>
+            </md-card-header-text>
+            <md-card-media>
+              <img
+                class="deletedItemImage"
+                :src="item.image"
+                :alt="item.title"
+              />
+            </md-card-media>
+          </md-card>
+        </section>
+      </vue-horizontal>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="showDeletedDialog = false"
+          >Ok</md-button
+        >
+      </md-dialog-actions>
     </md-dialog>
   </div>
 </template>
@@ -104,7 +131,20 @@ export default {
       selected: [],
       sending: false,
       showDialog: false,
+      showDeletedDialog: false,
+      deletedItems: [],
     };
+  },
+  mounted() {
+    window.Echo.channel("channel").listen("UpdatedItem", (e) => {
+      this.$store.dispatch("cart/updateCartItem", e.item);
+    });
+
+    window.Echo.channel("channel").listen("DeletedItem", (e) => {
+      this.deletedItems.push(e.item);
+      this.showDeletedDialog = true;
+      this.$store.dispatch("cart/removeProductFromCart", e.item);
+    });
   },
   computed: {
     getItems() {
@@ -156,16 +196,43 @@ export default {
       });
     },
     increaseQuantity(item) {
-      this.$store.dispatch("cart/incrementItemQuantity", item);
+      this.$store.dispatch("cart/incrementItemQuantity", { product: item });
     },
     decreaseQuantity(item) {
-      this.$store.dispatch("cart/decrementItemQuantity", item);
+      this.$store.dispatch("cart/decrementItemQuantity", { product: item });
     },
   },
 };
 </script>
 
-<style>
+<style scoped lang="scss">
+.md-table-alternate-header {
+  background-color: rgb(238, 133, 115) !important;
+}
+
+.deletedItem {
+  margin: 0 auto;
+}
+.deletedItemCard {
+  width: 300px;
+  height: 200px;
+  margin: 4px;
+  display: inline-block;
+  vertical-align: top;
+  padding: 4px;
+  text-align: center;
+}
+
+#deletedDialog .md-dialog-container {
+  width: 500px;
+  height: 400px;
+  border-radius: 28px;
+}
+
+.md-dialog-title {
+  text-align: center;
+}
+
 #checkoutDialog :first-child {
   border-radius: 24px;
   padding: 10px;
@@ -209,7 +276,7 @@ h2 {
 img {
   display: block;
   max-width: 100px;
-  max-height: 100px;
+  max-height: 133px;
   width: auto;
   height: auto;
   margin: 0 auto;

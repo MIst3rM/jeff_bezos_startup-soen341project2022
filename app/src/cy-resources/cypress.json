@@ -3,8 +3,8 @@
   "integrationFolder": "cypress/integration",
   "screenshotsFolder": "cypress/screenshots",
   "videosFolder": "cypress/videos",
-  "supportFile": false,
-  "pluginsFile": false,
+  "supportFile": "cypress/support/index.js",
+  "pluginsFile": "cypress/plugins/index.js",
   "testFiles": "**/*.*.*",
   "projectId": "e2wtfv",
   "watchForFileChanges": true

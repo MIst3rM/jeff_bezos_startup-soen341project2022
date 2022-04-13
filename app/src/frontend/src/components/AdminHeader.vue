@@ -7,8 +7,8 @@
         </div>
       </div>
       <div class="md-layout md-gutter md-alignment-center-right">
-        <b class="account" v-if="login" data-cy="username"
-          >Hi, {{ username }}</b
+        <strong class="account" v-if="login" data-cy="username"
+          >Hi, {{ username }}</strong
         >
 
         <md-menu class="md-layout-item" ref="menu" :mdCloseOnClick="true">
@@ -43,7 +43,7 @@ export default {
     },
   },
   methods: {
-    async logout(event) {
+    logout() {
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
           .post("/api/logout")
