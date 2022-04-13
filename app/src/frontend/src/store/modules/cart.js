@@ -61,7 +61,6 @@ const actions = {
   decrementItemQuantity({ commit }, product) {
     commit("decrementItemQuantity", product);
   },
-
   updateCartItem({ commit }, product) {
     commit("updateCartItem", product);
   },

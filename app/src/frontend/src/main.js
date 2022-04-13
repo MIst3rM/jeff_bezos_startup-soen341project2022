@@ -14,6 +14,7 @@ import "vue-material/dist/theme/default.css";
 import "vue-material/dist/vue-material.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
+
 import { EditItem, Login, Registration, SellerItems, ManageUsers } from "./components";
 import {
   Home,
