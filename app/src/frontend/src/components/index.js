@@ -10,6 +10,7 @@ import EditItem from "./EditItem.vue";
 import Contact from "./Contact.vue";
 import Address from "./Address.vue";
 import Password from "./Password.vue";
+import ManageUsers from "./ManageUsers.vue";
 
 export {
   Login,
@@ -24,4 +25,5 @@ export {
   Contact,
   Address,
   Password,
+  ManageUsers,
 };

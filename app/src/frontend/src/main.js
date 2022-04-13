@@ -14,7 +14,7 @@ import "vue-material/dist/theme/default.css";
 import "vue-material/dist/vue-material.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
-import { EditItem, Login, Registration, SellerItems } from "./components";
+import { EditItem, Login, Registration, SellerItems, ManageUsers } from "./components";
 import {
   Home,
   Admin,
@@ -161,6 +161,18 @@ const routes = () => {
         path: "/admin/:username",
         component: Admin,
         meta: { header: false, requiresAuth: true },
+        children: [
+          {
+            name: "admin_profile",
+            path: "/admin/:username/profile",
+            component: SellerProfile,
+          },
+          {
+            name: "manage_users",
+            path: "/admin/:username/manage_users",
+            component: ManageUsers,
+          }
+        ],
       },
     ];
   } else {

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Sales;
 use App\Models\Items;
+use Exception;
 
 class UserController extends Controller
 {
@@ -84,5 +85,17 @@ class UserController extends Controller
             $quantities = [];
         }
         return response()->json($orders);
+    }
+
+    public function deleteUser($id)
+    {
+        try {
+            $user = User::find($id);
+            broadcast(new \App\Events\DeletedUser(User::all()));
+            $user->delete();
+            return response('User deleted', 200)->header('Content-Type', 'text/plain');
+        } catch (Exception $e) {
+            return response('User could not be deleted', 500)->header('Content-Type', 'text/plain');
+        }
     }
 }

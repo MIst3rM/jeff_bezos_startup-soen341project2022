@@ -2,9 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Log;
-use App\Models\User;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemController;
 use App\Models\Items;
@@ -30,10 +28,6 @@ Route::get('/allItems', function () {
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    Route::get('/user/{id}', function ($id) {
-        return User::where('id', $id)->get()->toJson();
-    });
-
     Route::post('/updateUser', [UserController::class, 'updateUser']);
 
     Route::post('/updateItem', [ItemController::class, 'updateItem']);
@@ -49,4 +43,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/sellerItems/{seller_id}', function ($seller_id) {
         return Items::where('seller_id', $seller_id)->get()->toJson();
     });
+
+    Route::get('allUsers', function () {
+        return DB::table('users')->get()->toJson();
+    });
+
+    Route::delete('/deleteUser/{id}', [UserController::class, 'deleteUser']);
+
 });

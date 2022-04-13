@@ -1,5 +1,5 @@
 <template>
-  <div id="adminPageContainer">
+  <div id="sellerPageContainer">
     <AdminHeader />
     <md-app md-waterfall md-mode="fixed">
       <md-app-drawer class="md-elevation-5" md-permanent="full">
@@ -74,7 +74,7 @@ export default {
   flex-direction: column;
 }
 
-#adminPageContainer {
+#sellerPageContainer {
   height: 100vh;
 }
 </style>
