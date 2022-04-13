@@ -203,12 +203,28 @@ export default {
     },
   },
   created() {
-    console.log(this.$route);
-    this.form.title = this.item.title;
-    this.form.description = this.item.description;
-    this.form.image = this.item.image;
-    this.form.category = this.item.category;
-    this.form.price = this.item.price;
+    if (this.item === undefined) {
+      axios.get("/sanctum/csrf-cookie").then(() => {
+        axios
+          .get("/api/item/" + this.$route.params.id)
+          .then((response) => {
+            this.form.title = response.data[0].title;
+            this.form.description = response.data[0].description;
+            this.form.image = response.data[0].image;
+            this.form.category = response.data[0].category;
+            this.form.price = response.data[0].price;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+    } else {
+      this.form.title = this.item.title;
+      this.form.description = this.item.description;
+      this.form.image = this.item.image;
+      this.form.category = this.item.category;
+      this.form.price = this.item.price;
+    }
   },
   watch: {
     item: {
@@ -248,7 +264,7 @@ export default {
         axios
           .post("/api/updateItem", {
             updatedItem: {
-              id: this.item.id,
+              id: this.$route.params.id,
               title: this.form.title,
               description: this.form.description,
               image: this.form.image,

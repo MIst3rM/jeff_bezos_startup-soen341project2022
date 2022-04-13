@@ -91,8 +91,9 @@ class UserController extends Controller
     {
         try {
             $user = User::find($id);
-            broadcast(new \App\Events\DeletedUser(User::all()));
+
             $user->delete();
+            broadcast(new \App\Events\DeletedUser(User::all()));
             return response('User deleted', 200)->header('Content-Type', 'text/plain');
         } catch (Exception $e) {
             return response('User could not be deleted', 500)->header('Content-Type', 'text/plain');
