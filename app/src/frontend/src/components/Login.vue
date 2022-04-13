@@ -187,14 +187,25 @@ export default {
                 setTimeout(() => this.$router.push({ path: "/" }), 500);
               }
             } else {
-              setTimeout(
-                () =>
-                  this.$router.push({
-                    name: "admin_user",
-                    params: { username: response.data.firstname },
-                  }),
-                500
-              );
+              if (this.$store.getters.getUserRole === "admin") {
+                setTimeout(
+                  () =>
+                    this.$router.push({
+                      name: "admin",
+                      params: { username: response.data.firstname },
+                    }),
+                  500
+                );
+              } else {
+                setTimeout(
+                  () =>
+                    this.$router.push({
+                      name: "seller",
+                      params: { username: response.data.firstname },
+                    }),
+                  500
+                );
+              }
             }
           })
           .catch((error) => {

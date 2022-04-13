@@ -79,12 +79,12 @@ const mutations = {
     state.items = state.items.filter((item) => item.product.id !== product.id);
   },
 
-  incrementItemQuantity(state, product) {
+  incrementItemQuantity(state, { product }) {
     const cartItem = state.items.find((item) => item.product.id === product.id);
     cartItem.quantity++;
   },
 
-  decrementItemQuantity(state, product) {
+  decrementItemQuantity(state, { product }) {
     const cartItem = state.items.find((item) => item.product.id === product.id);
     cartItem.quantity--;
   },

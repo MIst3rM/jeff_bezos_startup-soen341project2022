@@ -266,7 +266,7 @@ export default {
                   setTimeout(
                     () =>
                       this.$router.push({
-                        name: "admin_user",
+                        name: "seller",
                         params: { username: response.data.firstname },
                       }),
                     500

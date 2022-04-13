@@ -43,7 +43,7 @@ export default {
     },
   },
   methods: {
-    async logout(event) {
+    logout() {
       axios.get("/sanctum/csrf-cookie").then(() => {
         axios
           .post("/api/logout")

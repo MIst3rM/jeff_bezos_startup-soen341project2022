@@ -130,7 +130,6 @@
 
 <script>
 import axios from "axios";
-import { bus } from "../main";
 import { allCountries } from "country-region-data";
 import { validationMixin } from "vuelidate";
 import { alpha, minLength } from "vuelidate/lib/validators";
@@ -141,6 +140,14 @@ export default {
     currentUser: {
       type: Object,
       required: true,
+      default: () => ({
+        address1: "",
+        address2: "",
+        city: "",
+        province_state: "",
+        country: "",
+        postal_code: "",
+      }),
     },
     checkout: {
       type: Object,
@@ -230,9 +237,6 @@ export default {
 
         if (!this.$v.currentUser.$invalid) {
           if (this.checkout.isActive) {
-            bus.$emit("checkout-step", {
-              part: "address",
-            });
           } else {
             this.persistAddressChanges();
           }

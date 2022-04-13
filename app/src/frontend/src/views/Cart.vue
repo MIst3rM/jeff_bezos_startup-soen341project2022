@@ -66,12 +66,7 @@
     </md-table>
     <div v-if="getItems.length > 0" class="total">
       <h2>Total: {{ getTotal }}</h2>
-      <router-link
-        id="checkoutBtn"
-        class="md-primary"
-        to="/checkout"
-        tag="md-button"
-      >
+      <router-link id="checkoutBtn" class="md-primary" to="" tag="md-button">
         Checkout
       </router-link>
     </div>
@@ -201,17 +196,16 @@ export default {
       });
     },
     increaseQuantity(item) {
-      this.$store.dispatch("cart/incrementItemQuantity", item);
+      this.$store.dispatch("cart/incrementItemQuantity", { product: item });
     },
     decreaseQuantity(item) {
-      this.$store.dispatch("cart/decrementItemQuantity", item);
+      this.$store.dispatch("cart/decrementItemQuantity", { product: item });
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-
 .md-table-alternate-header {
   background-color: rgb(238, 133, 115) !important;
 }

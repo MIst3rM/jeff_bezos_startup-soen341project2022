@@ -18,6 +18,7 @@ import { EditItem, Login, Registration, SellerItems } from "./components";
 import {
   Home,
   Admin,
+  Seller,
   Shop,
   Profile,
   AdminLogin,
@@ -115,7 +116,7 @@ const routes = () => {
         beforeEnter: (to, from, next) => {
           if (store.getters.isAuthenticated) {
             next({
-              name: "admin_user",
+              name: "seller",
               params: { username: store.getters.getUsername },
             });
           } else {
@@ -125,19 +126,19 @@ const routes = () => {
       },
       { path: "/register", component: AdminRegister, meta: { header: false } },
       {
-        name: "admin_user",
-        path: "/:username",
-        component: Admin,
+        name: "seller",
+        path: "/seller/:username",
+        component: Seller,
         meta: { header: false, requiresAuth: true },
         children: [
           {
             name: "listed",
-            path: "/:username/listed",
+            path: "/seller/:username/listed",
             component: SellerItems,
             children: [
               {
                 name: "edit_item",
-                path: "/:username/listed/:id/edit",
+                path: "/seller/:username/listed/:id/edit",
                 component: EditItem,
                 props: true,
               },
@@ -145,15 +146,21 @@ const routes = () => {
           },
           {
             name: "seller_profile",
-            path: "/:username/profile",
+            path: "/seller/:username/profile",
             component: SellerProfile,
           },
           {
             name: "sales",
-            path: "/:username/sales",
+            path: "/seller/:username/sales",
             component: null,
           },
         ],
+      },
+      {
+        name: "admin",
+        path: "/admin/:username",
+        component: Admin,
+        meta: { header: false, requiresAuth: true },
       },
     ];
   } else {

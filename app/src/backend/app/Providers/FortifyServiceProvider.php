@@ -43,6 +43,7 @@ class FortifyServiceProvider extends ServiceProvider
                         'province' => Auth::user()->province_state,
                         'postal_code' => Auth::user()->postal_code_zip,
                         'country' => Auth::user()->country,
+                        'role' => Auth::user()->role,
                     ])
                     : redirect()->intended(config('fortify.home'));
             }
@@ -68,12 +69,12 @@ class FortifyServiceProvider extends ServiceProvider
                     in_array($user->role, ['admin', 'seller']) &&
                     Hash::check($request->password, $user->password)
                 ) {
-                    Log::debug(Auth::user());
                     return $user;
                 }
             } else {
                 if (
                     $user &&
+                    in_array($user->role, ['customer']) &&
                     Hash::check($request->password, $user->password)
                 ) {
                     return $user;

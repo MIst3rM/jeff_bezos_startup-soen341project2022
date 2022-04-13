@@ -121,7 +121,6 @@
 
 <script>
 import axios from "axios";
-import { bus } from "../main";
 import { validationMixin } from "vuelidate";
 import {
   required,
@@ -214,19 +213,14 @@ export default {
       });
     },
     validateUser() {
-      this.$nextTick().then(() => {
-        this.$v.currentUser.$touch();
+      this.$v.currentUser.$touch();
 
-        if (!this.$v.currentUser.$invalid) {
-          if (this.checkout.isActive) {
-            bus.$emit("checkout-step", {
-              part: "contact",
-            });
-          } else {
-            this.persistChanges();
-          }
+      if (!this.$v.currentUser.$invalid) {
+        if (this.checkout.isActive) {
+        } else {
+          this.persistChanges();
         }
-      });
+      }
     },
   },
   validations: {

@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-  <div id="adminlogin" lang="scss">
+  <div>
     <Login :adminLogin="true" />
   </div>
 </template>
