@@ -44,10 +44,10 @@
         <md-table-cell md-label="">
           <img class="item-img" :src="item.image" :alt="item.title" />
         </md-table-cell>
-        <md-table-cell md-label="Item">{{ item.title }}</md-table-cell>
+        <md-table-cell data-cy="item_title" md-label="Item">{{ item.title }}</md-table-cell>
         <md-table-cell md-label="Category">{{ item.category }}</md-table-cell>
         <md-table-cell md-label="Price">{{ item.price }}</md-table-cell>
-        <md-table-cell md-label="Quantity">
+        <md-table-cell data-cy="quantity" md-label="Quantity">
           <div class="actions-container">
             <md-button
               v-if="item.quantity > 1"
@@ -57,7 +57,7 @@
               <md-icon class="action-icon">remove</md-icon>
             </md-button>
             {{ item.quantity }}
-            <md-button class="md-icon-button" @click="increaseQuantity(item)">
+            <md-button data-cy="increaseQuantity" class="md-icon-button" @click="increaseQuantity(item)">
               <md-icon class="action-icon">add</md-icon>
             </md-button>
           </div>

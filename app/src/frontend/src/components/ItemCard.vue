@@ -12,7 +12,7 @@
       <md-card-header>
         <div class="md-layout">
           <div class="md-layout-item">
-            <div class="md-title" v-snip>{{ item.title }}</div>
+            <div data-cy="item_title" class="md-title" v-snip>{{ item.title }}</div>
           </div>
         </div>
         <div class="md-layout">
@@ -30,7 +30,7 @@
       </md-card-content>
 
       <md-card-actions>
-        <md-button @click="addToCart(item)">Add To Cart</md-button>
+        <md-button data-cy="add_to_cart" @click="addToCart(item)">Add To Cart</md-button>
         <md-button
           @click="
             addToCart(item);

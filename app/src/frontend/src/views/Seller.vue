@@ -7,11 +7,12 @@
           <md-tab
             :to="{ name: 'seller_profile' }"
             md-label="Personal Information"
+            data-cy="seller_profile"
           ></md-tab>
           <md-tab
-            id="tab-btn"
             :to="{ name: 'listed' }"
             md-label="Listed Items"
+            data-cy="listed"
           ></md-tab>
         </md-tabs>
       </md-app-drawer>
