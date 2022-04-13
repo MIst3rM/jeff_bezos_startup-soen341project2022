@@ -16,8 +16,8 @@ import "vue-material/dist/vue-material.min.css";
 import Popper from "@popperjs/core/dist/esm/popper.js";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
-import { Login, Registration } from "./components";
-import { Home, Admin, Shop, Profile, AdminLogin, AdminRegister, Cart } from "./views";
+import { Login, Registration, SellerItems, EditItem } from "./components";
+import { Home, Admin, Shop, Profile, AdminLogin, AdminRegister } from "./views";
 
 Vue.config.productionTip = false;
 
@@ -29,21 +29,21 @@ const subdomain = host.split(".")[0];
 
 const routes = () => {
   let routes;
-  if (subdomain === "store") {
+  if (subdomain === 'store') {
     routes = [
       {
-        path: "/",
+        path: '/',
         component: Home,
         meta: { header: true },
       },
       {
-        path: "/login",
+        path: '/login',
         component: Login,
-        name: "login",
+        name: 'login',
         props: true,
         beforeEnter: (to, from, next) => {
           if (store.getters.isAuthenticated) {
-            next({ path: "/profile" });
+            next({ path: '/profile' });
           } else {
             next();
           }
@@ -53,49 +53,49 @@ const routes = () => {
         },
       },
       {
-        path: "/shop",
+        path: '/shop',
         component: Shop,
-        name: "shop",
+        name: 'shop',
         meta: { header: true },
       },
       {
-        path: "/profile",
+        path: '/profile',
         component: Profile,
-        name: "profile",
+        name: 'profile',
         meta: {
           header: false,
           requiresAuth: true,
         },
       },
       {
-        path: "/register",
+        path: '/register',
         component: Registration,
         meta: { header: true },
       },
-      { path: "/about", meta: { header: true } },
-      { path: "/faq", meta: { header: true } },
+      { path: '/about', meta: { header: true } },
+      { path: '/faq', meta: { header: true } },
       {
-        path: "/cart",
+        path: '/cart',
         component: Cart,
         meta: { header: true, requiresAuth: false },
       },
       {
-        name: "checkout",
-        path: "/checkout",
+        name: 'checkout',
+        path: '/checkout',
         component: Checkout,
         meta: { header: true, requiresAuth: false },
       },
     ];
-  } else if (subdomain === "admin") {
+  } else if (subdomain === 'admin') {
     routes = [
       {
-        path: "/",
+        path: '/',
         component: AdminLogin,
         meta: { header: false },
         beforeEnter: (to, from, next) => {
           if (store.getters.isAuthenticated) {
             next({
-              name: "admin_user",
+              name: 'admin_user',
               params: { username: store.getters.getUsername },
             });
           } else {
@@ -103,29 +103,29 @@ const routes = () => {
           }
         },
       },
-      { path: "/register", component: AdminRegister, meta: { header: false } },
+      { path: '/register', component: AdminRegister, meta: { header: false } },
       {
-        name: "admin_user",
-        path: "/:username",
+        name: 'admin_user',
+        path: '/:username',
         component: Admin,
         meta: { header: false, requiresAuth: true },
         children: [
           {
-            name: "listed",
-            path: "listed",
+            name: 'listed',
+            path: 'listed',
             component: SellerItems,
             children: [
               {
-                name: "edit_item",
-                path: "/:username/listed/:id/edit",
+                name: 'edit_item',
+                path: '/:username/listed/:id/edit',
                 component: EditItem,
                 props: (route) => ({ item: route.params.item }),
               },
             ],
           },
           {
-            name: "sales",
-            path: "sales",
+            name: 'sales',
+            path: 'sales',
             component: null,
           },
         ],
@@ -186,6 +186,8 @@ Vue.component(
     },
   })
 );
+
+export const bus = new Vue();
 
 export const bus = new Vue();
 
