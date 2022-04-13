@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  cypress-arm64:
+    build: ./src/cy-arm
+    command: "--browser chromium --project /"
+    network_mode: host
+    environment:
+      - DISPLAY=host.docker.internal:0
+      - BROWSER=/usr/bin/chromium
+      - CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
+    volumes:
+      - ./src/cy-resources/cypress:/cypress
+      - ./src/cy-resources/cypress.json:/cypress.json
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    depends_on:
+      - frontend
