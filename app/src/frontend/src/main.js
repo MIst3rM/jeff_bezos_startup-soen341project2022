@@ -53,21 +53,21 @@ const subdomain = host.split(".")[0];
 
 const routes = () => {
   let routes;
-  if (subdomain === "store") {
+  if (subdomain === 'store') {
     routes = [
       {
-        path: "/",
+        path: '/',
         component: Home,
         meta: { header: true },
       },
       {
-        path: "/login",
+        path: '/login',
         component: Login,
-        name: "login",
+        name: 'login',
         props: true,
         beforeEnter: (to, from, next) => {
           if (store.getters.isAuthenticated) {
-            next({ path: "/profile" });
+            next({ path: '/profile' });
           } else {
             next();
           }
@@ -77,41 +77,41 @@ const routes = () => {
         },
       },
       {
-        path: "/shop",
+        path: '/shop',
         component: Shop,
-        name: "shop",
+        name: 'shop',
         meta: { header: true },
       },
       {
-        path: "/profile",
+        path: '/profile',
         component: Profile,
-        name: "profile",
+        name: 'profile',
         meta: {
           header: false,
           requiresAuth: true,
         },
       },
       {
-        path: "/register",
+        path: '/register',
         component: Registration,
         meta: { header: true },
       },
       {
-        path: "/cart",
+        path: '/cart',
         component: Cart,
         meta: { header: true, requiresAuth: false },
       },
       {
-        name: "checkout",
-        path: "/checkout",
+        name: 'checkout',
+        path: '/checkout',
         component: Checkout,
         meta: { header: true, requiresAuth: false },
       },
     ];
-  } else if (subdomain === "admin") {
+  } else if (subdomain === 'admin') {
     routes = [
       {
-        path: "/",
+        path: '/',
         component: AdminLogin,
         meta: { header: false },
         beforeEnter: (to, from, next) => {
@@ -125,7 +125,7 @@ const routes = () => {
           }
         },
       },
-      { path: "/register", component: AdminRegister, meta: { header: false } },
+      { path: '/register', component: AdminRegister, meta: { header: false } },
       {
         name: "seller",
         path: "/seller/:username",
@@ -231,6 +231,8 @@ Vue.component(
     },
   })
 );
+
+export const bus = new Vue();
 
 export const bus = new Vue();
 

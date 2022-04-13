@@ -22,7 +22,6 @@
           md-description="Click on one of the tabs on the left."
         >
         </md-empty-state>
-
         <router-view />
       </md-app-content>
     </md-app>

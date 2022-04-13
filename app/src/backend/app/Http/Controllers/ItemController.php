@@ -49,7 +49,6 @@ class ItemController extends Controller
             'successMsg' => 'Item updated',
         ]);
     }
-
     public function destroy($id)
     {
         try {

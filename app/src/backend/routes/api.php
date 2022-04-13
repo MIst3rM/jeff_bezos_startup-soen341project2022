@@ -27,7 +27,12 @@ Route::get('/allItems', function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::delete('/deleteItem/{id}', [ItemController::class, 'destroy']);
 
+    Route::get('/sellerItems/{seller_id}', function ($seller_id) {
+        return Items::where('seller_id', $seller_id)->get()->toJson();
+    });
+  
     Route::post('/updateUser', [UserController::class, 'updateUser']);
 
     Route::post('/updateItem', [ItemController::class, 'updateItem']);
