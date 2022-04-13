@@ -77,5 +77,6 @@ export default {
 
 #sellerPageContainer {
   height: 100vh;
+  overflow-x: hidden; 
 }
 </style>

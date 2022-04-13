@@ -74,13 +74,17 @@ const routes = () => {
         },
         meta: {
           header: true,
+          requiresAuth: false
         },
       },
       {
         path: '/shop',
         component: Shop,
         name: 'shop',
-        meta: { header: true },
+        meta: { 
+          header: true,
+          requiresAuth: false
+        },
       },
       {
         path: '/profile',
@@ -94,7 +98,10 @@ const routes = () => {
       {
         path: '/register',
         component: Registration,
-        meta: { header: true },
+        meta: {
+          header: true,
+          requiresAuth: false 
+        },
       },
       {
         path: '/cart',
@@ -113,7 +120,10 @@ const routes = () => {
       {
         path: '/',
         component: AdminLogin,
-        meta: { header: false },
+        meta: { 
+          header: false,
+          requiresAuth: false 
+        },
         beforeEnter: (to, from, next) => {
           if (store.getters.isAuthenticated) {
             next({
@@ -125,7 +135,7 @@ const routes = () => {
           }
         },
       },
-      { path: '/register', component: AdminRegister, meta: { header: false } },
+      { path: '/register', component: AdminRegister, meta: { header: false, requiresAuth: false } },
       {
         name: "seller",
         path: "/seller/:username",
@@ -136,11 +146,13 @@ const routes = () => {
             name: "listed",
             path: "/seller/:username/listed",
             component: SellerItems,
+            meta: { requiresAuth: true },
             children: [
               {
                 name: "edit_item",
                 path: "/seller/:username/listed/:id/edit",
                 component: EditItem,
+                meta: { requiresAuth: true },
                 props: true,
               },
             ],
@@ -149,6 +161,7 @@ const routes = () => {
             name: "seller_profile",
             path: "/seller/:username/profile",
             component: SellerProfile,
+            meta: { requiresAuth: true },
           },
           {
             name: "sales",
@@ -167,11 +180,13 @@ const routes = () => {
             name: "admin_profile",
             path: "/admin/:username/profile",
             component: SellerProfile,
+            meta: { requiresAuth: true },
           },
           {
             name: "manage_users",
             path: "/admin/:username/manage_users",
             component: ManageUsers,
+            meta: { requiresAuth: true },
           }
         ],
       },
@@ -231,8 +246,6 @@ Vue.component(
     },
   })
 );
-
-export const bus = new Vue();
 
 export const bus = new Vue();
 

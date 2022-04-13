@@ -49,10 +49,14 @@ Route::middleware('auth:sanctum')->group(function () {
         return Items::where('seller_id', $seller_id)->get()->toJson();
     });
 
-    Route::get('allUsers', function () {
+    Route::get('/allUsers', function () {
         return DB::table('users')->get()->toJson();
     });
 
     Route::delete('/deleteUser/{id}', [UserController::class, 'deleteUser']);
+
+    Route::get('/item/{id}', function ($id) {
+        return Items::where('id', $id)->get()->toJson();
+    });
 
 });

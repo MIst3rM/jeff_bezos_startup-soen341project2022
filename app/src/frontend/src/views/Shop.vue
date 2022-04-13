@@ -99,6 +99,20 @@ export default {
     window.Echo.channel("channel").listen("AddedItem", (e) => {
       this.items = e.items;
     });
+    window.Echo.channel("channel").listen("UpdatedItem", (e) => {
+      var updatedItem = this.items.find((item) => item.id === e.item.id);
+      updatedItem.title = e.item.title;
+      updatedItem.price = e.item.price;
+      updatedItem.category = e.item.category;
+      updatedItem.image = e.item.image;
+      updatedItem.description = e.item.description;
+    });
+    window.Echo.channel("channel").listen("DeletedItem", (e) => {
+      this.items.splice(
+        this.items.findIndex((item) => item.id === e.item.id),
+        1
+      );
+    });
   },
   methods: {
     pascalCase(str) {

@@ -1,5 +1,3 @@
-// :to="{ name: 'edit_user', params: { id: user.id, user: user } }"
-
 <template>
   <div class="users_container">
     <md-list class="md-triple-line" v-if="users.length > 0">
@@ -28,6 +26,7 @@
 
     <md-dialog-confirm
       :md-active.sync="showDeleteConfirm"
+      data-cy="delete_user_confirm"
       md-title="Are you sure you want to delete this user?"
       md-content="This action cannot be undone"
       md-confirm-text="Delete"
@@ -38,6 +37,15 @@
       "
       @md-confirm="onConfirm"
     />
+    <md-snackbar
+      md-position="center"
+      :md-duration="2000"
+      :md-active.sync="showSnackbar"
+      md-persistent
+      data-cy="user_deleted"
+    >
+      <span>{{ successMsg }}</span>
+    </md-snackbar>
   </div>
 </template>
 
@@ -52,6 +60,8 @@ export default {
       showDialog: false,
       showDeleteConfirm: false,
       userToDelete: null,
+      showSnackbar: false,
+      successMsg: "",
     };
   },
   created() {
