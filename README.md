@@ -41,13 +41,13 @@ Learning the software development process that goes along the team development o
 
 ## Team Members 
 
-- Jaspreet Singh @jaspreet305
-- Noah Assayag @noahassayag
-- Ben Hitterman @benhitterman
-- Ryan Kim @RIGNITE
-- Ryan Wong @ryanwong2000
-- Alexander Santelli @alexsantelli
-- Mher Charachian @MIst3r_M
+- Jaspreet Singh [@jaspreet305](https://github.com/jaspreet305)
+- Noah Assayag [@noahassayag](https://github.com/noahassayag)
+- Ben Hitterman [@benhitterman](https://github.com/benhitterman)
+- Ryan Kim [@RIGNITE](https://github.com/RIGNITE)
+- Ryan Wong [@ryanwong2000](https://github.com/ryanwong2000)
+- Alexander Santelli [@alexsantelli](https://github.com/alexsantelli)
+- Mher Charachian [@MIst3r_M](https://github.com/MIst3rM)
 
 ## Roles 
 
